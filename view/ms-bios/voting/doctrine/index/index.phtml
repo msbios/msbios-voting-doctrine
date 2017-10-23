@@ -1,0 +1,39 @@
+<?php
+/**
+ * @access protected
+ * @author Judzhin Miles <info[woof-woof]msbios.com>
+ */
+
+/** @var string $identifier */
+$identifier = 1;
+
+/** @var \MSBios\Voting\Resource\Doctrine\Entity\Poll $poll */
+$poll = $this->poll()->find($identifier);
+
+/** @var \Zend\Form\FormInterface $form */
+$form = $this->poll()->form($poll);
+$form->prepare();
+?>
+    <h1>
+        <?= $poll->getSubject(); ?>
+        <small><?= $poll->getTotal(); ?></small>
+    </h1>
+
+<?= $this->form()->openTag($form); ?>
+
+<?php foreach ($form->get('poll_option_identifier')->getValueOptions() as $value => $label): ?>
+    <div>
+        <?= $this->formRadio(new \Zend\Form\Element\Radio($form->get('poll_option_identifier')->getName(), [
+            'value_options' => [[
+                'value' => $value,
+                'label' => $label
+            ]]
+        ])); ?>
+    </div>
+<?php endforeach; ?>
+
+<?= $this->formButton(new \Zend\Form\Element\Button('poll', [
+    'label' => 'Button'
+])); ?>
+
+<?= $this->form()->closeTag($form); ?>

@@ -26,7 +26,7 @@
   "require": {
     "msbios/msbios": "~1.0",
     "msbios/voting": "~1.0",
-    "msbios/voting-resource-doctrine": "^1.0"
+    "msbios/voting-resource-doctrine": "~1.0"
   },
   "require-dev": {
     "zendframework/zend-component-installer": "^1.0 || ^0.7 || ^1.0.0-dev@dev",
@@ -43,6 +43,7 @@
       "@cs-check",
       "phpunit --colors=always"
     ],
+    "alter": "./vendor/bin/doctrine-module orm:schema-tool:update --force",
     "themes": "cd bin && ln -s ../vendor/msbios/application/themes/default/public default",
     "serve": "php -S 0.0.0.0:3107 -t bin bin/msbios-voting-doctrine-module.php",
     "commit": "git add . && git commit -a -m \"Lazy Composer Commiter\" && git push",

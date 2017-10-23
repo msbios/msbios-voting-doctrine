@@ -4,7 +4,7 @@
  * @access protected
  * @author Judzhin Miles <info[woof-woof]msbios.com>
  */
-namespace MSBios\Voting;
+namespace MSBios\Voting\Doctrine;
 
 use Zend\ServiceManager\Factory\InvokableFactory;
 
