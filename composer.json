@@ -25,7 +25,8 @@
   },
   "require": {
     "msbios/msbios": "~1.0",
-    "msbios/voting": "~1.0"
+    "msbios/voting": "~1.0",
+    "msbios/voting-resource-doctrine": "^1.0"
   },
   "require-dev": {
     "zendframework/zend-component-installer": "^1.0 || ^0.7 || ^1.0.0-dev@dev",

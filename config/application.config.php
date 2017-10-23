@@ -6,6 +6,10 @@
 return [
     // Retrieve list of modules used in this application.
     'modules' => [
+        'MSBios\Doctrine',
+        'Zend\Cache',
+        'Zend\Paginator',
+        'MSBios\Voting\Resource\Doctrine',
         'Zend\Log',
         'Zend\Mvc\Plugin\FilePrg',
         'Zend\Form',
@@ -26,6 +30,8 @@ return [
         'MSBios\Navigation',
         'MSBios\Application',
         'MSBios\Voting'
+        'DoctrineModule',
+        'DoctrineORMModule',
     ],
     // These are various options for the listeners attached to the ModuleManager
     'module_listener_options' => [
