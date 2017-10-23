@@ -24,12 +24,16 @@
     }
   },
   "require": {
-    "msbios/msbios": "^1.0"
+    "msbios/msbios": "~1.0",
+    "msbios/voting": "~1.0"
   },
   "require-dev": {
+    "zendframework/zend-component-installer": "^1.0 || ^0.7 || ^1.0.0-dev@dev",
     "phpunit/phpunit": "^5.7",
     "zendframework/zend-test": "^3.1",
-    "squizlabs/php_codesniffer": "^3.0"
+    "squizlabs/php_codesniffer": "^3.0",
+    "msbios/application": "^1.0",
+    "msbios/debug": "^1.0"
   },
   "scripts": {
     "cs-check": "phpcs",
@@ -38,6 +42,8 @@
       "@cs-check",
       "phpunit --colors=always"
     ],
+    "themes": "cd bin && ln -s ../vendor/msbios/application/themes/default/public default",
+    "serve": "php -S 0.0.0.0:3107 -t bin bin/msbios-voting-doctrine-module.php",
     "commit": "git add . && git commit -a -m \"Lazy Composer Commiter\" && git push",
     "test-coverage": "phpunit --colors=always --coverage-clover clover.xml",
     "upload-coverage": "coveralls -v"

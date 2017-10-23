@@ -9,7 +9,8 @@ namespace MSBios\Voting\Doctrine;
 return [
     'service_manager' => [
         'factories' => [
-            \MSBios\Voting\PollManager::class => Factory\PollManagerFactory::class,
+            \MSBios\Voting\PollManager::class =>
+                Factory\PollManagerFactory::class,
         ],
     ],
 ];
