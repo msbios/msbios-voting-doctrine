@@ -5,16 +5,24 @@
  */
 namespace MSBios\Voting\Doctrine;
 
+use MSBios\Doctrine\Initializer\ObjectManagerInitializer;
 use MSBios\ModuleInterface;
 use Zend\Loader\AutoloaderFactory;
 use Zend\Loader\StandardAutoloader;
+use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
+use Zend\ModuleManager\Feature\ServiceProviderInterface;
 
 /**
  * Class Module
  * @package MSBios\Voting\Doctrine
  */
-class Module implements ModuleInterface
+class Module implements
+    ModuleInterface,
+    AutoloaderProviderInterface,
+    ServiceProviderInterface
 {
+    const VERSION = '1.0.0';
+
     /**
      * Returns configuration to merge with application configuration
      *
@@ -38,6 +46,22 @@ class Module implements ModuleInterface
                     __NAMESPACE__ => __DIR__,
                 ],
             ],
+        ];
+    }
+
+
+    /**
+     * Expected to return \Zend\ServiceManager\Config object or array to
+     * seed such an object.
+     *
+     * @return array|\Zend\ServiceManager\Config
+     */
+    public function getServiceConfig()
+    {
+        return [
+            'initializers' => [
+                new ObjectManagerInitializer
+            ]
         ];
     }
 }

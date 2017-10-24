@@ -11,7 +11,8 @@ $identifier = 1;
 $poll = $this->poll()->find($identifier);
 
 /** @var \Zend\Form\FormInterface $form */
-$form = $this->poll()->form($poll);
+$form = $this->poll()->form();
+$form->setAttribute('action', $this->url('home'));
 $form->prepare();
 ?>
     <h1>
@@ -20,20 +21,19 @@ $form->prepare();
     </h1>
 
 <?= $this->form()->openTag($form); ?>
-
-<?php foreach ($form->get('poll_option_identifier')->getValueOptions() as $value => $label): ?>
-    <div>
-        <?= $this->formRadio(new \Zend\Form\Element\Radio($form->get('poll_option_identifier')->getName(), [
-            'value_options' => [[
-                'value' => $value,
-                'label' => $label
-            ]]
-        ])); ?>
-    </div>
-<?php endforeach; ?>
-
-<?= $this->formButton(new \Zend\Form\Element\Button('poll', [
-    'label' => 'Button'
-])); ?>
-
+    <ul>
+        <?php foreach ($form->getOptionElement()->getValueOptions() as $option): ?>
+            <li>
+                <label>
+                <?= $this->formRadio(new \Zend\Form\Element\Radio($form->getOptionElement()->getName(), [
+                    'value_options' => [[
+                        'value' => $option['value'],
+                    ]]
+                ])); ?>
+                <?= $option['label']; ?></label>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+<?= $this->formElement($form->getRelationElement()); ?>
+<?= $this->formButton($form->getSubmitElement()->setAttribute('class', 'btn btn-default')->setLabel('Button')); ?>
 <?= $this->form()->closeTag($form); ?>

@@ -6,7 +6,10 @@
 
 namespace MSBios\Voting\Doctrine;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Common\Persistence\ObjectRepository;
+use DoctrineModule\Persistence\ObjectManagerAwareInterface;
+use MSBios\Doctrine\ObjectManagerAwareTrait;
+use MSBios\Form\FormElementAwareTrait;
 use MSBios\Resource\Doctrine\EntityInterface;
 use MSBios\Stdlib\ObjectInterface;
 use MSBios\Voting\Doctrine\Exception\InvalidArgumentException;
@@ -14,46 +17,64 @@ use MSBios\Voting\PollManagerInterface;
 use MSBios\Voting\Resource\Doctrine\Entity\Option;
 use MSBios\Voting\Resource\Doctrine\Entity\Poll;
 use MSBios\Voting\Resource\Doctrine\Entity\Vote;
+use Zend\Form\FormInterface;
 
 /**
  * Class PollManager
  * @package MSBios\Voting\Doctrine
  * @link https://www.codexworld.com/online-poll-voting-system-php-mysql/
  */
-class PollManager implements PollManagerInterface
+class PollManager implements
+    PollManagerInterface,
+    ObjectManagerAwareInterface
 {
-    /** @var  ObjectManager */
-    protected $objectManager;
+    use ObjectManagerAwareTrait;
+    use FormElementAwareTrait;
 
-    /**
-     * PollManager constructor.
-     * @param ObjectManager $objectManager
-     */
-    public function __construct(ObjectManager $objectManager)
-    {
-        $this->objectManager = $objectManager;
-    }
+    /** @var array|EntityInterface */
+    protected $polls = [];
+
+    /** @var EntityInterface */
+    protected $current;
+
+    /** @var array|FormInterface */
+    protected $forms = [];
 
     /**
      * @param $id
      * @param null $relation
-     * @return EntityInterface|Poll\Relation
+     * @return mixed|EntityInterface|Poll\Relation
+     * @throws \Exception
      */
     public function find($id, $relation = null)
     {
-        /** @var EntityInterface $poll */
-        $poll = $this->objectManager->find(Poll::class, $id);
+        /** @var string $hash */
+        $hash = md5((! is_null($relation)) ? $relation : $id);
 
-        if (! $poll) {
-            throw new \Exception('Poll can not find');
+        if (isset($this->polls[$hash])) {
+            return $this->polls[$hash];
         }
 
+        /** @var EntityInterface $poll */
+        $poll = $this->getObjectManager()->find(Poll::class, $id);
+
+        if (! $poll) {
+            throw new \Exception('Poll can not be found');
+        }
+
+        $this->current = $poll;
+
         if (is_null($relation)) {
+            $this->polls[$hash] = $this->current;
             return $poll;
         }
 
+        /** @var ObjectRepository $repository */
+        $repository = $this->getObjectManager()
+            ->getRepository(Poll\Relation::class);
+
         /** @var EntityInterface $entity */
-        $entity = $this->objectManager->getRepository(Poll\Relation::class)->findOneBy([
+        $entity = $repository->findOneBy([
             'poll' => $poll->getId(),
             'code' => $relation
         ]);
@@ -66,13 +87,46 @@ class PollManager implements PollManagerInterface
                 ->setCreatedAt(new \DateTime('now'))
                 ->setModifiedAt(new \DateTime('now'));
 
-            $this->objectManager->persist($entity);
-            $this->objectManager->flush();
+            $this->getObjectManager()->persist($entity);
+            $this->getObjectManager()->flush();
         }
 
-        $entity->setOptions($poll->getOptions());
-
+        $this->current = $entity;
+        $this->polls[$hash] = $this->current;
         return $entity;
+    }
+
+    /**
+     * @return FormInterface
+     */
+    public function form()
+    {
+        /** @var FormInterface $formElement */
+        $formElement = $this->getFormElement();
+        $formElement->getOptionElement()->setOption('find_method', [
+            'name' => 'findBy',
+            'params' => [
+                'criteria' => [
+                    'poll' => $this->current->getId()
+                ],
+                // I need this to be the content id
+                'orderBy' => ['priority' => 'desc'],
+            ],
+        ]);
+        return $formElement;
+    }
+
+    /**
+     * @param Option $left
+     * @param Option $right
+     * @return int
+     */
+    protected function uSortOptions(Option $left, Option $right)
+    {
+        if ($left->getPriority() == $right->getPriority()) {
+            return 0;
+        }
+        return ($left->getPriority() < $right->getPriority()) ? -1 : 1;
     }
 
     /**

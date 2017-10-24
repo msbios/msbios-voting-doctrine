@@ -7,7 +7,8 @@
 
 namespace MSBios\Voting\Doctrine;
 
-use MSBios\Voting\PollForm;
+// use MSBios\Voting\PollForm;
+// use Zend\ServiceManager\Factory\InvokableFactory;
 
 return [
     'service_manager' => [
@@ -21,20 +22,26 @@ return [
         ]
     ],
 
-//    'controller_plugins' => [
-//        'factories' => [
-//            Controller\Plugin\PollPlugin::class =>
-//                InvokableFactory::class,
-//        ],
-//        'aliases' => [
-//            'poll' => Controller\Plugin\PollPlugin::class
-//        ]
-//    ],
+    'controller_plugins' => [
+        'factories' => [
+            Controller\Plugin\PollPlugin::class =>
+                Factory\PollPluginFactory::class,
+        ],
+        'aliases' => [
+            'poll' => Controller\Plugin\PollPlugin::class
+        ]
+    ],
 
     'form_elements' => [
+        'factories' => [
+            PollForm::class =>
+                Factory\PollFormFactory::class
+        ],
         'aliases' => [
-            View\Helper\PollHelper::class =>
-                PollForm::class
+            PollManager::class =>
+                PollForm::class,
+            // View\Helper\PollHelper::class =>
+            //     PollForm::class
         ],
     ],
 

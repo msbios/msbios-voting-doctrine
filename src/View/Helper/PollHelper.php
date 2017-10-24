@@ -18,60 +18,64 @@ use Zend\Form\FormInterface;
  */
 class PollHelper extends DefaultPollHelper
 {
-    /**
-     * @param ObjectInterface $option
-     * @return Radio
-     */
-    public function optionElement(ObjectInterface $option)
-    {
-        return $this->factoryOptionElement(
-            $option->getName(),
-            $option->getId()
-        );
-    }
+//    /**
+//     * @param ObjectInterface $option
+//     * @return Radio
+//     */
+//    public function optionElement(ObjectInterface $option)
+//    {
+//        //return $this->factoryOptionElement(
+//        //    $option->getName(),
+//        //    $option->getId()
+//        //);
+//    }
 
     /**
      * @param ObjectInterface $poll
      * @return \Zend\Form\FormInterface
      */
-    public function form(ObjectInterface $poll)
+    public function form()
     {
-        /** @var FormInterface $formElement */
-        $formElement = $this->getFormElement();
 
-        /** @var array $valueOptions */
-        $valueOptions = [];
+        return $this->pollManager->form();
 
-        /** @var array $collection */
-        $collection = $poll->getOptions()->toArray();
-
-        usort($collection, [$this, 'sort']);
-
-        /** @var Option $option */
-        foreach ($collection as $option) {
-            $valueOptions[$option->getId()] = $option->getName();
-        }
-
-        $formElement->get('poll_option_identifier')
-            ->setValueOptions($valueOptions);
-
-        // add radio values $this->form
-        return $formElement;
+//        /** @var FormInterface $formElement */
+//        $formElement = $this->getFormElement();
+//        $formElement->getSubmitElement()
+//            ->setValue($this->identifier);
+//        $formElement->getRelationElement()
+//            ->setValue($this->relation);
+//
+//        /** @var array $valueOptions */
+//        $valueOptions = [];
+//
+//        /** @var array $collection */
+//        $collection = $poll->getOptions()->toArray();
+//
+//        usort($collection, [$this, 'uSortOptions']);
+//
+//        /** @var Option $option */
+//        foreach ($collection as $option) {
+//            $valueOptions[$option->getId()] = $option->getName();
+//        }
+//
+//        $formElement->getOptionElement()
+//            ->setValueOptions($valueOptions);
+//
+//        // add radio values $this->form
+//        return $formElement;
     }
 
-
-    /**
-     * @param Option $left
-     * @param Option $right
-     * @return int
-     */
-    protected function sort(Option $left, Option $right)
-    {
-        if ($left->getPriority() == $right->getPriority()) {
-            return 0;
-        }
-        return ($left->getPriority() < $right->getPriority()) ? -1 : 1;
-    }
-
-
+//    /**
+//     * @param Option $left
+//     * @param Option $right
+//     * @return int
+//     */
+//    protected function uSortOptions(Option $left, Option $right)
+//    {
+//        if ($left->getPriority() == $right->getPriority()) {
+//            return 0;
+//        }
+//        return ($left->getPriority() < $right->getPriority()) ? -1 : 1;
+//    }
 }

@@ -6,27 +6,25 @@
 namespace MSBios\Voting\Doctrine\Factory;
 
 use Interop\Container\ContainerInterface;
-use MSBios\Voting\Doctrine\PollManager;
-use MSBios\Voting\Doctrine\View\Helper\PollHelper;
+use MSBios\Voting\Doctrine\PollForm;
 use MSBios\Voting\Module;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
 /**
- * Class PollHelperFactory
+ * Class PollFormFactory
  * @package MSBios\Voting\Doctrine\Factory
  */
-class PollHelperFactory implements FactoryInterface
+class PollFormFactory implements FactoryInterface
 {
     /**
      * @param ContainerInterface $container
      * @param string $requestedName
      * @param array|null $options
-     * @return PollHelper
+     * @return PollForm
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        return new PollHelper(
-            $container->get(PollManager::class),
+        return new PollForm(
             $container->get(Module::class)
         );
     }
