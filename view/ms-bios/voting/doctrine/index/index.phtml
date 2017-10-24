@@ -8,7 +8,7 @@
 $identifier = 1;
 
 /** @var \MSBios\Voting\Resource\Doctrine\Entity\Poll $poll */
-$poll = $this->poll()->find($identifier);
+$poll = $this->poll()->find($identifier, 'SOME_RELATION');
 
 /** @var \Zend\Form\FormInterface $form */
 $form = $this->poll()->form();

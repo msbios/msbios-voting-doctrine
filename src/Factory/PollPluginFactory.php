@@ -8,6 +8,7 @@ namespace MSBios\Voting\Doctrine\Factory;
 use Interop\Container\ContainerInterface;
 use MSBios\Voting\Doctrine\Controller\Plugin\PollPlugin;
 use MSBios\Voting\Doctrine\PollManager;
+use MSBios\Voting\Module;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
 /**
@@ -25,7 +26,8 @@ class PollPluginFactory implements FactoryInterface
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         return new PollPlugin(
-            $container->get(PollManager::class)
+            $container->get(PollManager::class),
+            $container->get(Module::class)
         );
     }
 }

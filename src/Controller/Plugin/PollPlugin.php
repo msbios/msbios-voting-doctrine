@@ -7,8 +7,6 @@
 namespace MSBios\Voting\Doctrine\Controller\Plugin;
 
 use MSBios\Voting\Controller\Plugin\PollPlugin as DefaultPollPlugin;
-use MSBios\Voting\PollForm;
-use Zend\InputFilter\InputFilterInterface;
 
 /**
  * Class PollPlugin
@@ -17,50 +15,19 @@ use Zend\InputFilter\InputFilterInterface;
 class PollPlugin extends DefaultPollPlugin
 {
     /**
-     * @param array $data
+     * @return bool
      */
-    public function setValue(array $data)
+    public function vote()
     {
-        /** @var InputFilterInterface $inputFilter */
-        $inputFilter = $this->getInputFilter();
+        if ($this->isValid()) {
 
-        /** @var PollForm $formElement */
-        $formElement = $this->getFormElement();
 
-        if ($formElement->setData($data)->isValid()) {
-        } else {
-            r($formElement->getMessages());
-            die();
+
+            $this->pollManager->vote();
+            return true;
         }
 
-        // if ($inputFilter->setData($data)->isValid()) {
-        //    /** @var array $values */
-        //    $values = $inputFilter->getValues();
-        //
-        //     r($values); die();
-        //     $this->pollManager->vote();
-        // }
+        return false;
     }
 
-    ///**
-    // * @return \Zend\InputFilter\InputFilterInterface
-    // */
-    //protected function getInputFilter()
-    //{
-    //    /** @var InputFilterFactory $factory */
-    //    return (new InputFilterFactory)->createInputFilter([
-    //        'poll_identifier' => [
-    //            'name' => 'poll_identifier',
-    //            'required' => true,
-    //        ],
-    //        'poll_relation' => [
-    //            'name' => 'poll_relation',
-    //            'required' => false,
-    //        ],
-    //        'poll_option_identifier' => [
-    //            'name' => 'poll_option_identifier',
-    //            'required' => true,
-    //        ]
-    //    ]);
-    //}
 }

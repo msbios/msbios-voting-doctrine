@@ -37,6 +37,9 @@ class PollManager implements
     /** @var EntityInterface */
     protected $current;
 
+    /** @var string */
+    protected $relation;
+
     /** @var array|FormInterface */
     protected $forms = [];
 
@@ -48,8 +51,10 @@ class PollManager implements
      */
     public function find($id, $relation = null)
     {
+        $this->relation = $relation;
+
         /** @var string $hash */
-        $hash = md5((! is_null($relation)) ? $relation : $id);
+        $hash = md5((!is_null($relation)) ? $relation : $id);
 
         if (isset($this->polls[$hash])) {
             return $this->polls[$hash];
@@ -58,7 +63,7 @@ class PollManager implements
         /** @var EntityInterface $poll */
         $poll = $this->getObjectManager()->find(Poll::class, $id);
 
-        if (! $poll) {
+        if (!$poll) {
             throw new \Exception('Poll can not be found');
         }
 
@@ -79,7 +84,7 @@ class PollManager implements
             'code' => $relation
         ]);
 
-        if (! $entity) {
+        if (!$entity) {
             /** @var EntityInterface $entity */
             $entity = new Poll\Relation;
             $entity->setPoll($poll)
@@ -101,32 +106,25 @@ class PollManager implements
      */
     public function form()
     {
+        /** @var int $identifier */
+        $identifier = ($this->current instanceof Poll\RelationInterface)
+            ? $this->current->getPoll()->getId() : $this->current->getId();
+
         /** @var FormInterface $formElement */
         $formElement = $this->getFormElement();
         $formElement->getOptionElement()->setOption('find_method', [
             'name' => 'findBy',
             'params' => [
                 'criteria' => [
-                    'poll' => $this->current->getId()
+                    'poll' => $identifier
                 ],
                 // I need this to be the content id
                 'orderBy' => ['priority' => 'desc'],
             ],
         ]);
+        $formElement->getRelationElement()->setValue($this->relation);
+        $formElement->getSubmitElement()->setValue($identifier);
         return $formElement;
-    }
-
-    /**
-     * @param Option $left
-     * @param Option $right
-     * @return int
-     */
-    protected function uSortOptions(Option $left, Option $right)
-    {
-        if ($left->getPriority() == $right->getPriority()) {
-            return 0;
-        }
-        return ($left->getPriority() < $right->getPriority()) ? -1 : 1;
     }
 
     /**
@@ -134,14 +132,14 @@ class PollManager implements
      */
     public function vote(ObjectInterface $option)
     {
-        if (! $option instanceof Option) {
-            throw new InvalidArgumentException('Passed argument must be implement ' . Option::class);
+        if (!$option instanceof Option) {
+            throw new InvalidArgumentException('Passed argument must be ' . Option::class);
         }
 
         /** @var Vote|ObjectInterface $vote */
         $vote = $option->getVote();
 
-        if (! $vote) {
+        if (!$vote) {
             /** @var Vote|ObjectInterface $vote */
             $vote = new Vote;
             $vote->setPoll($option->getPoll())
