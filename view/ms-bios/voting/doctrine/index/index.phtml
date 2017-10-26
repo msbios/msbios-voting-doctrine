@@ -8,32 +8,67 @@
 $identifier = 1;
 
 /** @var \MSBios\Voting\Resource\Doctrine\Entity\Poll $poll */
-$poll = $this->poll()->find($identifier, 'SOME_RELATION');
+$poll = $this->poll()->find($identifier, 'SOME_RELATION[ID]');
+?>
+
+<?php /** @var \Zend\View\Helper\FlashMessenger $flash */ ?>
+<?php $flash = $this->flashMessenger(); ?>
+
+<?php if ($flash->hasSuccessMessages()) : ?>
+
+    <div class="alert alert-success no-border">
+        <button type="button" class="close" data-dismiss="alert">
+            <span>&times;</span>
+            <span class="sr-only">Close</span>
+        </button>
+        <span class="text-semibold"><?= $this->translate('Success!'); ?></span>
+        <?= implode(', ', $flash->getSuccessMessages()); ?>
+    </div>
+
+<?php endif; ?>
+
+<?php if ($flash->hasWarningMessages()) : ?>
+
+    <div class="alert alert-danger no-border">
+        <button type="button" class="close" data-dismiss="alert">
+            <span>&times;</span>
+            <span class="sr-only">Close</span>
+        </button>
+        <span class="text-semibold"><?= $this->translate('Warning!'); ?></span>
+        <?= implode(', ', $flash->getWarningMessages()); ?>
+    </div>
+
+<?php endif; ?>
+
+<h1>
+    <?= $poll->getSubject(); ?>
+    <small><?= $poll->getTotal(); ?></small>
+</h1>
+
+<?php
 
 /** @var \Zend\Form\FormInterface $form */
 $form = $this->poll()->form();
 $form->setAttribute('action', $this->url('home'));
 $form->prepare();
+
 ?>
-    <h1>
-        <?= $poll->getSubject(); ?>
-        <small><?= $poll->getTotal(); ?></small>
-    </h1>
 
 <?= $this->form()->openTag($form); ?>
-    <ul>
-        <?php foreach ($form->getOptionElement()->getValueOptions() as $option): ?>
-            <li>
-                <label>
-                <?= $this->formRadio(new \Zend\Form\Element\Radio($form->getOptionElement()->getName(), [
+<ul>
+    <?php $element = $form->get('poll_option_identifier'); ?>
+    <?php foreach ($element->getValueOptions() as $option): ?>
+        <li>
+            <label>
+                <?= $this->formRadio(new \Zend\Form\Element\Radio($element->getName(), [
                     'value_options' => [[
                         'value' => $option['value'],
                     ]]
                 ])); ?>
                 <?= $option['label']; ?></label>
-            </li>
-        <?php endforeach; ?>
-    </ul>
-<?= $this->formElement($form->getRelationElement()); ?>
-<?= $this->formButton($form->getSubmitElement()->setAttribute('class', 'btn btn-default')->setLabel('Button')); ?>
+        </li>
+    <?php endforeach; ?>
+</ul>
+<?= $this->formElement($form->get('poll_relation')); ?>
+<?= $this->formButton($form->get('poll_identifier')->setAttribute('class', 'btn btn-default')->setLabel('Button')); ?>
 <?= $this->form()->closeTag($form); ?>

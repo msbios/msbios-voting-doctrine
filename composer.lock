@@ -1460,16 +1460,16 @@
         },
         {
             "name": "msbios/voting",
-            "version": "v1.0.17",
+            "version": "v1.0.25",
             "source": {
                 "type": "git",
                 "url": "https://github.com/msbios/msbios-voting.git",
-                "reference": "a9b3e0c12bc4c162bc6a7518e981bb105007236a"
+                "reference": "08f8b4a7b981084be85bfd116f6f81962e4385e0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/msbios/msbios-voting/zipball/a9b3e0c12bc4c162bc6a7518e981bb105007236a",
-                "reference": "a9b3e0c12bc4c162bc6a7518e981bb105007236a",
+                "url": "https://api.github.com/repos/msbios/msbios-voting/zipball/08f8b4a7b981084be85bfd116f6f81962e4385e0",
+                "reference": "08f8b4a7b981084be85bfd116f6f81962e4385e0",
                 "shasum": ""
             },
             "require": {
@@ -1510,7 +1510,7 @@
             "keywords": [
                 "php"
             ],
-            "time": "2017-10-24T14:47:03+00:00"
+            "time": "2017-10-26T08:13:30+00:00"
         },
         {
             "name": "msbios/voting-resource",
@@ -1565,16 +1565,16 @@
         },
         {
             "name": "msbios/voting-resource-doctrine",
-            "version": "v1.0.6",
+            "version": "v1.0.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/msbios/msbios-voting-resource-doctrine.git",
-                "reference": "f1d9aa5c0f9c1702d66802712eddb941fbcfe7dc"
+                "reference": "0fe405709eed8961021dca0cc002bdee3dbbc5e8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/msbios/msbios-voting-resource-doctrine/zipball/f1d9aa5c0f9c1702d66802712eddb941fbcfe7dc",
-                "reference": "f1d9aa5c0f9c1702d66802712eddb941fbcfe7dc",
+                "url": "https://api.github.com/repos/msbios/msbios-voting-resource-doctrine/zipball/0fe405709eed8961021dca0cc002bdee3dbbc5e8",
+                "reference": "0fe405709eed8961021dca0cc002bdee3dbbc5e8",
                 "shasum": ""
             },
             "require": {
@@ -1613,7 +1613,7 @@
             "keywords": [
                 "php"
             ],
-            "time": "2017-10-24T14:28:59+00:00"
+            "time": "2017-10-26T08:34:33+00:00"
         },
         {
             "name": "psr/container",

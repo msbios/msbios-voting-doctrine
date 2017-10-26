@@ -6,26 +6,29 @@
 namespace MSBios\Voting\Doctrine\Factory;
 
 use Interop\Container\ContainerInterface;
-use MSBios\Voting\Doctrine\PollForm;
-use MSBios\Voting\Module;
+use MSBios\Voting\Doctrine\ResolverManager;
+use MSBios\Voting\Doctrine\ResolverManagerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
 /**
- * Class PollFormFactory
+ * Class ResolverManagerFactory
  * @package MSBios\Voting\Doctrine\Factory
  */
-class PollFormFactory implements FactoryInterface
+class ResolverManagerFactory implements FactoryInterface
 {
     /**
      * @param ContainerInterface $container
      * @param string $requestedName
      * @param array|null $options
-     * @return PollForm
+     * @return ResolverManager|ResolverManagerInterface
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        return new PollForm(
-            $container->get(Module::class)
-        );
+        /** @var ResolverManagerInterface $resolverManager */
+        $resolverManager = new ResolverManager;
+
+
+
+        return $resolverManager;
     }
 }

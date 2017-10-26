@@ -7,14 +7,24 @@
 
 namespace MSBios\Voting\Doctrine;
 
-// use MSBios\Voting\PollForm;
-// use Zend\ServiceManager\Factory\InvokableFactory;
+use Zend\ServiceManager\Factory\InvokableFactory;
 
 return [
     'service_manager' => [
         'factories' => [
             PollManager::class =>
                 Factory\PollManagerFactory::class,
+
+            Provider\Poll\RelationProvider::class =>
+                InvokableFactory::class,
+            Provider\Vote\RelationProvider::class =>
+                InvokableFactory::class,
+            Resolver\ResolverManager::class =>
+                InvokableFactory::class,
+
+            // Resolvers
+            Resolver\DatabaseResolver::class =>
+                InvokableFactory::class
         ],
         'aliases' => [
             \MSBios\Voting\PollManager::class =>
@@ -34,14 +44,12 @@ return [
 
     'form_elements' => [
         'factories' => [
-            PollForm::class =>
-                Factory\PollFormFactory::class
+            Form\PollForm::class =>
+                InvokableFactory::class
         ],
         'aliases' => [
             PollManager::class =>
-                PollForm::class,
-            // View\Helper\PollHelper::class =>
-            //     PollForm::class
+                Form\PollForm::class,
         ],
     ],
 
@@ -54,4 +62,37 @@ return [
             'poll' => View\Helper\PollHelper::class
         ],
     ],
+
+    \MSBios\Voting\Module::class => [
+
+        /**
+         *
+         * Expects: string
+         * Default: MSBios\Voting\Doctrine\Provider\Poll\RelationProvider
+         */
+        'poll_provider' => Provider\Poll\RelationProvider::class,
+
+        /**
+         *
+         * Expects: string
+         * Default: MSBios\Voting\Doctrine\Provider\Vote\RelationProvider
+         */
+        'vote_provider' => Provider\Vote\RelationProvider::class,
+
+        /**
+         *
+         * Expects: string
+         * Default: MSBios\Voting\Doctrine\ResolverManager
+         */
+        'resolver_manager' => Resolver\ResolverManager::class,
+
+        /**
+         *
+         * Expects: array
+         * Default: []
+         */
+        'resolvers' => [
+            Resolver\DatabaseResolver::class => 100
+        ]
+    ]
 ];

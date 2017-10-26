@@ -3,79 +3,74 @@
  * @access protected
  * @author Judzhin Miles <info[woof-woof]msbios.com>
  */
-
 namespace MSBios\Voting\Doctrine\View\Helper;
 
 use MSBios\Stdlib\ObjectInterface;
-use MSBios\Voting\Resource\Doctrine\Entity\Option;
-use MSBios\Voting\View\Helper\PollHelper as DefaultPollHelper;
-use Zend\Form\Element\Radio;
+use MSBios\Voting\Doctrine\Form\PollForm;
+use MSBios\Voting\PollManagerInterface;
 use Zend\Form\FormInterface;
+use Zend\View\Helper\AbstractHelper;
 
 /**
  * Class PollHelper
  * @package MSBios\Voting\Doctrine\View\Helper
  */
-class PollHelper extends DefaultPollHelper
+class PollHelper extends AbstractHelper
 {
-//    /**
-//     * @param ObjectInterface $option
-//     * @return Radio
-//     */
-//    public function optionElement(ObjectInterface $option)
-//    {
-//        //return $this->factoryOptionElement(
-//        //    $option->getName(),
-//        //    $option->getId()
-//        //);
-//    }
+    /** @var PollManagerInterface  */
+    protected $pollManager;
+
+    /** @var PollForm */
+    protected $formElement;
 
     /**
-     * @param ObjectInterface $poll
-     * @return \Zend\Form\FormInterface
+     * PollHelper constructor.
+     * @param PollManagerInterface $pollManager
+     * @param PollForm $formElement
+     */
+    public function __construct(PollManagerInterface $pollManager, PollForm $formElement)
+    {
+        $this->pollManager = $pollManager;
+        $this->formElement = $formElement;
+    }
+
+    /**
+     * @return $this
+     */
+    public function __invoke()
+    {
+        return $this;
+    }
+
+    /**
+     * @param $id
+     * @param null $relation
+     * @return \MSBios\Stdlib\ObjectInterface
+     */
+    public function find($id, $relation = null)
+    {
+        $this->formElement->setData([
+            'poll_identifier' => $id,
+            'poll_relation' => $relation
+        ]);
+
+        return $this->pollManager->find($id, $relation);
+    }
+
+    /**
+     * @return FormInterface
      */
     public function form()
     {
-
-        return $this->pollManager->form();
-
-//        /** @var FormInterface $formElement */
-//        $formElement = $this->getFormElement();
-//        $formElement->getSubmitElement()
-//            ->setValue($this->identifier);
-//        $formElement->getRelationElement()
-//            ->setValue($this->relation);
-//
-//        /** @var array $valueOptions */
-//        $valueOptions = [];
-//
-//        /** @var array $collection */
-//        $collection = $poll->getOptions()->toArray();
-//
-//        usort($collection, [$this, 'uSortOptions']);
-//
-//        /** @var Option $option */
-//        foreach ($collection as $option) {
-//            $valueOptions[$option->getId()] = $option->getName();
-//        }
-//
-//        $formElement->getOptionElement()
-//            ->setValueOptions($valueOptions);
-//
-//        // add radio values $this->form
-//        return $formElement;
+        return $this->formElement;
     }
 
-//    /**
-//     * @param Option $left
-//     * @param Option $right
-//     * @return int
-//     */
-//    protected function uSortOptions(Option $left, Option $right)
-//    {
-//        if ($left->getPriority() == $right->getPriority()) {
-//            return 0;
-//        }
-//        return ($left->getPriority() < $right->getPriority()) ? -1 : 1;
-//    }
+    /**
+     * @param ObjectInterface $poll
+     * @return mixed
+     */
+    public function isVoted(ObjectInterface $poll)
+    {
+        return $this->pollManager->isVoted($poll);
+    }
 }
