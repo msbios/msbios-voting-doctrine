@@ -8,17 +8,15 @@ namespace MSBios\Voting\Doctrine\Resolver;
 use MSBios\Stdlib\ObjectInterface;
 
 /**
- * Class DatabaseResolver
+ * Interface VoteInterface
  * @package MSBios\Voting\Doctrine\Resolver
  */
-class DatabaseResolver implements ResolverInterface
+interface VoteInterface
 {
     /**
-     * @param ObjectInterface $poll
-     * @return bool
+     * @param $id
+     * @param null $relation
+     * @return mixed
      */
-    public function check(ObjectInterface $poll)
-    {
-        return false;
-    }
+    public function write($id, $relation = null);
 }

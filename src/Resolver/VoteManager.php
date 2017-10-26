@@ -9,13 +9,13 @@ use MSBios\Stdlib\ObjectInterface;
 use Zend\Stdlib\PriorityQueue;
 
 /**
- * Class ResolverManager
+ * Class VoteManager
  * @package MSBios\Voting\Doctrine\Resolver
  */
-class ResolverManager implements ResolverManagerInterface
+class VoteManager implements VoteManagerInterface
 {
     /**
-     * @var PriorityQueue|ResolverInterface[]
+     * @var PriorityQueue|VoteInterface[]
      */
     protected $queue;
 
@@ -30,15 +30,16 @@ class ResolverManager implements ResolverManagerInterface
     }
 
     /**
-     * @param $value
-     * @return mixed|null
+     * @param $id
+     * @param null $relation
+     * @return bool|mixed
      */
-    public function check(ObjectInterface $poll)
+    public function write($id, $relation = null)
     {
         if (count($this->queue)) {
-            /** @var ResolverInterface $resolver */
+            /** @var VoteInterface $resolver */
             foreach ($this->queue as $resolver) {
-                if ($resource = $resolver->check($poll)) {
+                if ($resource = $resolver->write($id, $relation)) {
                     return $resource;
                 }
             }
@@ -48,10 +49,10 @@ class ResolverManager implements ResolverManagerInterface
     }
 
     /**
-     * @param ResolverInterface $resolver
+     * @param VoteInterface $resolver
      * @param int $priority
      */
-    public function attach(ResolverInterface $resolver, $priority = 1)
+    public function attach(VoteInterface $resolver, $priority = 1)
     {
         $this->queue->insert($resolver, $priority);
     }

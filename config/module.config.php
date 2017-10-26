@@ -19,13 +19,18 @@ return [
                 InvokableFactory::class,
             Provider\Vote\RelationProvider::class =>
                 InvokableFactory::class,
-            Resolver\ResolverManager::class =>
-                Factory\ResolverManagerFactory::class,
 
             // Resolvers
-            Resolver\CookieResolver::class =>
+            Resolver\VoteManager::class =>
+                Factory\VoteManagerFactory::class,
+            Resolver\CheckManager::class =>
+                Factory\CheckManagerFactory::class,
+
+            Resolver\Voter\DatabaseVoter::class =>
                 InvokableFactory::class,
-            Resolver\DatabaseResolver::class =>
+            Resolver\Checker\CookieCheck::class =>
+                InvokableFactory::class,
+            Resolver\Checker\DatabaseCheck::class =>
                 InvokableFactory::class
         ],
         'aliases' => [
@@ -84,18 +89,34 @@ return [
         /**
          *
          * Expects: string
-         * Default: MSBios\Voting\Doctrine\ResolverManager
+         * Default: MSBios\Voting\Doctrine\CheckManager
          */
-        'resolver_manager' => Resolver\ResolverManager::class,
+        'vote_manager' => Resolver\VoteManager::class,
+
+        /**
+         *
+         * Expects: string
+         * Default: MSBios\Voting\Doctrine\CheckManager
+         */
+        'check_manager' => Resolver\CheckManager::class,
 
         /**
          *
          * Expects: array
          * Default: []
          */
-        'resolvers' => [
-            Resolver\CookieResolver::class => 100,
-            Resolver\DatabaseResolver::class => -100
+        'vote_resolvers' => [
+            Resolver\Voter\DatabaseVoter::class => 100
+        ],
+
+        /**
+         *
+         * Expects: array
+         * Default: []
+         */
+        'check_resolvers' => [
+            Resolver\Checker\CookieCheck::class => 100,
+            Resolver\Checker\DatabaseCheck::class => -100
         ]
     ]
 ];

@@ -3,15 +3,16 @@
  * @access protected
  * @author Judzhin Miles <info[woof-woof]msbios.com>
  */
-namespace MSBios\Voting\Doctrine\Resolver;
+namespace MSBios\Voting\Doctrine\Resolver\Checker;
 
 use MSBios\Stdlib\ObjectInterface;
+use MSBios\Voting\Doctrine\Resolver\CheckInterface;
 
 /**
- * Class CookieResolver
- * @package MSBios\Voting\Doctrine\Resolver
+ * Class CookieCheck
+ * @package MSBios\Voting\Doctrine\Resolver\Checker
  */
-class CookieResolver implements ResolverInterface
+class CookieCheck implements CheckInterface
 {
     /**
      * @param ObjectInterface $poll

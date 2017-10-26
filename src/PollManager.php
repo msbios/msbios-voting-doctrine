@@ -12,7 +12,8 @@ use MSBios\Form\FormElementAwareTrait;
 use MSBios\Resource\Doctrine\EntityInterface;
 use MSBios\Stdlib\ObjectInterface;
 use MSBios\Voting\Doctrine\Provider;
-use MSBios\Voting\Doctrine\Resolver\ResolverManagerInterface;
+use MSBios\Voting\Doctrine\Resolver\CheckManagerInterface;
+use MSBios\Voting\Doctrine\Resolver\VoteManagerInterface;
 use MSBios\Voting\PollManagerInterface;
 
 /**
@@ -33,8 +34,11 @@ class PollManager implements
     /** @var Provider\Vote\RelationProviderInterface */
     protected $voteProvider;
 
-    /** @var ResolverManagerInterface */
-    protected $resolverManager;
+    /** @var CheckManagerInterface */
+    protected $checkManager;
+
+    /** @var VoteManagerInterface */
+    protected $voteManager;
 
     /** @var EntityInterface */
     protected $current;
@@ -49,16 +53,18 @@ class PollManager implements
      * PollManager constructor.
      * @param Provider\PollProviderInterface $pollProvider
      * @param Provider\VoteProviderInterface $voteProvider
-     * @param ResolverManagerInterface $resolverManager
+     * @param CheckManagerInterface $checkManager
      */
     public function __construct(
         Provider\PollProviderInterface $pollProvider,
-        Provider\VoteProviderInterface $voteProvider,
-        ResolverManagerInterface $resolverManager
+        // Provider\VoteProviderInterface $voteProvider,
+        VoteManagerInterface $voteManager,
+        CheckManagerInterface $checkManager
     ) {
         $this->pollProvider = $pollProvider;
-        $this->voteProvider = $voteProvider;
-        $this->resolverManager = $resolverManager;
+        // $this->voteProvider = $voteProvider;
+        $this->voteManager = $voteManager;
+        $this->checkManager = $checkManager;
     }
 
     /**
@@ -79,7 +85,8 @@ class PollManager implements
      */
     public function vote($id, $relation = null)
     {
-        return $this->voteProvider->write($id, $relation);
+        return $this->voteManager->write($id, $relation);
+        // return $this->voteProvider->write($id, $relation);
     }
 
     /**
@@ -88,6 +95,6 @@ class PollManager implements
      */
     public function isVoted(ObjectInterface $poll)
     {
-        return $this->resolverManager->check($poll);
+        return $this->checkManager->check($poll);
     }
 }

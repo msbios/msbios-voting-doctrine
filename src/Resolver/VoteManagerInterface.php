@@ -6,15 +6,15 @@
 namespace MSBios\Voting\Doctrine\Resolver;
 
 /**
- * Interface ResolverManagerInterface
+ * Interface VoteManagerInterface
  * @package MSBios\Voting\Doctrine\Resolver
  */
-interface ResolverManagerInterface extends ResolverInterface
+interface VoteManagerInterface extends VoteInterface
 {
     /**
-     * @param ResolverInterface $resolver
+     * @param VoteInterface $resolver
      * @param int $priority
      * @return mixed
      */
-    public function attach(ResolverInterface $resolver, $priority = 1);
+    public function attach(VoteInterface $resolver, $priority = 1);
 }

@@ -8,10 +8,10 @@ namespace MSBios\Voting\Doctrine\Resolver;
 use MSBios\Stdlib\ObjectInterface;
 
 /**
- * Interface ResolverInterface
+ * Interface CheckInterface
  * @package MSBios\Voting\Doctrine\Resolver
  */
-interface ResolverInterface
+interface CheckInterface
 {
     /**
      * @param ObjectInterface $poll
