@@ -5,6 +5,7 @@
  */
 namespace MSBios\Voting\Doctrine\Resolver;
 
+use MSBios\Stdlib\ObjectInterface;
 use Zend\Stdlib\PriorityQueue;
 
 /**
@@ -32,16 +33,18 @@ class ResolverManager implements ResolverManagerInterface
      * @param $value
      * @return mixed|null
      */
-    public function resolve($value)
+    public function check(ObjectInterface $poll)
     {
-        /** @var ResolverInterface $resolver */
-        foreach ($this->queue as $resolver) {
-            if ($resource = $resolver->resolve($value)) {
-                return $resource;
+        if (count($this->queue)) {
+            /** @var ResolverInterface $resolver */
+            foreach ($this->queue as $resolver) {
+                if ($resource = $resolver->check($poll)) {
+                    return $resource;
+                }
             }
         }
 
-        return null;
+        return false;
     }
 
     /**

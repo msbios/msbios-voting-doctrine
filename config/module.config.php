@@ -20,9 +20,11 @@ return [
             Provider\Vote\RelationProvider::class =>
                 InvokableFactory::class,
             Resolver\ResolverManager::class =>
-                InvokableFactory::class,
+                Factory\ResolverManagerFactory::class,
 
             // Resolvers
+            Resolver\CookieResolver::class =>
+                InvokableFactory::class,
             Resolver\DatabaseResolver::class =>
                 InvokableFactory::class
         ],
@@ -92,7 +94,8 @@ return [
          * Default: []
          */
         'resolvers' => [
-            Resolver\DatabaseResolver::class => 100
+            Resolver\CookieResolver::class => 100,
+            Resolver\DatabaseResolver::class => -100
         ]
     ]
 ];

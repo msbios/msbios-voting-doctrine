@@ -5,6 +5,8 @@
  */
 namespace MSBios\Voting\Doctrine\Resolver;
 
+use MSBios\Stdlib\ObjectInterface;
+
 /**
  * Class DatabaseResolver
  * @package MSBios\Voting\Doctrine\Resolver
@@ -12,10 +14,11 @@ namespace MSBios\Voting\Doctrine\Resolver;
 class DatabaseResolver implements ResolverInterface
 {
     /**
-     * @param $value
+     * @param ObjectInterface $poll
+     * @return bool
      */
-    public function resolve($value)
+    public function check(ObjectInterface $poll)
     {
-        // TODO: Implement resolve() method.
+        return false;
     }
 }

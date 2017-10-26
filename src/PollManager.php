@@ -84,10 +84,10 @@ class PollManager implements
 
     /**
      * @param ObjectInterface $poll
-     * @return bool
+     * @return mixed
      */
     public function isVoted(ObjectInterface $poll)
     {
-        return false;
+        return $this->resolverManager->check($poll);
     }
 }

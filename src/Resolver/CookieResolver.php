@@ -8,14 +8,17 @@ namespace MSBios\Voting\Doctrine\Resolver;
 use MSBios\Stdlib\ObjectInterface;
 
 /**
- * Interface ResolverInterface
+ * Class CookieResolver
  * @package MSBios\Voting\Doctrine\Resolver
  */
-interface ResolverInterface
+class CookieResolver implements ResolverInterface
 {
     /**
      * @param ObjectInterface $poll
-     * @return mixed
+     * @return bool
      */
-    public function check(ObjectInterface $poll);
+    public function check(ObjectInterface $poll)
+    {
+        return false;
+    }
 }
