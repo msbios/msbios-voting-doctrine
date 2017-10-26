@@ -79,9 +79,7 @@ class PollManager implements
      */
     public function vote($id, $relation = null)
     {
-        return $this->voteProvider->write(
-            $id, $relation
-        );
+        return $this->voteProvider->write($id, $relation);
     }
 
     /**
