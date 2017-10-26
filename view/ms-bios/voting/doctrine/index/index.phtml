@@ -8,8 +8,8 @@
 $identifier = 1;
 
 /** @var \MSBios\Voting\Resource\Doctrine\Entity\Poll $poll */
-$poll = $this->poll()->find($identifier, 'SOME_RELATION[9]');
-// $poll = $this->poll()->find($identifier);
+// $poll = $this->poll()->find($identifier, 'SOME_RELATION[12]');
+$poll = $this->poll()->find($identifier);
 ?>
 
 <?php /** @var \Zend\View\Helper\FlashMessenger $flash */ ?>
@@ -75,5 +75,7 @@ $form->prepare();
     <?= $this->formButton($form->get('poll_identifier')->setAttribute('class', 'btn btn-default')->setLabel('Button')); ?>
     <?= $this->form()->closeTag($form); ?>
 <?php else: ?>
-    voted
+    <?php
+        $votes = $this->poll()->votes($poll);
+    ?>
 <?php endif; ?>

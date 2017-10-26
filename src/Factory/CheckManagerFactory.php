@@ -39,7 +39,7 @@ class CheckManagerFactory implements FactoryInterface
          * @var int $priority
          */
         foreach ($options->get('check_resolvers') as $resolver => $priority) {
-            if (!$container->has($resolver)) {
+            if (! $container->has($resolver)) {
                 throw new ResolverServiceException('Resolver Service is not found in Service Locator.');
             }
             $resolverManager->attach($container->get($resolver), $priority);

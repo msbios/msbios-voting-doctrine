@@ -15,9 +15,8 @@ return [
             PollManager::class =>
                 Factory\PollManagerFactory::class,
 
+            // Providers
             Provider\Poll\RelationProvider::class =>
-                InvokableFactory::class,
-            Provider\Vote\RelationProvider::class =>
                 InvokableFactory::class,
 
             // Resolvers
@@ -26,11 +25,13 @@ return [
             Resolver\CheckManager::class =>
                 Factory\CheckManagerFactory::class,
 
-            Resolver\Voter\DatabaseVoter::class =>
+            Resolver\Voter\CookieVoter::class =>
                 InvokableFactory::class,
-            Resolver\Checker\CookieCheck::class =>
+            Resolver\Voter\EntityVoter::class =>
                 InvokableFactory::class,
-            Resolver\Checker\DatabaseCheck::class =>
+            Resolver\Checker\CookieChecker::class =>
+                InvokableFactory::class,
+            Resolver\Checker\EntityChecker::class =>
                 InvokableFactory::class
         ],
         'aliases' => [
@@ -82,13 +83,6 @@ return [
         /**
          *
          * Expects: string
-         * Default: MSBios\Voting\Doctrine\Provider\Vote\RelationProvider
-         */
-        'vote_provider' => Provider\Vote\RelationProvider::class,
-
-        /**
-         *
-         * Expects: string
          * Default: MSBios\Voting\Doctrine\CheckManager
          */
         'vote_manager' => Resolver\VoteManager::class,
@@ -106,7 +100,8 @@ return [
          * Default: []
          */
         'vote_resolvers' => [
-            Resolver\Voter\DatabaseVoter::class => 100
+            Resolver\Voter\CookieVoter::class => 100,
+            Resolver\Voter\EntityVoter::class => -100
         ],
 
         /**
@@ -115,8 +110,8 @@ return [
          * Default: []
          */
         'check_resolvers' => [
-            Resolver\Checker\CookieCheck::class => 100,
-            Resolver\Checker\DatabaseCheck::class => -100
+            Resolver\Checker\CookieChecker::class => 100,
+            Resolver\Checker\EntityChecker::class => -100
         ]
     ]
 ];

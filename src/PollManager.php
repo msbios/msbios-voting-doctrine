@@ -31,38 +31,24 @@ class PollManager implements
     /** @var Provider\PollProviderInterface */
     protected $pollProvider;
 
-    /** @var Provider\Vote\RelationProviderInterface */
-    protected $voteProvider;
-
     /** @var CheckManagerInterface */
     protected $checkManager;
 
     /** @var VoteManagerInterface */
     protected $voteManager;
 
-    /** @var EntityInterface */
-    protected $current;
-
-    /** @var int */
-    protected $identifier;
-
-    /** @var string */
-    protected $relation;
-
     /**
      * PollManager constructor.
      * @param Provider\PollProviderInterface $pollProvider
-     * @param Provider\VoteProviderInterface $voteProvider
+     * @param VoteManagerInterface $voteManager
      * @param CheckManagerInterface $checkManager
      */
     public function __construct(
         Provider\PollProviderInterface $pollProvider,
-        // Provider\VoteProviderInterface $voteProvider,
         VoteManagerInterface $voteManager,
         CheckManagerInterface $checkManager
     ) {
         $this->pollProvider = $pollProvider;
-        // $this->voteProvider = $voteProvider;
         $this->voteManager = $voteManager;
         $this->checkManager = $checkManager;
     }
@@ -74,7 +60,6 @@ class PollManager implements
      */
     public function find($id, $relation = null)
     {
-        /** @var EntityInterface $entity */
         return $this->pollProvider->find($id, $relation);
     }
 
@@ -86,7 +71,6 @@ class PollManager implements
     public function vote($id, $relation = null)
     {
         return $this->voteManager->write($id, $relation);
-        // return $this->voteProvider->write($id, $relation);
     }
 
     /**
@@ -96,5 +80,12 @@ class PollManager implements
     public function isVoted(ObjectInterface $poll)
     {
         return $this->checkManager->check($poll);
+    }
+
+    /**
+     * @param ObjectInterface $poll
+     */
+    public function votes(ObjectInterface $poll)
+    {
     }
 }

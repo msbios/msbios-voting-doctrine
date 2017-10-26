@@ -14,10 +14,10 @@ use MSBios\Voting\Doctrine\Resolver\VoteInterface;
 use MSBios\Voting\Resource\Doctrine\Entity;
 
 /**
- * Class DatabaseVoter
+ * Class EntityVoter
  * @package MSBios\Voting\Doctrine\Resolver\Voter
  */
-class DatabaseVoter implements VoteInterface, ObjectManagerAwareInterface
+class EntityVoter implements VoteInterface, ObjectManagerAwareInterface
 {
     use ObjectManagerAwareTrait;
 
@@ -55,7 +55,6 @@ class DatabaseVoter implements VoteInterface, ObjectManagerAwareInterface
                 $dem->persist($vote);
                 $dem->flush();
             }
-
         } else {
 
             /** @var EntityInterface $poll */
@@ -83,7 +82,6 @@ class DatabaseVoter implements VoteInterface, ObjectManagerAwareInterface
                 $dem->persist($vote);
                 $dem->flush();
             }
-
         }
 
         $vote->setTotal(1 + $vote->getTotal())
@@ -91,7 +89,5 @@ class DatabaseVoter implements VoteInterface, ObjectManagerAwareInterface
 
         $dem->merge($vote);
         $dem->flush();
-
     }
-
 }

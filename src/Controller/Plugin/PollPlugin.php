@@ -50,7 +50,6 @@ class PollPlugin extends AbstractPlugin
      */
     public function vote()
     {
-
         if ($this->inputFilter->isValid()) {
             /** @var array $data */
             $data = $this->inputFilter->getValues();

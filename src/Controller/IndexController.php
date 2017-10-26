@@ -14,6 +14,9 @@ use Zend\Mvc\Controller\AbstractActionController;
  */
 class IndexController extends AbstractActionController
 {
+    /**
+     * @return \Zend\Http\Response|\Zend\View\Model\ViewModel
+     */
     public function indexAction()
     {
         if ($this->getRequest()->isPost()) {

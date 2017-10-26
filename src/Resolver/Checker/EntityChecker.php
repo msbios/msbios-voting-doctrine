@@ -9,10 +9,10 @@ use MSBios\Stdlib\ObjectInterface;
 use MSBios\Voting\Doctrine\Resolver\CheckInterface;
 
 /**
- * Class CookieCheck
+ * Class EntityChecker
  * @package MSBios\Voting\Doctrine\Resolver\Checker
  */
-class CookieCheck implements CheckInterface
+class EntityChecker implements CheckInterface
 {
     /**
      * @param ObjectInterface $poll

@@ -32,20 +32,18 @@ class VoteManager implements VoteManagerInterface
     /**
      * @param $id
      * @param null $relation
-     * @return bool|mixed
+     * @return bool
      */
     public function write($id, $relation = null)
     {
         if (count($this->queue)) {
             /** @var VoteInterface $resolver */
             foreach ($this->queue as $resolver) {
-                if ($resource = $resolver->write($id, $relation)) {
-                    return $resource;
-                }
+                $resolver->write($id, $relation);
             }
         }
 
-        return false;
+        return true;
     }
 
     /**
