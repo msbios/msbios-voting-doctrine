@@ -31,6 +31,7 @@ class CookieChecker implements CheckInterface
 
         /** @var string $key */
         $key = md5($poll->getId() . md5($relation));
+
         return array_key_exists($key, $_COOKIE);
     }
 }

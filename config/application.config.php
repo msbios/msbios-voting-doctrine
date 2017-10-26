@@ -6,11 +6,14 @@
 return [
     // Retrieve list of modules used in this application.
     'modules' => [
+        'MSBios\Voting\Resource\Doctrine',
+        'MSBios\Form\Doctrine',
+        'MSBios\Doctrine',
+        'Zend\Cache',
+        'Zend\Paginator',
         'MSBios\Voting\Resource',
         'MSBios\Form',
         // 'Zend\Serializer',
-        'Zend\Cache',
-        'Zend\Paginator',
         'Zend\I18n',
         'Zend\Navigation',
         'Zend\Mvc\Plugin\FilePrg',
@@ -25,11 +28,7 @@ return [
         'Zend\Router',
         'Zend\Validator',
         'ZendDeveloperTools',
-
-        'DoctrineModule',
-        'DoctrineORMModule',
         'DoctrineDataFixtureModule',
-
         'MSBios\Assetic',
         'MSBios\I18n',
         'MSBios\Widget',
@@ -37,12 +36,11 @@ return [
         'MSBios\Resource',
         'MSBios\Navigation',
         'MSBios\Application',
-        'MSBios\Doctrine',
         'MSBios\Resource\Doctrine',
-
         'MSBios\Voting',
         'MSBios\Voting\Doctrine',
-        'MSBios\Voting\Resource\Doctrine',
+        'DoctrineModule',
+        'DoctrineORMModule',
     ],
     // These are various options for the listeners attached to the ModuleManager
     'module_listener_options' => [

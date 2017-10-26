@@ -8,7 +8,7 @@
 $identifier = 1;
 
 /** @var \MSBios\Voting\Resource\Doctrine\Entity\Poll $poll */
-// $poll = $this->poll()->find($identifier, 'SOME_RELATION[12]');
+// $poll = $this->poll()->find($identifier, 'SOME_RELATION[14]');
 $poll = $this->poll()->find($identifier);
 ?>
 
@@ -78,4 +78,6 @@ $form->prepare();
     <?php
         $votes = $this->poll()->votes($poll);
     ?>
+
+    Result
 <?php endif; ?>
