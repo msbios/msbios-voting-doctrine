@@ -7,6 +7,7 @@
 namespace MSBios\Voting\Doctrine\Provider\Vote;
 
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Common\Persistence\ObjectRepository;
 use MSBios\Resource\Doctrine\EntityInterface;
 use MSBios\Voting\Doctrine\Provider\VoteProvider;
 use MSBios\Voting\Resource\Doctrine\Entity;
@@ -19,14 +20,13 @@ class RelationProvider extends VoteProvider implements RelationProviderInterface
 {
     /**
      * @param $id
-     * @param $optionId
      * @param null $relation
      * @return mixed|void
      */
-    public function write($id, $optionId, $relation = null)
+    public function write($id, $relation = null)
     {
-        if (is_null($relation)) {
-            return parent::write($id, $optionId);
+        if (empty($relation)) {
+            return parent::write($id);
         }
 
         /** @var ObjectManager $dem */
@@ -34,15 +34,17 @@ class RelationProvider extends VoteProvider implements RelationProviderInterface
 
         /** @var EntityInterface $poll */
         $poll = $dem->getRepository(Entity\Poll\Relation::class)->findOneBy([
-            'poll' => $id,
             'code' => $relation
         ]);
 
         /** @var EntityInterface $option */
-        $option = $dem->find(Entity\Option::class, $optionId);
+        $option = $dem->find(Entity\Option::class, $id);
+
+        /** @var ObjectRepository $repository */
+        $repository = $dem->getRepository(Entity\Vote\Relation::class);
 
         /** @var EntityInterface $vote */
-        $vote = $dem->getRepository(Entity\Vote\Relation::class)->findOneBy([
+        $vote = $repository->findOneBy([
             'poll' => $poll,
             'option' => $option
         ]);

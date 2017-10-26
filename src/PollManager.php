@@ -74,16 +74,13 @@ class PollManager implements
 
     /**
      * @param $id
-     * @param $optionId
      * @param null $relation
      * @return mixed
      */
-    public function vote($id, $optionId, $relation = null)
+    public function vote($id, $relation = null)
     {
         return $this->voteProvider->write(
-            $id,
-            $optionId,
-            $relation
+            $id, $relation
         );
     }
 

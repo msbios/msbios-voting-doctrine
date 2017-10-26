@@ -13,8 +13,7 @@ interface VoteProviderInterface
 {
     /**
      * @param $id
-     * @param $optionId
      * @return mixed
      */
-    public function write($id, $optionId);
+    public function write($id);
 }

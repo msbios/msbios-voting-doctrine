@@ -55,7 +55,6 @@ class PollPlugin extends AbstractPlugin
             /** @var array $data */
             $data = $this->inputFilter->getValues();
             return $this->pollManager->vote(
-                $data['poll_identifier'],
                 $data['poll_option_identifier'],
                 $data['poll_relation']
             );

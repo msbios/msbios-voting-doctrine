@@ -15,9 +15,8 @@ interface RelationProviderInterface extends VoteProviderInterface
 {
     /**
      * @param $id
-     * @param $optionId
      * @param null $relation
      * @return mixed
      */
-    public function write($id, $optionId, $relation = null);
+    public function write($id, $relation = null);
 }

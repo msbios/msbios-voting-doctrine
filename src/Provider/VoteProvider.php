@@ -26,39 +26,38 @@ class VoteProvider implements
 
     /**
      * @param $id
-     * @param $optionId
      */
-    public function write($id, $optionId)
+    public function write($id)
     {
-        ///** @var ObjectManager $dem */
-        //$dem = $this->getObjectManager();
-        //
-        ///** @var EntityInterface $option */
-        //$option = $dem->find(Option::class, $this->identifier);
-        //
-        ///** @var ObjectRepository $repository */
-        //$repository = $dem->getRepository(Vote::class);
-        //
-        ///** @var EntityInterface $entity */
-        //$entity = $repository->findOneBy(['option' => $option]);
-        //
-        //if (!$entity) {
-        //
-        //    /** @var EntityInterface $entity */
-        //    $entity = new Vote;
-        //    $entity->setPoll($option->getPoll())
-        //        ->setOption($option)
-        //        ->setCreatedAt(new \DateTime('now'))
-        //        ->setModifiedAt(new \DateTime('now'));
-        //
-        //    $dem->persist($entity);
-        //
-        //} else {
-        //    $entity->setTotal(1 + $entity->getTotal())
-        //        ->setModifiedAt(new \DateTime('now'));
-        //    $dem->merge($entity);
-        //}
-        //
-        //$dem->flush();
+        /** @var ObjectManager $dem */
+        $dem = $this->getObjectManager();
+
+        /** @var EntityInterface $option */
+        $option = $dem->find(Option::class, $id);
+
+        /** @var ObjectRepository $repository */
+        $repository = $dem->getRepository(Vote::class);
+
+        /** @var EntityInterface $vote */
+        $vote = $repository->findOneBy(['option' => $option]);
+
+        if (! $vote) {
+
+            /** @var EntityInterface $vote */
+            $vote = new Vote;
+            $vote->setPoll($option->getPoll())
+                ->setOption($option)
+                ->setCreatedAt(new \DateTime('now'))
+                ->setModifiedAt(new \DateTime('now'));
+
+            $dem->persist($vote);
+            $dem->flush();
+        }
+
+        $vote->setTotal(1 + $vote->getTotal())
+            ->setModifiedAt(new \DateTime('now'));
+
+        $dem->merge($vote);
+        $dem->flush();
     }
 }

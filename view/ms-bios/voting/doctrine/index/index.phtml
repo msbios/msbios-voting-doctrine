@@ -8,7 +8,8 @@
 $identifier = 1;
 
 /** @var \MSBios\Voting\Resource\Doctrine\Entity\Poll $poll */
-$poll = $this->poll()->find($identifier, 'SOME_RELATION[ID]');
+//$poll = $this->poll()->find($identifier, 'SOME_RELATION[8]');
+$poll = $this->poll()->find($identifier);
 ?>
 
 <?php /** @var \Zend\View\Helper\FlashMessenger $flash */ ?>
