@@ -14,21 +14,21 @@ return [
         /**
          *
          * Expects: array
-         * Default: []
+         * Default: [
+         *     Resolver\Voter\EntityVoter::class => -100
+         * ]
          */
         'vote_resolvers' => [
-            Resolver\Voter\CookieVoter::class => 100,
-            Resolver\Voter\EntityVoter::class => -100
         ],
 
         /**
          *
          * Expects: array
-         * Default: []
+         * Default: [
+         *     Resolver\Checker\EntityChecker::class => -100
+         * ]
          */
         'check_resolvers' => [
-            Resolver\Checker\CookieChecker::class => 100,
-            Resolver\Checker\EntityChecker::class => -100
         ]
     ]
 ];
