@@ -14,9 +14,9 @@ use MSBios\Voting\Doctrine\Provider\PollProviderInterface;
 interface RelationProviderInterface extends PollProviderInterface
 {
     /**
-     * @param $id
+     * @param $idOrCode
      * @param null $relation
      * @return mixed
      */
-    public function find($id, $relation = null);
+    public function find($idOrCode, $relation = null);
 }

@@ -12,8 +12,8 @@ namespace MSBios\Voting\Doctrine\Provider;
 interface PollProviderInterface
 {
     /**
-     * @param $id
+     * @param $idOrCode
      * @return mixed
      */
-    public function find($id);
+    public function find($idOrCode);
 }

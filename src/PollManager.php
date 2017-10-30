@@ -54,13 +54,13 @@ class PollManager implements
     }
 
     /**
-     * @param $id
+     * @param $idOrCode
      * @param null $relation
-     * @return mixed|EntityInterface
+     * @return mixed
      */
-    public function find($id, $relation = null)
+    public function find($idOrCode, $relation = null)
     {
-        return $this->pollProvider->find($id, $relation);
+        return $this->pollProvider->find($idOrCode, $relation);
     }
 
     /**

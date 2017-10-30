@@ -1460,16 +1460,16 @@
         },
         {
             "name": "msbios/voting",
-            "version": "v1.0.26",
+            "version": "v1.0.27",
             "source": {
                 "type": "git",
                 "url": "https://github.com/msbios/msbios-voting.git",
-                "reference": "2ce547cac82a8603bb42babbb67f5559ac15cbac"
+                "reference": "f6b98e20c6d1217a1eda4b6ad1d8e2820f9c1190"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/msbios/msbios-voting/zipball/2ce547cac82a8603bb42babbb67f5559ac15cbac",
-                "reference": "2ce547cac82a8603bb42babbb67f5559ac15cbac",
+                "url": "https://api.github.com/repos/msbios/msbios-voting/zipball/f6b98e20c6d1217a1eda4b6ad1d8e2820f9c1190",
+                "reference": "f6b98e20c6d1217a1eda4b6ad1d8e2820f9c1190",
                 "shasum": ""
             },
             "require": {
@@ -1510,25 +1510,24 @@
             "keywords": [
                 "php"
             ],
-            "time": "2017-10-26T09:24:51+00:00"
+            "time": "2017-10-30T13:23:25+00:00"
         },
         {
             "name": "msbios/voting-resource",
-            "version": "v1.0.0",
+            "version": "v1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/msbios/msbios-voting-resource.git",
-                "reference": "4f1441d9f64309dbcf7ea0386315ad523193d474"
+                "reference": "4bdb91ada79b10ebc7e7b8be0016058bc81c2d89"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/msbios/msbios-voting-resource/zipball/4f1441d9f64309dbcf7ea0386315ad523193d474",
-                "reference": "4f1441d9f64309dbcf7ea0386315ad523193d474",
+                "url": "https://api.github.com/repos/msbios/msbios-voting-resource/zipball/4bdb91ada79b10ebc7e7b8be0016058bc81c2d89",
+                "reference": "4bdb91ada79b10ebc7e7b8be0016058bc81c2d89",
                 "shasum": ""
             },
             "require": {
-                "msbios/msbios": "^1.0",
-                "zendframework/zend-form": "^2.10"
+                "msbios/form": "~1.0"
             },
             "require-dev": {
                 "phpunit/phpunit": "^5.7",
@@ -1561,24 +1560,26 @@
             "keywords": [
                 "php"
             ],
-            "time": "2017-10-12T13:34:38+00:00"
+            "time": "2017-10-30T09:37:54+00:00"
         },
         {
             "name": "msbios/voting-resource-doctrine",
-            "version": "v1.0.18",
+            "version": "v1.0.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/msbios/msbios-voting-resource-doctrine.git",
-                "reference": "395bb675153db3fb9177e4b1ae96b622ca1e2563"
+                "reference": "94b7f4453639896c8a1d1596e4044bb0caa334d6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/msbios/msbios-voting-resource-doctrine/zipball/395bb675153db3fb9177e4b1ae96b622ca1e2563",
-                "reference": "395bb675153db3fb9177e4b1ae96b622ca1e2563",
+                "url": "https://api.github.com/repos/msbios/msbios-voting-resource-doctrine/zipball/94b7f4453639896c8a1d1596e4044bb0caa334d6",
+                "reference": "94b7f4453639896c8a1d1596e4044bb0caa334d6",
                 "shasum": ""
             },
             "require": {
                 "msbios/resource-doctrine": "~1.0",
+                "msbios/voting-resource": "~1.0",
+                "zendframework/zend-console": "^2.6",
                 "zendframework/zend-mvc-console": "^1.1"
             },
             "require-dev": {
@@ -1586,7 +1587,6 @@
                 "msbios/debug": "^1.0",
                 "phpunit/phpunit": "^5.7",
                 "squizlabs/php_codesniffer": "^3.0",
-                "zendframework/zend-console": "^2.6",
                 "zendframework/zend-test": "^3.1"
             },
             "type": "library",
@@ -1615,7 +1615,7 @@
             "keywords": [
                 "php"
             ],
-            "time": "2017-10-27T16:11:38+00:00"
+            "time": "2017-10-30T10:04:27+00:00"
         },
         {
             "name": "psr/container",
@@ -6065,16 +6065,16 @@
         },
         {
             "name": "zendframework/zend-test",
-            "version": "3.1.0",
+            "version": "3.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-test.git",
-                "reference": "9665205827ed6ee69f1ef82990362057c789250c"
+                "reference": "9976fb519851276d56e201bc6211b3a94e6c3b19"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-test/zipball/9665205827ed6ee69f1ef82990362057c789250c",
-                "reference": "9665205827ed6ee69f1ef82990362057c789250c",
+                "url": "https://api.github.com/repos/zendframework/zend-test/zipball/9976fb519851276d56e201bc6211b3a94e6c3b19",
+                "reference": "9976fb519851276d56e201bc6211b3a94e6c3b19",
                 "shasum": ""
             },
             "require": {
@@ -6117,7 +6117,10 @@
             "autoload": {
                 "psr-4": {
                     "Zend\\Test\\": "src/"
-                }
+                },
+                "files": [
+                    "autoload/phpunit-class-aliases.php"
+                ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -6128,7 +6131,7 @@
                 "test",
                 "zf2"
             ],
-            "time": "2017-05-01T19:54:00+00:00"
+            "time": "2017-10-29T16:35:35+00:00"
         },
         {
             "name": "zfcampus/zf-development-mode",

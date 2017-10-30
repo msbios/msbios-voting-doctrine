@@ -25,14 +25,14 @@ class RelationProvider extends PollProvider implements
     use ObjectManagerAwareTrait;
 
     /**
-     * @param $id
+     * @param $idOrCode
      * @param null $relation
      * @return EntityInterface|Relation
      */
-    public function find($id, $relation = null)
+    public function find($idOrCode, $relation = null)
     {
         /** @var EntityInterface $poll */
-        $poll = parent::find($id);
+        $poll = parent::find($idOrCode);
 
         if (is_null($relation)) {
             return $poll;
