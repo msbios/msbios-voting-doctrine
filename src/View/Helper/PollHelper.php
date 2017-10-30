@@ -76,9 +76,10 @@ class PollHelper extends AbstractHelper
 
     /**
      * @param ObjectInterface $poll
+     * @return mixed
      */
     public function votes(ObjectInterface $poll)
     {
-        return [];
+        return $this->pollManager->votes($poll);
     }
 }

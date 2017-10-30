@@ -84,8 +84,14 @@ class PollManager implements
 
     /**
      * @param ObjectInterface $poll
+     * @return mixed
      */
     public function votes(ObjectInterface $poll)
     {
+        /** @var string $className */
+        $className = get_class($poll);
+        return $this->getObjectManager()
+            ->getRepository($className)
+            ->findVotesBy($poll);
     }
 }

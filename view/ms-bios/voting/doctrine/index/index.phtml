@@ -41,10 +41,15 @@ $poll = $this->poll()->find($identifier);
 
 <?php endif; ?>
 
-<h1>
-    <?= $poll->getSubject(); ?>
-    <small><?= $poll->getTotal(); ?></small>
-</h1>
+    <h1>
+        <?= $poll->getSubject(); ?><br>
+        <small class="text-muted">
+            <b>Total Votes:</b>
+            <small><?= $poll->getTotal(); ?></small>
+            <b>Avg:</b>
+            <small>3.4</small>
+        </small>
+    </h1>
 
 <?php
 
@@ -55,7 +60,7 @@ $form->prepare();
 
 ?>
 
-<?php if (!$this->poll()->isVoted($poll)) :?>
+<?php if (!$this->poll()->isVoted($poll)) : ?>
     <?= $this->form()->openTag($form); ?>
     <ul>
         <?php $element = $form->get('poll_option_identifier'); ?>
@@ -75,9 +80,15 @@ $form->prepare();
     <?= $this->formButton($form->get('poll_identifier')->setAttribute('class', 'btn btn-default')->setLabel('Button')); ?>
     <?= $this->form()->closeTag($form); ?>
 <?php else: ?>
-    <?php
-        $votes = $this->poll()->votes($poll);
-    ?>
+    <?php $votes = $this->poll()->votes($poll); ?>
 
-    Result
+    <ul>
+        <?php foreach ($votes as $vote): ?>
+            <li>
+                <?= $vote['name']; ?> <small><?= $vote['vote']; ?></small>
+            </li>
+        <?php endforeach; ?>
+
+
+    </ul>
 <?php endif; ?>

@@ -94,24 +94,24 @@ return [
          */
         'check_manager' => Resolver\CheckManager::class,
 
-        /**
-         *
-         * Expects: array
-         * Default: []
-         */
-        'vote_resolvers' => [
-            Resolver\Voter\CookieVoter::class => 100,
-            Resolver\Voter\EntityVoter::class => -100
-        ],
-
-        /**
-         *
-         * Expects: array
-         * Default: []
-         */
-        'check_resolvers' => [
-            Resolver\Checker\CookieChecker::class => 100,
-            Resolver\Checker\EntityChecker::class => -100
-        ]
+        // /**
+        //  *
+        //  * Expects: array
+        //  * Default: []
+        //  */
+        // 'vote_resolvers' => [
+        //     Resolver\Voter\CookieVoter::class => 100,
+        //     Resolver\Voter\EntityVoter::class => -100
+        // ],
+        //
+        // /**
+        //  *
+        //  * Expects: array
+        //  * Default: []
+        //  */
+        // 'check_resolvers' => [
+        //     Resolver\Checker\CookieChecker::class => 100,
+        //     Resolver\Checker\EntityChecker::class => -100
+        // ]
     ]
 ];
