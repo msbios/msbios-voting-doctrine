@@ -50,7 +50,7 @@ class RelationProvider extends PollProvider implements
             'code' => $relation
         ]);
 
-        if (! $entity) {
+        if (! $entity && $poll) {
 
             /** @var EntityInterface $entity */
             $entity = new Relation;
