@@ -15,7 +15,7 @@ return [
          *
          * Expects: array
          * Default: [
-         *     Resolver\Voter\EntityVoter::class => -100
+         *     Resolver\Voter\RepositoryVoter::class => -100
          * ]
          */
         'vote_resolvers' => [
@@ -25,7 +25,7 @@ return [
          *
          * Expects: array
          * Default: [
-         *     Resolver\Checker\EntityChecker::class => -100
+         *     Resolver\Checker\RepositoryChecker::class => -100
          * ]
          */
         'check_resolvers' => [

@@ -14,10 +14,10 @@ use MSBios\Voting\Doctrine\Resolver\VoteInterface;
 use MSBios\Voting\Resource\Doctrine\Entity;
 
 /**
- * Class EntityVoter
+ * Class RepositoryVoter
  * @package MSBios\Voting\Doctrine\Resolver\Voter
  */
-class EntityVoter implements VoteInterface, ObjectManagerAwareInterface
+class RepositoryVoter implements VoteInterface, ObjectManagerAwareInterface
 {
     use ObjectManagerAwareTrait;
 

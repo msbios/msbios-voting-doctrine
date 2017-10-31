@@ -9,10 +9,10 @@ use MSBios\Stdlib\ObjectInterface;
 use MSBios\Voting\Doctrine\Resolver\CheckInterface;
 
 /**
- * Class EntityChecker
+ * Class RepositoryChecker
  * @package MSBios\Voting\Doctrine\Resolver\Checker
  */
-class EntityChecker implements CheckInterface
+class RepositoryChecker implements CheckInterface
 {
     /**
      * @param ObjectInterface $poll

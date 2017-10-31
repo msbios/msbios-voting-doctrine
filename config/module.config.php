@@ -27,11 +27,11 @@ return [
 
             Resolver\Voter\CookieVoter::class =>
                 InvokableFactory::class,
-            Resolver\Voter\EntityVoter::class =>
+            Resolver\Voter\RepositoryVoter::class =>
                 InvokableFactory::class,
             Resolver\Checker\CookieChecker::class =>
                 InvokableFactory::class,
-            Resolver\Checker\EntityChecker::class =>
+            Resolver\Checker\RepositoryChecker::class =>
                 InvokableFactory::class
         ],
         'aliases' => [
@@ -98,22 +98,22 @@ return [
          *
          * Expects: array
          * Default: [
-         *     Resolver\Voter\EntityVoter::class => -100
+         *     Resolver\Voter\RepositoryVoter::class => -100
          * ]
          */
         'vote_resolvers' => [
-            Resolver\Voter\EntityVoter::class => -100
+            Resolver\Voter\RepositoryVoter::class => -100
         ],
 
         /**
          *
          * Expects: array
          * Default: [
-         *     Resolver\Checker\EntityChecker::class => -100
+         *     Resolver\Checker\RepositoryChecker::class => -100
          * ]
          */
         'check_resolvers' => [
-            Resolver\Checker\EntityChecker::class => -100
+            Resolver\Checker\RepositoryChecker::class => -100
         ]
     ]
 ];
