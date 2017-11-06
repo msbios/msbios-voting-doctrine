@@ -6,6 +6,7 @@
 return [
     // Retrieve list of modules used in this application.
     'modules' => [
+        'MSBios\Test',
         'Zend\Log',
         'Zend\Mvc\Console',
         'MSBios\Voting\Resource\Doctrine',
