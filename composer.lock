@@ -1562,16 +1562,16 @@
         },
         {
             "name": "msbios/voting-resource-doctrine",
-            "version": "v1.0.42",
+            "version": "v1.0.43",
             "source": {
                 "type": "git",
                 "url": "https://github.com/msbios/msbios-voting-resource-doctrine.git",
-                "reference": "34512515013e8c4c919ce45f3346566b096b10c3"
+                "reference": "49453921e61e4c8ddc5c9a733910419a27a273e3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/msbios/msbios-voting-resource-doctrine/zipball/34512515013e8c4c919ce45f3346566b096b10c3",
-                "reference": "34512515013e8c4c919ce45f3346566b096b10c3",
+                "url": "https://api.github.com/repos/msbios/msbios-voting-resource-doctrine/zipball/49453921e61e4c8ddc5c9a733910419a27a273e3",
+                "reference": "49453921e61e4c8ddc5c9a733910419a27a273e3",
                 "shasum": ""
             },
             "require": {
@@ -1613,7 +1613,7 @@
             "keywords": [
                 "php"
             ],
-            "time": "2017-11-06T15:23:51+00:00"
+            "time": "2017-11-06T15:30:56+00:00"
         },
         {
             "name": "psr/container",
