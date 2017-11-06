@@ -47,7 +47,7 @@ $poll = $this->poll()->find($identifier);
             <b>Total Votes:</b>
             <small><?= $poll->getTotal(); ?></small>
             <b>Avg:</b>
-            <small><?= $poll->getAvg(); ?></small>
+            <small><?= number_format($poll->getAvg(), 2); ?></small>
         </small>
     </h1>
 
