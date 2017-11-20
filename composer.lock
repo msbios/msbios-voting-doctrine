@@ -1400,29 +1400,26 @@
         },
         {
             "name": "msbios/voting",
-            "version": "v1.0.28",
+            "version": "v1.0.29",
             "source": {
                 "type": "git",
                 "url": "https://github.com/msbios/msbios-voting.git",
-                "reference": "6098fff7a9afb4a065681f51cdea7b970a728feb"
+                "reference": "5458c685c7bc7c75497444a7aef9bb3174e1cef5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/msbios/msbios-voting/zipball/6098fff7a9afb4a065681f51cdea7b970a728feb",
-                "reference": "6098fff7a9afb4a065681f51cdea7b970a728feb",
+                "url": "https://api.github.com/repos/msbios/msbios-voting/zipball/5458c685c7bc7c75497444a7aef9bb3174e1cef5",
+                "reference": "5458c685c7bc7c75497444a7aef9bb3174e1cef5",
                 "shasum": ""
             },
             "require": {
-                "msbios/form": "~1.0",
-                "msbios/voting-resource": "~1.0"
+                "msbios/form": "^1.0",
+                "msbios/voting-resource": "^1.0"
             },
             "require-dev": {
-                "msbios/application": "^1.0",
                 "msbios/debug": "^1.0",
-                "phpunit/phpunit": "^5.7",
-                "squizlabs/php_codesniffer": "^3.0",
-                "zendframework/zend-component-installer": "^1.0 || ^0.7 || ^1.0.0-dev@dev",
-                "zendframework/zend-test": "^3.1"
+                "msbios/portal": "^1.0",
+                "msbios/test": "^1.0"
             },
             "type": "library",
             "extra": {
@@ -1450,7 +1447,7 @@
             "keywords": [
                 "php"
             ],
-            "time": "2017-10-30T14:33:07+00:00"
+            "time": "2017-11-20T12:12:57+00:00"
         },
         {
             "name": "msbios/voting-resource",
@@ -1504,16 +1501,16 @@
         },
         {
             "name": "msbios/voting-resource-doctrine",
-            "version": "v1.0.43",
+            "version": "v1.0.45",
             "source": {
                 "type": "git",
                 "url": "https://github.com/msbios/msbios-voting-resource-doctrine.git",
-                "reference": "49453921e61e4c8ddc5c9a733910419a27a273e3"
+                "reference": "21c671af41b6fc4a2391f7106a0fd76311bb2568"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/msbios/msbios-voting-resource-doctrine/zipball/49453921e61e4c8ddc5c9a733910419a27a273e3",
-                "reference": "49453921e61e4c8ddc5c9a733910419a27a273e3",
+                "url": "https://api.github.com/repos/msbios/msbios-voting-resource-doctrine/zipball/21c671af41b6fc4a2391f7106a0fd76311bb2568",
+                "reference": "21c671af41b6fc4a2391f7106a0fd76311bb2568",
                 "shasum": ""
             },
             "require": {
@@ -1555,7 +1552,7 @@
             "keywords": [
                 "php"
             ],
-            "time": "2017-11-06T15:30:56+00:00"
+            "time": "2017-11-20T11:35:16+00:00"
         },
         {
             "name": "psr/container",
@@ -4794,25 +4791,24 @@
         },
         {
             "name": "msbios/voting-cpanel-doctrine",
-            "version": "v1.0.0",
+            "version": "v1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/msbios/msbios-voting-cpanel-doctrine.git",
-                "reference": "29669c6265ae38742c2e5f1148f9f97a82e6ff4e"
+                "reference": "b80e04cb2d354a99523d9fb8cef62facb4641cad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/msbios/msbios-voting-cpanel-doctrine/zipball/29669c6265ae38742c2e5f1148f9f97a82e6ff4e",
-                "reference": "29669c6265ae38742c2e5f1148f9f97a82e6ff4e",
+                "url": "https://api.github.com/repos/msbios/msbios-voting-cpanel-doctrine/zipball/b80e04cb2d354a99523d9fb8cef62facb4641cad",
+                "reference": "b80e04cb2d354a99523d9fb8cef62facb4641cad",
                 "shasum": ""
             },
-            "require": {
-                "msbios/msbios": "^1.0"
-            },
             "require-dev": {
-                "phpunit/phpunit": "^5.7",
-                "squizlabs/php_codesniffer": "^3.0",
-                "zendframework/zend-test": "^3.1"
+                "msbios/portal-doctrine": "^1.0",
+                "msbios/test": "^1.0",
+                "msbios/voting-cpanel": "^1.0",
+                "msbios/voting-resource": "^1.0",
+                "msbios/voting-resource-doctrine": "^1.0"
             },
             "type": "library",
             "extra": {
@@ -4840,7 +4836,7 @@
             "keywords": [
                 "php"
             ],
-            "time": "2017-10-12T15:01:20+00:00"
+            "time": "2017-11-20T11:54:27+00:00"
         },
         {
             "name": "msbios/widget",
