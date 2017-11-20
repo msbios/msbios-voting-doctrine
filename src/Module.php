@@ -21,6 +21,7 @@ class Module implements
     AutoloaderProviderInterface,
     ServiceProviderInterface
 {
+    /** @const VERSION */
     const VERSION = '1.0.8';
 
     /**
