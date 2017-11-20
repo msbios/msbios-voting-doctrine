@@ -6,6 +6,7 @@
 return [
     // Retrieve list of modules used in this application.
     'modules' => [
+        'MSBios\Voting\CPanel',
         'MSBios\Test',
         'MSBios\Portal',
         'MSBios\Application',
@@ -48,17 +49,13 @@ return [
         'MSBios\Resource\Doctrine',
         'MSBios\Form\Doctrine',
         'MSBios\CPanel\Doctrine',
-
         'Zend\Log',
         'ZendDeveloperTools',
-
         'MSBios\Voting',
         'MSBios\Voting\Doctrine',
         'MSBios\Voting\Resource',
         'MSBios\Voting\Resource\Doctrine',
-        'MSBios\Voting\CPanel',
         'MSBios\Voting\CPanel\Doctrine',
-
     ],
     // These are various options for the listeners attached to the ModuleManager
     'module_listener_options' => [

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "be7297d59ba21ac7d076304aa085ade5",
+    "content-hash": "3af30237cdca3ca16c0b7d647ef0b1b2",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -4791,24 +4791,26 @@
         },
         {
             "name": "msbios/voting-cpanel-doctrine",
-            "version": "v1.0.3",
+            "version": "v1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/msbios/msbios-voting-cpanel-doctrine.git",
-                "reference": "b80e04cb2d354a99523d9fb8cef62facb4641cad"
+                "reference": "54ec9509176299e8cd1c68fb53f9defb13cce589"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/msbios/msbios-voting-cpanel-doctrine/zipball/b80e04cb2d354a99523d9fb8cef62facb4641cad",
-                "reference": "b80e04cb2d354a99523d9fb8cef62facb4641cad",
+                "url": "https://api.github.com/repos/msbios/msbios-voting-cpanel-doctrine/zipball/54ec9509176299e8cd1c68fb53f9defb13cce589",
+                "reference": "54ec9509176299e8cd1c68fb53f9defb13cce589",
                 "shasum": ""
             },
+            "require": {
+                "msbios/voting-cpanel": "^1.0"
+            },
             "require-dev": {
+                "msbios/debug": "^1.0",
                 "msbios/portal-doctrine": "^1.0",
                 "msbios/test": "^1.0",
-                "msbios/voting-cpanel": "^1.0",
-                "msbios/voting-resource": "^1.0",
-                "msbios/voting-resource-doctrine": "^1.0"
+                "msbios/voting-doctrine": "^1.0"
             },
             "type": "library",
             "extra": {
@@ -4836,7 +4838,7 @@
             "keywords": [
                 "php"
             ],
-            "time": "2017-11-20T11:54:27+00:00"
+            "time": "2017-11-20T12:18:41+00:00"
         },
         {
             "name": "msbios/widget",
