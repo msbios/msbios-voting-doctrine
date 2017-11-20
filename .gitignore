@@ -114,7 +114,8 @@ composer.phar
 # You may choose to ignore a library lock file http://getcomposer.org/doc/02-libraries.md#lock-file
 # composer.lock
 
-bin/default
+public/default
+public/limitless
 
 #Doctrine 2
 data/DoctrineORMModule/Proxy/
