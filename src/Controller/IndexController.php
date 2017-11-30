@@ -20,13 +20,10 @@ class IndexController extends AbstractActionController
     public function indexAction()
     {
 
-        // foreach ($_COOKIE as $key => $value) {
-        //     unset($_COOKIE[$key]);
-        //     setcookie($key, null, -1, '/');
-        // }
-
         if ($this->getRequest()->isPost()) {
             if ($this->poll()->setData($this->params()->fromPost())->vote()) {
+                // r($this->poll()->current()->getAvg()); die();
+
                 $this->flashMessenger()->addSuccessMessage('Your voice has been accepted and processed.');
                 return $this->redirect()->toRoute('home');
             }

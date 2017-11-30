@@ -15,6 +15,7 @@ use MSBios\Voting\Doctrine\Provider;
 use MSBios\Voting\Doctrine\Resolver\CheckManagerInterface;
 use MSBios\Voting\Doctrine\Resolver\VoteManagerInterface;
 use MSBios\Voting\PollManagerInterface;
+use MSBios\Voting\Resource\Doctrine\Entity\PollInterface;
 
 /**
  * Class PollManager
@@ -37,6 +38,9 @@ class PollManager implements
     /** @var VoteManagerInterface */
     protected $voteManager;
 
+    /** @var PollInterface */
+    protected $current;
+
     /**
      * PollManager constructor.
      * @param Provider\PollProviderInterface $pollProvider
@@ -56,11 +60,20 @@ class PollManager implements
     /**
      * @param $idOrCode
      * @param null $relation
-     * @return mixed
+     * @return mixed|PollInterface
      */
     public function find($idOrCode, $relation = null)
     {
-        return $this->pollProvider->find($idOrCode, $relation);
+        $this->current = $this->pollProvider->find($idOrCode, $relation);
+        return $this->current;
+    }
+
+    /**
+     * @return PollInterface
+     */
+    public function current()
+    {
+        return $this->current;
     }
 
     /**
@@ -70,7 +83,10 @@ class PollManager implements
      */
     public function vote($id, $relation = null)
     {
-        return $this->voteManager->write($id, $relation);
+        /** @var boolean $result */
+        $result = $this->voteManager->write($id, $relation);
+        $this->current = $this->find($id, $relation);
+        return $result;
     }
 
     /**

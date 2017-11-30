@@ -17,7 +17,6 @@ use Zend\Mvc\Controller\Plugin\AbstractPlugin;
  */
 class PollPlugin extends AbstractPlugin
 {
-
     /** @var  PollManagerInterface */
     protected $pollManager;
 
@@ -60,5 +59,13 @@ class PollPlugin extends AbstractPlugin
         }
 
         return false;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function current()
+    {
+        return $this->pollManager->current();
     }
 }
