@@ -8,6 +8,7 @@ namespace MSBios\Voting\Doctrine\Controller\Plugin;
 
 use MSBios\Voting\Controller\Plugin\PollPlugin as DefaultPollPlugin;
 use MSBios\Voting\PollManagerInterface;
+use MSBios\Voting\Resource\Doctrine\Entity\PollInterface;
 use Zend\InputFilter\InputFilterInterface;
 use Zend\Mvc\Controller\Plugin\AbstractPlugin;
 
@@ -17,11 +18,14 @@ use Zend\Mvc\Controller\Plugin\AbstractPlugin;
  */
 class PollPlugin extends AbstractPlugin
 {
-    /** @var  PollManagerInterface */
+    /** @var PollManagerInterface */
     protected $pollManager;
 
-    /** @var  InputFilterInterface */
+    /** @var InputFilterInterface */
     protected $inputFilter;
+
+    /** @var PollInterface */
+    protected $current;
 
     /**
      * PollPlugin constructor.
@@ -52,20 +56,29 @@ class PollPlugin extends AbstractPlugin
         if ($this->inputFilter->isValid()) {
             /** @var array $data */
             $data = $this->inputFilter->getValues();
-            return $this->pollManager->vote(
+
+            /** @var boolean $result */
+            $result = $this->pollManager->vote(
                 $data['poll_option_identifier'],
                 $data['poll_relation']
             );
+
+            $this->current = $this->pollManager->find(
+                $data['poll_identifier'],
+                $data['poll_relation']
+            );
+
+            return $result;
         }
 
         return false;
     }
 
     /**
-     * @return mixed
+     * @return PollInterface
      */
     public function current()
     {
-        return $this->pollManager->current();
+        return $this->current;
     }
 }

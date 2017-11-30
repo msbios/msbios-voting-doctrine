@@ -28,7 +28,6 @@ class RepositoryVoter implements VoteInterface, ObjectManagerAwareInterface
      */
     public function write($id, $relation = null)
     {
-
         /** @var ObjectManager $dem */
         $dem = $this->getObjectManager();
 

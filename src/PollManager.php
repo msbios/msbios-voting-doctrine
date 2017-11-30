@@ -38,9 +38,6 @@ class PollManager implements
     /** @var VoteManagerInterface */
     protected $voteManager;
 
-    /** @var PollInterface */
-    protected $current;
-
     /**
      * PollManager constructor.
      * @param Provider\PollProviderInterface $pollProvider
@@ -60,20 +57,11 @@ class PollManager implements
     /**
      * @param $idOrCode
      * @param null $relation
-     * @return mixed|PollInterface
+     * @return mixed
      */
     public function find($idOrCode, $relation = null)
     {
-        $this->current = $this->pollProvider->find($idOrCode, $relation);
-        return $this->current;
-    }
-
-    /**
-     * @return PollInterface
-     */
-    public function current()
-    {
-        return $this->current;
+        return $this->pollProvider->find($idOrCode, $relation);
     }
 
     /**
@@ -83,10 +71,7 @@ class PollManager implements
      */
     public function vote($id, $relation = null)
     {
-        /** @var boolean $result */
-        $result = $this->voteManager->write($id, $relation);
-        $this->current = $this->find($id, $relation);
-        return $result;
+        return $this->voteManager->write($id, $relation);
     }
 
     /**
