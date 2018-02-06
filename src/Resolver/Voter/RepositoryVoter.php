@@ -3,6 +3,7 @@
  * @access protected
  * @author Judzhin Miles <info[woof-woof]msbios.com>
  */
+
 namespace MSBios\Voting\Doctrine\Resolver\Voter;
 
 use Doctrine\Common\Persistence\ObjectManager;
@@ -12,6 +13,7 @@ use MSBios\Doctrine\ObjectManagerAwareTrait;
 use MSBios\Resource\Doctrine\EntityInterface;
 use MSBios\Voting\Doctrine\Resolver\VoteInterface;
 use MSBios\Voting\Resource\Doctrine\Entity;
+use MSBios\Voting\Resource\Entity\Vote;
 
 /**
  * Class RepositoryVoter
@@ -24,13 +26,12 @@ class RepositoryVoter implements VoteInterface, ObjectManagerAwareInterface
     /**
      * @param $id
      * @param null $relation
-     * @return mixed
+     * @return EntityInterface|Entity\Vote
      */
-    public function write($id, $relation = null)
+    protected function find($id, $relation = null)
     {
         /** @var ObjectManager $dem */
         $dem = $this->getObjectManager();
-
         /** @var EntityInterface $option */
         $option = $dem->find(Entity\Option::class, $id);
 
@@ -83,9 +84,96 @@ class RepositoryVoter implements VoteInterface, ObjectManagerAwareInterface
             }
         }
 
+        return $vote;
+    }
+
+    /**
+     * @param $id
+     * @param null $relation
+     * @return mixed
+     */
+    public function write($id, $relation = null)
+    {
+        ///** @var ObjectManager $dem */
+        //$dem = $this->getObjectManager();
+        //
+        ///** @var EntityInterface $option */
+        //$option = $dem->find(Entity\Option::class, $id);
+        //
+        //if (empty($relation)) {
+        //
+        //    /** @var ObjectRepository $repository */
+        //    $repository = $dem->getRepository(Entity\Vote::class);
+        //
+        //    /** @var EntityInterface $vote */
+        //    $vote = $repository->findOneBy(['option' => $option]);
+        //
+        //    if (!$vote) {
+        //
+        //        /** @var EntityInterface $vote */
+        //        $vote = new Entity\Vote;
+        //        $vote->setPoll($option->getPoll())
+        //            ->setOption($option)
+        //            ->setCreatedAt(new \DateTime('now'))
+        //            ->setModifiedAt(new \DateTime('now'));
+        //
+        //        $dem->persist($vote);
+        //        $dem->flush();
+        //    }
+        //} else {
+        //
+        //    /** @var EntityInterface $poll */
+        //    $poll = $dem->getRepository(Entity\Poll\Relation::class)->findOneBy([
+        //        'code' => $relation
+        //    ]);
+        //
+        //    /** @var ObjectRepository $repository */
+        //    $repository = $dem->getRepository(Entity\Vote\Relation::class);
+        //
+        //    /** @var EntityInterface $vote */
+        //    $vote = $repository->findOneBy([
+        //        'poll' => $poll,
+        //        'option' => $option
+        //    ]);
+        //
+        //    if (!$vote) {
+        //        /** @var EntityInterface $vote */
+        //        $vote = new Entity\Vote\Relation;
+        //        $vote->setPoll($poll)
+        //            ->setOption($option)
+        //            ->setCreatedAt(new \DateTime('now'))
+        //            ->setModifiedAt(new \DateTime('now'));
+        //
+        //        $dem->persist($vote);
+        //        $dem->flush();
+        //    }
+        //}
+
+        /** @var Vote $vote */
+        $vote = $this->find($id, $relation);
         $vote->setTotal(1 + $vote->getTotal())
             ->setModifiedAt(new \DateTime('now'));
 
+        /** @var ObjectManager $dem */
+        $dem = $this->getObjectManager();
+
+        $dem->merge($vote);
+        $dem->flush();
+    }
+
+    /**
+     * @param $id
+     * @param null $relation
+     */
+    public function undo($id, $relation = null)
+    {
+        /** @var Vote $vote */
+        $vote = $this->find($id, $relation);
+        $vote->setTotal($vote->getTotal() - 1)
+            ->setModifiedAt(new \DateTime('now'));
+
+        /** @var ObjectManager $dem */
+        $dem = $this->getObjectManager();
         $dem->merge($vote);
         $dem->flush();
     }

@@ -47,6 +47,23 @@ class VoteManager implements VoteManagerInterface
     }
 
     /**
+     * @param $id
+     * @param null $relation
+     * @return bool
+     */
+    public function undo($id, $relation = null)
+    {
+        if (count($this->queue)) {
+            /** @var VoteInterface $resolver */
+            foreach ($this->queue as $resolver) {
+                $resolver->undo($id, $relation);
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * @param VoteInterface $resolver
      * @param int $priority
      */

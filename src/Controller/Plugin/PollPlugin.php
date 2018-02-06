@@ -75,6 +75,16 @@ class PollPlugin extends AbstractPlugin
     }
 
     /**
+     * @param $id
+     * @param null $relation
+     * @return mixed
+     */
+    public function undo($id, $relation = null)
+    {
+        return $this->pollManager->undo($id, $relation);
+    }
+
+    /**
      * @return PollInterface
      */
     public function current()

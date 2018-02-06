@@ -6,6 +6,8 @@
  */
 namespace MSBios\Voting\Doctrine;
 
+use Zend\Router\Http\Method;
+use Zend\Router\Http\Segment;
 use Zend\ServiceManager\Factory\InvokableFactory;
 
 return [
@@ -17,6 +19,52 @@ return [
                     'user' => 'root',
                     'password' => 'root',
                     'dbname' => 'portal.dev',
+                ]
+            ],
+        ],
+    ],
+
+    'router' => [
+        'routes' => [
+            'home' => [
+                'may_terminate' => true,
+                'child_routes' => [
+                    'vote' => [
+                        'type' => Segment::class,
+                        'options' => [
+                            'route' => 'vote[/]',
+                            'defaults' => [
+                                'action' => 'vote'
+                            ],
+                        ],
+                        'may_terminate' => true,
+                        'child_routes' => [
+                            [
+                                'type' => Method::class,
+                                'options' => [
+                                    'verb' => 'post'
+                                ]
+                            ]
+                        ]
+                    ],
+                    'undo' => [
+                        'type' => Segment::class,
+                        'options' => [
+                            'route' => 'undo/:option_id[/[:relation[/]]]',
+                            'defaults' => [
+                                'action' => 'undo'
+                            ],
+                        ],
+                        'may_terminate' => true,
+                        'child_routes' => [
+                            [
+                                'type' => Method::class,
+                                'options' => [
+                                    'verb' => 'get'
+                                ]
+                            ]
+                        ]
+                    ],
                 ]
             ],
         ],

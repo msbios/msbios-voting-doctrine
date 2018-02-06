@@ -19,4 +19,11 @@ interface VoteInterface
      * @return mixed
      */
     public function write($id, $relation = null);
+
+    /**
+     * @param $id
+     * @param null $relation
+     * @return mixed
+     */
+    public function undo($id, $relation = null);
 }
