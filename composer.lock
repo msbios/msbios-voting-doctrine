@@ -1509,16 +1509,16 @@
         },
         {
             "name": "msbios/voting-resource-doctrine",
-            "version": "v1.0.49",
+            "version": "v1.0.50",
             "source": {
                 "type": "git",
                 "url": "https://github.com/msbios/msbios-voting-resource-doctrine.git",
-                "reference": "a73f61bee3a1f2ba4b11542f51eef5d409ecfd26"
+                "reference": "41f347da40192427a9516d378709b41c6eb2f004"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/msbios/msbios-voting-resource-doctrine/zipball/a73f61bee3a1f2ba4b11542f51eef5d409ecfd26",
-                "reference": "a73f61bee3a1f2ba4b11542f51eef5d409ecfd26",
+                "url": "https://api.github.com/repos/msbios/msbios-voting-resource-doctrine/zipball/41f347da40192427a9516d378709b41c6eb2f004",
+                "reference": "41f347da40192427a9516d378709b41c6eb2f004",
                 "shasum": ""
             },
             "require": {
@@ -1559,7 +1559,7 @@
             "keywords": [
                 "php"
             ],
-            "time": "2018-02-06T11:29:16+00:00"
+            "time": "2018-02-07T13:01:18+00:00"
         },
         {
             "name": "psr/container",
@@ -3659,6 +3659,56 @@
             "time": "2016-11-11T18:43:20+00:00"
         },
         {
+            "name": "matycz/lemo-tracy",
+            "version": "1.0.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/MatyCZ/LemoTracy.git",
+                "reference": "6ede8092a423afe93f41cd5c29a01dcdf8497f63"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MatyCZ/LemoTracy/zipball/6ede8092a423afe93f41cd5c29a01dcdf8497f63",
+                "reference": "6ede8092a423afe93f41cd5c29a01dcdf8497f63",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.5 || ^7.0",
+                "tracy/tracy": "2.*",
+                "zendframework/zend-eventmanager": "2.* || 3.*",
+                "zendframework/zend-loader": "2.* || 3.*",
+                "zendframework/zend-modulemanager": "2.* || 3.*",
+                "zendframework/zend-servicemanager": "2.* || 3.*",
+                "zendframework/zend-stdlib": "2.* || 3.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "LemoTracy": "src/"
+                },
+                "classmap": [
+                    "./Module.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Matej Szendi",
+                    "email": "matej.szendi@outlook.cz"
+                }
+            ],
+            "description": "Tracy integration to Zend Framework 2",
+            "homepage": "https://github.com/MatyCZ/LemoTracy",
+            "keywords": [
+                "tracy",
+                "zf2"
+            ],
+            "time": "2016-11-22T07:58:02+00:00"
+        },
+        {
             "name": "mockery/mockery",
             "version": "1.0",
             "source": {
@@ -4173,31 +4223,30 @@
         },
         {
             "name": "msbios/debug",
-            "version": "v1.0.0",
+            "version": "v1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/msbios/msbios-debug.git",
-                "reference": "ba3bcea06e871a06864cbd6403c78cd8e2942fbd"
+                "reference": "19193c62d59b12bbb0237a07e77fe88e47f7c06e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/msbios/msbios-debug/zipball/ba3bcea06e871a06864cbd6403c78cd8e2942fbd",
-                "reference": "ba3bcea06e871a06864cbd6403c78cd8e2942fbd",
+                "url": "https://api.github.com/repos/msbios/msbios-debug/zipball/19193c62d59b12bbb0237a07e77fe88e47f7c06e",
+                "reference": "19193c62d59b12bbb0237a07e77fe88e47f7c06e",
                 "shasum": ""
             },
             "require": {
                 "digitalnature/php-ref": "^1.2",
                 "jhuet/zdt-logger-module": "^1.0",
-                "msbios/msbios": "~1.0",
+                "matycz/lemo-tracy": "^1.0",
+                "msbios/msbios": "^1.0",
                 "san/san-session-toolbar": "^1.0",
                 "zendframework/zend-debug": "^2.5",
                 "zendframework/zend-developer-tools": "^1.1",
                 "zfcampus/zf-development-mode": "^3.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^5.7",
-                "squizlabs/php_codesniffer": "^3.0",
-                "zendframework/zend-test": "^3.1"
+                "msbios/test": "^1.0"
             },
             "type": "library",
             "autoload": {
@@ -4207,7 +4256,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "GPL"
+                "MIT"
             ],
             "authors": [
                 {
@@ -4220,7 +4269,7 @@
             "keywords": [
                 "php"
             ],
-            "time": "2017-09-09T19:27:54+00:00"
+            "time": "2018-02-07T10:54:39+00:00"
         },
         {
             "name": "msbios/guard",
@@ -6586,6 +6635,71 @@
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
             "time": "2018-01-21T19:06:11+00:00"
+        },
+        {
+            "name": "tracy/tracy",
+            "version": "v2.4.11",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nette/tracy.git",
+                "reference": "bcb93a9d4347be8779c83b200b64ea6f52d6f9ed"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nette/tracy/zipball/bcb93a9d4347be8779c83b200b64ea6f52d6f9ed",
+                "reference": "bcb93a9d4347be8779c83b200b64ea6f52d6f9ed",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-session": "*",
+                "php": ">=5.4.4"
+            },
+            "require-dev": {
+                "nette/di": "~2.3",
+                "nette/tester": "~1.7"
+            },
+            "suggest": {
+                "https://nette.org/donate": "Please support Tracy via a donation"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.4-dev"
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    "src"
+                ],
+                "files": [
+                    "src/shortcuts.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "David Grudl",
+                    "homepage": "https://davidgrudl.com"
+                },
+                {
+                    "name": "Nette Community",
+                    "homepage": "https://nette.org/contributors"
+                }
+            ],
+            "description": "😎 Tracy: the addictive tool to ease debugging PHP code for cool developers. Friendly design, logging, profiler, advanced features like debugging AJAX calls or CLI support. You will love it.",
+            "homepage": "https://tracy.nette.org",
+            "keywords": [
+                "Xdebug",
+                "debug",
+                "debugger",
+                "nette",
+                "profiler"
+            ],
+            "time": "2018-02-01T18:11:38+00:00"
         },
         {
             "name": "webmozart/assert",

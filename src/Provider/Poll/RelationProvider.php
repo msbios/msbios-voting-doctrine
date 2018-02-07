@@ -8,8 +8,6 @@ namespace MSBios\Voting\Doctrine\Provider\Poll;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Persistence\ObjectRepository;
-use DoctrineModule\Persistence\ObjectManagerAwareInterface;
-use MSBios\Doctrine\ObjectManagerAwareTrait;
 use MSBios\Resource\Doctrine\EntityInterface;
 use MSBios\Voting\Doctrine\Provider\PollProvider;
 use MSBios\Voting\Resource\Doctrine\Entity\Poll\Relation;
@@ -19,11 +17,8 @@ use MSBios\Voting\Resource\Doctrine\Entity\Poll\Relation;
  * @package MSBios\Voting\Doctrine\Provider\Poll
  */
 class RelationProvider extends PollProvider implements
-    RelationProviderInterface,
-    ObjectManagerAwareInterface
+    RelationProviderInterface
 {
-    use ObjectManagerAwareTrait;
-
     /**
      * @param $idOrCode
      * @param null $relation

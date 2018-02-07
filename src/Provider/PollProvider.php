@@ -5,7 +5,6 @@
  */
 namespace MSBios\Voting\Doctrine\Provider;
 
-use Doctrine\Common\Persistence\ObjectManager;
 use DoctrineModule\Persistence\ObjectManagerAwareInterface;
 use MSBios\Doctrine\ObjectManagerAwareTrait;
 use MSBios\Voting\Resource\Doctrine\Entity\Poll;
@@ -26,15 +25,8 @@ class PollProvider implements
      */
     public function find($idOrCode)
     {
-        /** @var ObjectManager $dem */
-        $dem = $this->getObjectManager();
-
-        if (is_numeric($idOrCode)) {
-            return $dem->find(Poll::class, $idOrCode);
-        }
-
-        return $dem->getRepository(Poll::class)->findOneBy([
-            'code' => $idOrCode
-        ]);
+        return $this->getObjectManager()
+            ->getRepository(Poll::class)
+            ->find($idOrCode);
     }
 }
