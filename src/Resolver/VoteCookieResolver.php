@@ -6,18 +6,17 @@
 
 namespace MSBios\Voting\Doctrine\Resolver;
 
-use Doctrine\Common\Persistence\ObjectManager;
 use DoctrineModule\Persistence\ObjectManagerAwareInterface;
 use MSBios\Doctrine\ObjectManagerAwareTrait;
-use MSBios\Resource\Doctrine\EntityInterface;
-use MSBios\Voting\Doctrine\Resolver\VoteInterface;
 use MSBios\Voting\Resource\Doctrine\Entity;
 
 /**
  * Class VoteCookieResolver
  * @package MSBios\Voting\Doctrine\Resolver\Voter
  */
-class VoteCookieResolver implements VoteInterface, ObjectManagerAwareInterface
+class VoteCookieResolver implements
+    VoteInterface,
+    ObjectManagerAwareInterface
 {
     use ObjectManagerAwareTrait;
 

@@ -3,6 +3,7 @@
  * @access protected
  * @author Judzhin Miles <info[woof-woof]msbios.com>
  */
+
 namespace MSBios\Voting\Doctrine\Factory;
 
 use Interop\Container\ContainerInterface;
@@ -39,8 +40,8 @@ class CheckResolverFactory implements FactoryInterface
          * @var int $priority
          */
         foreach ($options->get('check_resolvers') as $resolver => $priority) {
-            if (! $container->has($resolver)) {
-                throw new ResolverServiceException('Resolver Service is not found in Service Locator.');
+            if (!$container->has($resolver)) {
+                throw new ResolverServiceException("Resolver '{$resolver}' Service is not found in Service Locator.");
             }
             $resolverManager->attach($container->get($resolver), $priority);
         }

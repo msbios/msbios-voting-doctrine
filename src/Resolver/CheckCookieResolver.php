@@ -9,9 +9,8 @@ use MSBios\Voting\Resource\Doctrine\Entity\PollInterface;
 use MSBios\Voting\Resource\Doctrine\Entity\RelationInterface;
 
 /**
- * Class CookieChecker
- * @package MSBios\Voting\Doctrine\Resolver\Checker
- * @TODO: Переделать на Zend\Http\Cookie
+ * Class CheckCookieResolver
+ * @package MSBios\Voting\Doctrine\Resolver
  */
 class CheckCookieResolver implements CheckInterface
 {

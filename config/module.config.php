@@ -30,7 +30,12 @@ return [
                 Factory\VoteResolverFactory::class,
 
             // Resolvers
+            Resolver\CheckCookieResolver::class =>
+                InvokableFactory::class,
             Resolver\CheckRepositoryResolver::class =>
+                InvokableFactory::class,
+
+            Resolver\VoteCookieResolver::class =>
                 InvokableFactory::class,
             Resolver\VoteRepositoryResolver::class =>
                 InvokableFactory::class
