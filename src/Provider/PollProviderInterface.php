@@ -13,7 +13,8 @@ interface PollProviderInterface
 {
     /**
      * @param $idOrCode
+     * @param null $relation
      * @return mixed
      */
-    public function find($idOrCode);
+    public function find($idOrCode, $relation = null);
 }

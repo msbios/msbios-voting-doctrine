@@ -20,7 +20,7 @@ return [
                 Factory\VoteManagerFactory::class,
 
             // Providers
-            Provider\Poll\RelationProvider::class =>
+            Provider\PollProvider::class =>
                 InvokableFactory::class,
 
             // Resolver Managers
@@ -87,7 +87,7 @@ return [
          * Expects: string
          * Default: MSBios\Voting\Doctrine\Provider\Poll\RelationProvider
          */
-        'poll_provider' => Provider\Poll\RelationProvider::class,
+        'poll_provider' => Provider\PollProvider::class,
 
         /**
          *
