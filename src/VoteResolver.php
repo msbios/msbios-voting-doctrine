@@ -40,7 +40,7 @@ class VoteResolver implements VoteResolverInterface
         if (count($this->queue)) {
             /** @var VoteInterface $resolver */
             foreach ($this->queue as $resolver) {
-                 if ($resource = $resolver->vote($option, $relation)) {
+                if ($resource = $resolver->vote($option, $relation)) {
                     return $resource;
                 }
             }

@@ -151,4 +151,30 @@ return [
                 __DIR__ . '/../../vendor/msbios/cpanel/themes/limitless/public/assets/images/logo_light_msbios.png',
         ],
     ],
+
+    \MSBios\Voting\Module::class => [
+
+        /**
+         *
+         * Expects: array
+         * Default: [
+         *     Resolver\VoteRepositoryResolver::class => -100
+         * ]
+         */
+        'vote_resolvers' => [
+            Resolver\CheckCookieResolver::class => -100,
+            Resolver\VoteRepositoryResolver::class => -100
+        ],
+
+        /**
+         *
+         * Expects: array
+         * Default: [
+         *     Resolver\CheckRepositoryResolver::class => -100
+         * ]
+         */
+        'check_resolvers' => [
+            Resolver\CheckRepositoryResolver::class => -100
+        ]
+    ]
 ];

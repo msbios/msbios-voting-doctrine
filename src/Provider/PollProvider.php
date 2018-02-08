@@ -17,7 +17,7 @@ use MSBios\Voting\Resource\Doctrine\Entity\PollInterface;
  * @package MSBios\Voting\Doctrine\Provider
  */
 class PollProvider implements
-   PollProviderInterface,
+    PollProviderInterface,
     ObjectManagerAwareInterface
 {
     use ObjectManagerAwareTrait;

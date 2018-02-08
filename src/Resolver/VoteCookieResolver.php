@@ -4,7 +4,7 @@
  * @author Judzhin Miles <info[woof-woof]msbios.com>
  */
 
-namespace MSBios\Voting\Doctrine\Resolver\Voter;
+namespace MSBios\Voting\Doctrine\Resolver;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use DoctrineModule\Persistence\ObjectManagerAwareInterface;
@@ -22,37 +22,37 @@ class VoteCookieResolver implements VoteInterface, ObjectManagerAwareInterface
     use ObjectManagerAwareTrait;
 
     /**
-     * @param $id
+     * @param Entity\OptionInterface $option
+     * @param null $relation
+     * @return string
+     */
+    protected function hash(Entity\OptionInterface $option, $relation = null)
+    {
+        return md5($option->getPoll()->getId() . md5($relation));
+    }
+
+    /**
+     * @param Entity\OptionInterface $option
      * @param null $relation
      */
-    public function vote($id, $relation = null)
+    public function vote(Entity\OptionInterface $option, $relation = null)
     {
-        /** @var ObjectManager $dem */
-        $dem = $this->getObjectManager();
-        $poll = $dem->getRepository(Entity\Poll\Relation::class)->findOneBy([
-            'code' => $relation
-        ]);
-
-        if (! $poll) {
-            /** @var EntityInterface $poll */
-            $option = $dem->find(Entity\Option::class, $id);
-            $poll = $option->getPoll();
-        }
-
         /** @var string $key */
-        $key = md5($poll->getId() . md5($relation));
-
-        // r($key); die(); // 54f79c7761bedeec293df09c0599f882
-
+        $key = $this->hash($option, $relation);
         setcookie($key, 1, time() + 60 * 60 * 24 * 365);
     }
 
     /**
-     * @param $id
+     * @param Entity\OptionInterface $option
      * @param null $relation
      */
-    public function undo($id, $relation = null)
+    public function undo(Entity\OptionInterface $option, $relation = null)
     {
-        // TODO: Implement undo() method.
+        /** @var string $key */
+        $key = $this->hash($option, $relation);
+        if (isset($_COOKIE[$key])) {
+            unset($_COOKIE[$key]);
+            setcookie($key, null, -1);
+        }
     }
 }

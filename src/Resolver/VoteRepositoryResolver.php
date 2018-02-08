@@ -118,5 +118,4 @@ class VoteRepositoryResolver implements VoteInterface, ObjectManagerAwareInterfa
         $dem->merge($vote);
         $dem->flush();
     }
-
 }

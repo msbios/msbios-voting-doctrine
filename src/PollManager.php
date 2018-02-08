@@ -16,6 +16,7 @@ use MSBios\Voting\Doctrine\Resolver\VoteManagerInterface;
 use MSBios\Voting\PollManagerInterface;
 use MSBios\Voting\Resource\Doctrine\Entity\Option;
 use MSBios\Voting\Resource\Doctrine\Entity\OptionInterface;
+use MSBios\Voting\Resource\Doctrine\Entity\PollInterface;
 use MSBios\Voting\VoteManagerAwareInterface;
 use MSBios\Voting\VoteManagerAwareTrait;
 
@@ -74,24 +75,23 @@ class PollManager implements
      */
     public function undo($id, $relation = null)
     {
-        // return $this->voteManager->undo($id, $relation);
         $this->getVoteManager()->undo();
     }
 
     /**
-     * @param ObjectInterface $poll
+     * @param PollInterface $poll
      * @return mixed
      */
-    public function isVoted(ObjectInterface $poll)
+    public function isVoted(PollInterface $poll)
     {
         return $this->getVoteManager()->check($poll);
     }
 
     /**
-     * @param ObjectInterface $poll
+     * @param PollInterface $poll
      * @return mixed
      */
-    public function votes(ObjectInterface $poll)
+    public function votes(PollInterface $poll)
     {
         /** @var string $className */
         $className = get_class($poll);
