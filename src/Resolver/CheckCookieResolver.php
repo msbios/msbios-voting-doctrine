@@ -3,10 +3,9 @@
  * @access protected
  * @author Judzhin Miles <info[woof-woof]msbios.com>
  */
-namespace MSBios\Voting\Doctrine\Resolver\Checker;
+namespace MSBios\Voting\Doctrine\Resolver;
 
-use MSBios\Stdlib\ObjectInterface;
-use MSBios\Voting\Doctrine\Resolver\CheckInterface;
+use MSBios\Voting\Resource\Doctrine\Entity\PollInterface;
 use MSBios\Voting\Resource\Doctrine\Entity\RelationInterface;
 
 /**
@@ -14,13 +13,13 @@ use MSBios\Voting\Resource\Doctrine\Entity\RelationInterface;
  * @package MSBios\Voting\Doctrine\Resolver\Checker
  * @TODO: Переделать на Zend\Http\Cookie
  */
-class CookieChecker implements CheckInterface
+class CheckCookieResolver implements CheckInterface
 {
     /**
-     * @param ObjectInterface $poll
+     * @param PollInterface $poll
      * @return bool
      */
-    public function check(ObjectInterface $poll)
+    public function check(PollInterface $poll)
     {
         /** @var string $relation */
         $relation = '';

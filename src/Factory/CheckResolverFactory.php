@@ -6,30 +6,30 @@
 namespace MSBios\Voting\Doctrine\Factory;
 
 use Interop\Container\ContainerInterface;
+use MSBios\Voting\Doctrine\CheckResolver;
+use MSBios\Voting\Doctrine\CheckResolverInterface;
 use MSBios\Voting\Doctrine\Exception\ResolverServiceException;
-use MSBios\Voting\Doctrine\Resolver\CheckManager;
-use MSBios\Voting\Doctrine\Resolver\CheckManagerInterface;
 use MSBios\Voting\Module;
 use Zend\Config\Config;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
 /**
- * Class CheckManagerFactory
+ * Class CheckResolverFactory
  * @package MSBios\Voting\Doctrine\Factory
  */
-class CheckManagerFactory implements FactoryInterface
+class CheckResolverFactory implements FactoryInterface
 {
     /**
      * @param ContainerInterface $container
      * @param string $requestedName
      * @param array|null $options
-     * @return CheckManager|CheckManagerInterface
+     * @return CheckResolver|CheckResolverInterface
      * @throws ResolverServiceException
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        /** @var CheckManagerInterface $resolverManager */
-        $resolverManager = new CheckManager;
+        /** @var CheckResolverInterface $resolverManager */
+        $resolverManager = new CheckResolver;
 
         /** @var Config $options */
         $options = $container->get(Module::class);

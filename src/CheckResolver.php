@@ -3,16 +3,17 @@
  * @access protected
  * @author Judzhin Miles <info[woof-woof]msbios.com>
  */
-namespace MSBios\Voting\Doctrine\Resolver;
+namespace MSBios\Voting\Doctrine;
 
-use MSBios\Stdlib\ObjectInterface;
+use MSBios\Voting\Doctrine\Resolver\CheckInterface;
+use MSBios\Voting\Resource\Doctrine\Entity\PollInterface;
 use Zend\Stdlib\PriorityQueue;
 
 /**
- * Class CheckManager
- * @package MSBios\Voting\Doctrine\Resolver
+ * Class CheckResolver
+ * @package MSBios\Voting\Doctrine
  */
-class CheckManager implements CheckManagerInterface
+class CheckResolver implements CheckResolverInterface
 {
     /**
      * @var PriorityQueue|CheckInterface[]
@@ -30,10 +31,10 @@ class CheckManager implements CheckManagerInterface
     }
 
     /**
-     * @param $value
-     * @return mixed|null
+     * @param PollInterface $poll
+     * @return bool
      */
-    public function check(ObjectInterface $poll)
+    public function check(PollInterface $poll)
     {
         if (count($this->queue)) {
             /** @var CheckInterface $resolver */
@@ -50,9 +51,11 @@ class CheckManager implements CheckManagerInterface
     /**
      * @param CheckInterface $resolver
      * @param int $priority
+     * @return $this
      */
     public function attach(CheckInterface $resolver, $priority = 1)
     {
         $this->queue->insert($resolver, $priority);
+        return $this;
     }
 }

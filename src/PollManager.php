@@ -9,13 +9,15 @@ namespace MSBios\Voting\Doctrine;
 use DoctrineModule\Persistence\ObjectManagerAwareInterface;
 use MSBios\Doctrine\ObjectManagerAwareTrait;
 use MSBios\Form\FormElementAwareTrait;
-use MSBios\Resource\Doctrine\EntityInterface;
 use MSBios\Stdlib\ObjectInterface;
 use MSBios\Voting\Doctrine\Provider;
 use MSBios\Voting\Doctrine\Resolver\CheckManagerInterface;
 use MSBios\Voting\Doctrine\Resolver\VoteManagerInterface;
 use MSBios\Voting\PollManagerInterface;
-use MSBios\Voting\Resource\Doctrine\Entity\PollInterface;
+use MSBios\Voting\Resource\Doctrine\Entity\Option;
+use MSBios\Voting\Resource\Doctrine\Entity\OptionInterface;
+use MSBios\Voting\VoteManagerAwareInterface;
+use MSBios\Voting\VoteManagerAwareTrait;
 
 /**
  * Class PollManager
@@ -24,34 +26,24 @@ use MSBios\Voting\Resource\Doctrine\Entity\PollInterface;
  */
 class PollManager implements
     PollManagerInterface,
-    ObjectManagerAwareInterface
+    ObjectManagerAwareInterface,
+    VoteManagerAwareInterface
 {
     use ObjectManagerAwareTrait;
     use FormElementAwareTrait;
+    use VoteManagerAwareTrait;
 
     /** @var Provider\PollProviderInterface */
     protected $pollProvider;
 
-    /** @var CheckManagerInterface */
-    protected $checkManager;
-
-    /** @var VoteManagerInterface */
-    protected $voteManager;
-
     /**
      * PollManager constructor.
      * @param Provider\PollProviderInterface $pollProvider
-     * @param VoteManagerInterface $voteManager
-     * @param CheckManagerInterface $checkManager
      */
     public function __construct(
-        Provider\PollProviderInterface $pollProvider,
-        VoteManagerInterface $voteManager,
-        CheckManagerInterface $checkManager
+        Provider\PollProviderInterface $pollProvider
     ) {
         $this->pollProvider = $pollProvider;
-        $this->voteManager = $voteManager;
-        $this->checkManager = $checkManager;
     }
 
     /**
@@ -67,11 +59,12 @@ class PollManager implements
     /**
      * @param $id
      * @param null $relation
-     * @return mixed
      */
     public function vote($id, $relation = null)
     {
-        return $this->voteManager->write($id, $relation);
+        /** @var OptionInterface $option */
+        $option = $this->getObjectManager()->find(Option::class, $id);
+        $this->getVoteManager()->vote($option, $relation);
     }
 
     /**
@@ -81,7 +74,8 @@ class PollManager implements
      */
     public function undo($id, $relation = null)
     {
-        return $this->voteManager->undo($id, $relation);
+        // return $this->voteManager->undo($id, $relation);
+        $this->getVoteManager()->undo();
     }
 
     /**
@@ -90,7 +84,7 @@ class PollManager implements
      */
     public function isVoted(ObjectInterface $poll)
     {
-        return $this->checkManager->check($poll);
+        return $this->getVoteManager()->check($poll);
     }
 
     /**

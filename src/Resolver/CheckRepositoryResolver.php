@@ -8,14 +8,17 @@ namespace MSBios\Voting\Doctrine\Resolver;
 use MSBios\Voting\Resource\Doctrine\Entity\PollInterface;
 
 /**
- * Interface CheckInterface
+ * Class CheckRepositoryResolver
  * @package MSBios\Voting\Doctrine\Resolver
  */
-interface CheckInterface
+class CheckRepositoryResolver implements CheckInterface
 {
     /**
      * @param PollInterface $poll
-     * @return mixed
+     * @return bool
      */
-    public function check(PollInterface $poll);
+    public function check(PollInterface $poll)
+    {
+        return false;
+    }
 }

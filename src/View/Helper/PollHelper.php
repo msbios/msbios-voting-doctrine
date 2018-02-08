@@ -7,7 +7,9 @@ namespace MSBios\Voting\Doctrine\View\Helper;
 
 use MSBios\Stdlib\ObjectInterface;
 use MSBios\Voting\Doctrine\Form\PollForm;
-use MSBios\Voting\PollManagerInterface;
+use MSBios\Voting\PollManagerAwareInterface;
+use MSBios\Voting\PollManagerAwareTrait;
+use MSBios\Voting\Resource\Doctrine\Entity\PollInterface;
 use Zend\Form\FormInterface;
 use Zend\View\Helper\AbstractHelper;
 
@@ -15,22 +17,20 @@ use Zend\View\Helper\AbstractHelper;
  * Class PollHelper
  * @package MSBios\Voting\Doctrine\View\Helper
  */
-class PollHelper extends AbstractHelper
+class PollHelper extends AbstractHelper implements
+    PollManagerAwareInterface
 {
-    /** @var PollManagerInterface  */
-    protected $pollManager;
+    use PollManagerAwareTrait;
 
     /** @var PollForm */
     protected $formElement;
 
     /**
      * PollHelper constructor.
-     * @param PollManagerInterface $pollManager
      * @param PollForm $formElement
      */
-    public function __construct(PollManagerInterface $pollManager, PollForm $formElement)
+    public function __construct(PollForm $formElement)
     {
-        $this->pollManager = $pollManager;
         $this->formElement = $formElement;
     }
 
@@ -43,18 +43,18 @@ class PollHelper extends AbstractHelper
     }
 
     /**
-     * @param $id
+     * @param $idOrCode
      * @param null $relation
-     * @return \MSBios\Stdlib\ObjectInterface
+     * @return PollInterface
      */
-    public function find($id, $relation = null)
+    public function find($idOrCode, $relation = null)
     {
         $this->formElement->setData([
-            'poll_identifier' => $id,
+            'poll_identifier' => $idOrCode,
             'poll_relation' => $relation
         ]);
 
-        return $this->pollManager->find($id, $relation);
+        return $this->getPollManager()->find($idOrCode, $relation);
     }
 
     /**
@@ -66,20 +66,20 @@ class PollHelper extends AbstractHelper
     }
 
     /**
-     * @param ObjectInterface $poll
+     * @param PollInterface $poll
      * @return mixed
      */
-    public function isVoted(ObjectInterface $poll)
+    public function isVoted(PollInterface $poll)
     {
-        return $this->pollManager->isVoted($poll);
+        return $this->getPollManager()->isVoted($poll);
     }
 
     /**
-     * @param ObjectInterface $poll
+     * @param PollInterface $poll
      * @return mixed
      */
-    public function votes(ObjectInterface $poll)
+    public function votes(PollInterface $poll)
     {
-        return $this->pollManager->votes($poll);
+        return $this->getPollManager()->votes($poll);
     }
 }

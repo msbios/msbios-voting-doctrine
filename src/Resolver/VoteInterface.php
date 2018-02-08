@@ -5,7 +5,7 @@
  */
 namespace MSBios\Voting\Doctrine\Resolver;
 
-use MSBios\Stdlib\ObjectInterface;
+use MSBios\Voting\Resource\Doctrine\Entity\OptionInterface;
 
 /**
  * Interface VoteInterface
@@ -14,16 +14,16 @@ use MSBios\Stdlib\ObjectInterface;
 interface VoteInterface
 {
     /**
-     * @param $id
+     * @param OptionInterface $option
      * @param null $relation
      * @return mixed
      */
-    public function write($id, $relation = null);
+    public function vote(OptionInterface $option, $relation = null);
 
     /**
-     * @param $id
+     * @param OptionInterface $option
      * @param null $relation
      * @return mixed
      */
-    public function undo($id, $relation = null);
+    public function undo(OptionInterface $option, $relation = null);
 }

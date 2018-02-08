@@ -30,10 +30,7 @@ class PollManagerFactory implements FactoryInterface
         $options = $container->get(Module::class);
 
         return new PollManager(
-            $container->get($options->get('poll_provider')),
-            // $container->get($options->get('vote_provider')),
-            $container->get($options->get('vote_manager')),
-            $container->get($options->get('check_manager'))
+            $container->get($options->get('poll_provider'))
         );
     }
 }

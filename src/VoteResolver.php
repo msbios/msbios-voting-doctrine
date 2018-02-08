@@ -1,18 +1,19 @@
 <?php
 /**
  * @access protected
- * @author Judzhin Miles <info[woof-woof]msbios.com>
  */
-namespace MSBios\Voting\Doctrine\Resolver;
 
-use MSBios\Stdlib\ObjectInterface;
+namespace MSBios\Voting\Doctrine;
+
+use MSBios\Voting\Doctrine\Resolver\VoteInterface;
+use MSBios\Voting\Resource\Doctrine\Entity\OptionInterface;
 use Zend\Stdlib\PriorityQueue;
 
 /**
- * Class VoteManager
- * @package MSBios\Voting\Doctrine\Resolver
+ * Class VoteResolver
+ * @package MSBios\Voting\Doctrine
  */
-class VoteManager implements VoteManagerInterface
+class VoteResolver implements VoteResolverInterface
 {
     /**
      * @var PriorityQueue|VoteInterface[]
@@ -30,45 +31,39 @@ class VoteManager implements VoteManagerInterface
     }
 
     /**
-     * @param $id
+     * @param OptionInterface $option
      * @param null $relation
-     * @return bool
+     * @return mixed
      */
-    public function write($id, $relation = null)
+    public function vote(OptionInterface $option, $relation = null)
     {
         if (count($this->queue)) {
             /** @var VoteInterface $resolver */
             foreach ($this->queue as $resolver) {
-                $resolver->write($id, $relation);
+                 if ($resource = $resolver->vote($option, $relation)) {
+                    return $resource;
+                }
             }
         }
-
-        return true;
     }
 
     /**
-     * @param $id
+     * @param OptionInterface $option
      * @param null $relation
-     * @return bool
      */
-    public function undo($id, $relation = null)
+    public function undo(OptionInterface $option, $relation = null)
     {
-        if (count($this->queue)) {
-            /** @var VoteInterface $resolver */
-            foreach ($this->queue as $resolver) {
-                $resolver->undo($id, $relation);
-            }
-        }
-
-        return true;
+        // TODO: Implement undo() method.
     }
 
     /**
      * @param VoteInterface $resolver
      * @param int $priority
+     * @return mixed
      */
     public function attach(VoteInterface $resolver, $priority = 1)
     {
         $this->queue->insert($resolver, $priority);
+        return $this;
     }
 }

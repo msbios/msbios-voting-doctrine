@@ -3,18 +3,20 @@
  * @access protected
  * @author Judzhin Miles <info[woof-woof]msbios.com>
  */
-namespace MSBios\Voting\Doctrine\Resolver;
+namespace MSBios\Voting\Doctrine;
+
+use MSBios\Voting\Doctrine\Resolver\CheckInterface;
 
 /**
- * Interface ResolverManagerInterface
- * @package MSBios\Voting\Doctrine\Resolver
+ * Interface CheckResolverInterface
+ * @package MSBios\Voting\Doctrine
  */
-interface CheckManagerInterface extends CheckInterface
+interface CheckResolverInterface extends CheckInterface
 {
     /**
      * @param CheckInterface $resolver
      * @param int $priority
-     * @return mixed
+     * @return $this
      */
     public function attach(CheckInterface $resolver, $priority = 1);
 }

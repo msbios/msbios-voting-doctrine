@@ -14,10 +14,10 @@ use MSBios\Voting\Doctrine\Resolver\VoteInterface;
 use MSBios\Voting\Resource\Doctrine\Entity;
 
 /**
- * Class CookieVoter
+ * Class VoteCookieResolver
  * @package MSBios\Voting\Doctrine\Resolver\Voter
  */
-class CookieVoter implements VoteInterface, ObjectManagerAwareInterface
+class VoteCookieResolver implements VoteInterface, ObjectManagerAwareInterface
 {
     use ObjectManagerAwareTrait;
 
@@ -25,7 +25,7 @@ class CookieVoter implements VoteInterface, ObjectManagerAwareInterface
      * @param $id
      * @param null $relation
      */
-    public function write($id, $relation = null)
+    public function vote($id, $relation = null)
     {
         /** @var ObjectManager $dem */
         $dem = $this->getObjectManager();
@@ -45,5 +45,14 @@ class CookieVoter implements VoteInterface, ObjectManagerAwareInterface
         // r($key); die(); // 54f79c7761bedeec293df09c0599f882
 
         setcookie($key, 1, time() + 60 * 60 * 24 * 365);
+    }
+
+    /**
+     * @param $id
+     * @param null $relation
+     */
+    public function undo($id, $relation = null)
+    {
+        // TODO: Implement undo() method.
     }
 }

@@ -7,6 +7,8 @@
 
 namespace MSBios\Voting\Doctrine;
 
+use MSBios\Voting\Initializer\PollManagerInitializer;
+use MSBios\Voting\Initializer\VoteManagerInitializer;
 use Zend\ServiceManager\Factory\InvokableFactory;
 
 return [
@@ -14,29 +16,33 @@ return [
         'factories' => [
             PollManager::class =>
                 Factory\PollManagerFactory::class,
+            VoteManager::class =>
+                Factory\VoteManagerFactory::class,
 
             // Providers
             Provider\Poll\RelationProvider::class =>
                 InvokableFactory::class,
 
-            // Resolvers
-            Resolver\VoteManager::class =>
-                Factory\VoteManagerFactory::class,
-            Resolver\CheckManager::class =>
-                Factory\CheckManagerFactory::class,
+            // Resolver Managers
+            CheckResolver::class =>
+                Factory\CheckResolverFactory::class,
+            VoteResolver::class =>
+                Factory\VoteResolverFactory::class,
 
-            Resolver\Voter\CookieVoter::class =>
+            // Resolvers
+            Resolver\CheckRepositoryResolver::class =>
                 InvokableFactory::class,
-            Resolver\Voter\RepositoryVoter::class =>
-                InvokableFactory::class,
-            Resolver\Checker\CookieChecker::class =>
-                InvokableFactory::class,
-            Resolver\Checker\RepositoryChecker::class =>
+            Resolver\VoteRepositoryResolver::class =>
                 InvokableFactory::class
         ],
         'aliases' => [
             \MSBios\Voting\PollManager::class =>
                 PollManager::class,
+            \MSBios\Voting\VoteManager::class =>
+                VoteManager::class
+        ],
+        'initializers' => [
+            new VoteManagerInitializer
         ]
     ],
 
@@ -69,6 +75,9 @@ return [
         'aliases' => [
             'poll' => View\Helper\PollHelper::class
         ],
+        'initializers' => [
+            new PollManagerInitializer
+        ]
     ],
 
     \MSBios\Voting\Module::class => [
@@ -83,16 +92,16 @@ return [
         /**
          *
          * Expects: string
-         * Default: MSBios\Voting\Doctrine\CheckManager
+         * Default: MSBios\Voting\Doctrine\VoteResolver
          */
-        'vote_manager' => Resolver\VoteManager::class,
+        'vote_resolver' => VoteResolver::class,
 
         /**
          *
          * Expects: string
          * Default: MSBios\Voting\Doctrine\CheckManager
          */
-        'check_manager' => Resolver\CheckManager::class,
+        'check_resolver' => CheckResolver::class,
 
         /**
          *
@@ -102,18 +111,18 @@ return [
          * ]
          */
         'vote_resolvers' => [
-            Resolver\Voter\RepositoryVoter::class => -100
+            Resolver\VoteRepositoryResolver::class => -100
         ],
 
         /**
          *
          * Expects: array
          * Default: [
-         *     Resolver\Checker\RepositoryChecker::class => -100
+         *     Resolver\CheckRepositoryResolver::class => -100
          * ]
          */
         'check_resolvers' => [
-            Resolver\Checker\RepositoryChecker::class => -100
+            Resolver\CheckRepositoryResolver::class => -100
         ]
     ]
 ];
