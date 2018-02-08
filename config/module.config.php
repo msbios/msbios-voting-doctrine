@@ -85,7 +85,7 @@ return [
         /**
          *
          * Expects: string
-         * Default: MSBios\Voting\Doctrine\Provider\Poll\RelationProvider
+         * Default: MSBios\Voting\Doctrine\Provider\PollProvider
          */
         'poll_provider' => Provider\PollProvider::class,
 
@@ -99,7 +99,7 @@ return [
         /**
          *
          * Expects: string
-         * Default: MSBios\Voting\Doctrine\CheckManager
+         * Default: MSBios\Voting\Doctrine\CheckResolver
          */
         'check_resolver' => CheckResolver::class,
 
@@ -107,7 +107,7 @@ return [
          *
          * Expects: array
          * Default: [
-         *     Resolver\Voter\RepositoryVoter::class => -100
+         *     Resolver\VoteRepositoryResolver::class => -100
          * ]
          */
         'vote_resolvers' => [
