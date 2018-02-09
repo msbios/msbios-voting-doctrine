@@ -40,7 +40,9 @@ class VoteResolverFactory implements FactoryInterface
          */
         foreach ($options->get('vote_resolvers') as $resolver => $priority) {
             if (! $container->has($resolver)) {
-                throw new ResolverServiceNotFoundException('Resolver Service is not found in Service Locator.');
+                throw new ResolverServiceNotFoundException(
+                    "Resolver '{$resolver}' Service is not found in Service Locator."
+                );
             }
             $resolverManager->attach($container->get($resolver), $priority);
         }
