@@ -7,6 +7,7 @@
 
 namespace MSBios\Voting\Doctrine;
 
+use MSBios\Doctrine\Initializer\ObjectManagerInitializer;
 use MSBios\Voting\Initializer\PollManagerInitializer;
 use MSBios\Voting\Initializer\VoteManagerInitializer;
 use Zend\ServiceManager\Factory\InvokableFactory;
@@ -47,7 +48,10 @@ return [
                 VoteManager::class
         ],
         'initializers' => [
-            new VoteManagerInitializer
+            ObjectManagerInitializer::class =>
+                new ObjectManagerInitializer,
+            VoteManagerInitializer::class =>
+                new VoteManagerInitializer
         ]
     ],
 
