@@ -9,7 +9,7 @@ namespace MSBios\Voting\Doctrine\Factory;
 use Interop\Container\ContainerInterface;
 use MSBios\Voting\Doctrine\CheckResolver;
 use MSBios\Voting\Doctrine\CheckResolverInterface;
-use MSBios\Voting\Doctrine\Exception\ResolverServiceException;
+use MSBios\Voting\Doctrine\Exception\ResolverServiceNotFoundException;
 use MSBios\Voting\Module;
 use Zend\Config\Config;
 use Zend\ServiceManager\Factory\FactoryInterface;
@@ -25,7 +25,7 @@ class CheckResolverFactory implements FactoryInterface
      * @param string $requestedName
      * @param array|null $options
      * @return CheckResolver|CheckResolverInterface
-     * @throws ResolverServiceException
+     * @throws ResolverServiceNotFoundException
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
@@ -40,8 +40,10 @@ class CheckResolverFactory implements FactoryInterface
          * @var int $priority
          */
         foreach ($options->get('check_resolvers') as $resolver => $priority) {
-            if (!$container->has($resolver)) {
-                throw new ResolverServiceException("Resolver '{$resolver}' Service is not found in Service Locator.");
+            if (! $container->has($resolver)) {
+                throw new ResolverServiceNotFoundException(
+                    "Resolver '{$resolver}' Service is not found in Service Locator."
+                );
             }
             $resolverManager->attach($container->get($resolver), $priority);
         }

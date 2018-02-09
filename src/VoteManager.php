@@ -59,8 +59,6 @@ class VoteManager implements VoteManagerInterface
      */
     public function undo(OptionInterface $option, $relation = null)
     {
-        r($option);
-        die();
-        // return $this->voteResolver->vote($option, $relation);
+        return $this->voteResolver->undo($option, $relation);
     }
 }

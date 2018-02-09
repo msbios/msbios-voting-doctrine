@@ -58,6 +58,9 @@ return [
         ],
         'aliases' => [
             'poll' => Controller\Plugin\PollPlugin::class
+        ],
+        'initializers' => [
+            new PollManagerInitializer
         ]
     ],
 

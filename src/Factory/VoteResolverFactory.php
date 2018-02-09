@@ -6,7 +6,7 @@
 namespace MSBios\Voting\Doctrine\Factory;
 
 use Interop\Container\ContainerInterface;
-use MSBios\Voting\Doctrine\Exception\ResolverServiceException;
+use MSBios\Voting\Doctrine\Exception\ResolverServiceNotFoundException;
 use MSBios\Voting\Doctrine\VoteResolver;
 use MSBios\Voting\Doctrine\VoteResolverInterface;
 use MSBios\Voting\Module;
@@ -24,7 +24,7 @@ class VoteResolverFactory implements FactoryInterface
      * @param string $requestedName
      * @param array|null $options
      * @return VoteResolver|VoteResolverInterface
-     * @throws ResolverServiceException
+     * @throws ResolverServiceNotFoundException
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
@@ -40,7 +40,7 @@ class VoteResolverFactory implements FactoryInterface
          */
         foreach ($options->get('vote_resolvers') as $resolver => $priority) {
             if (! $container->has($resolver)) {
-                throw new ResolverServiceException('Resolver Service is not found in Service Locator.');
+                throw new ResolverServiceNotFoundException('Resolver Service is not found in Service Locator.');
             }
             $resolverManager->attach($container->get($resolver), $priority);
         }

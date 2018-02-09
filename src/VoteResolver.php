@@ -53,7 +53,14 @@ class VoteResolver implements VoteResolverInterface
      */
     public function undo(OptionInterface $option, $relation = null)
     {
-        // TODO: Implement undo() method.
+        if (count($this->queue)) {
+            /** @var VoteInterface $resolver */
+            foreach ($this->queue as $resolver) {
+                if ($resource = $resolver->undo($option, $relation)) {
+                    return $resource;
+                }
+            }
+        }
     }
 
     /**

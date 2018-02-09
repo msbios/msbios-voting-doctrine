@@ -6,11 +6,12 @@
 
 namespace MSBios\Voting\Doctrine\Exception;
 
+use Zend\ServiceManager\Exception\ServiceNotFoundException;
+
 /**
- * Class ResolverServiceException
+ * Class ResolverServiceNotFoundException
  * @package MSBios\Voting\Doctrine\Exception
  */
-class ResolverServiceException extends \Exception
+class ResolverServiceNotFoundException extends ServiceNotFoundException
 {
-
 }

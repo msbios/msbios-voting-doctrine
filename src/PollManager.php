@@ -75,7 +75,9 @@ class PollManager implements
      */
     public function undo($id, $relation = null)
     {
-        $this->getVoteManager()->undo();
+        /** @var OptionInterface $option */
+        $option = $this->getObjectManager()->find(Option::class, $id);
+        $this->getVoteManager()->undo($option, $relation);
     }
 
     /**

@@ -7,6 +7,8 @@
 namespace MSBios\Voting\Doctrine\Controller\Plugin;
 
 use MSBios\Voting\Controller\Plugin\PollPlugin as DefaultPollPlugin;
+use MSBios\Voting\PollManagerAwareInterface;
+use MSBios\Voting\PollManagerAwareTrait;
 use MSBios\Voting\PollManagerInterface;
 use MSBios\Voting\Resource\Doctrine\Entity\PollInterface;
 use Zend\InputFilter\InputFilterInterface;
@@ -16,10 +18,9 @@ use Zend\Mvc\Controller\Plugin\AbstractPlugin;
  * Class PollPlugin
  * @package MSBios\Voting\Doctrine\Controller\Plugin
  */
-class PollPlugin extends AbstractPlugin
+class PollPlugin extends AbstractPlugin implements PollManagerAwareInterface
 {
-    /** @var PollManagerInterface */
-    protected $pollManager;
+    use PollManagerAwareTrait;
 
     /** @var InputFilterInterface */
     protected $inputFilter;
@@ -29,12 +30,10 @@ class PollPlugin extends AbstractPlugin
 
     /**
      * PollPlugin constructor.
-     * @param PollManagerInterface $pollManager
      * @param InputFilterInterface $inputFilter
      */
-    public function __construct(PollManagerInterface $pollManager, InputFilterInterface $inputFilter)
+    public function __construct(InputFilterInterface $inputFilter)
     {
-        $this->pollManager = $pollManager;
         $this->inputFilter = $inputFilter;
     }
 
@@ -58,12 +57,12 @@ class PollPlugin extends AbstractPlugin
             $data = $this->inputFilter->getValues();
 
             /** @var boolean $result */
-            $result = $this->pollManager->vote(
+            $result = $this->getPollManager()->vote(
                 $data['poll_option_identifier'],
                 $data['poll_relation']
             );
 
-            $this->current = $this->pollManager->find(
+            $this->current = $this->getPollManager()->find(
                 $data['poll_identifier'],
                 $data['poll_relation']
             );
@@ -81,7 +80,7 @@ class PollPlugin extends AbstractPlugin
      */
     public function undo($id, $relation = null)
     {
-        return $this->pollManager->undo($id, $relation);
+        return $this->getPollManager()->undo($id, $relation);
     }
 
     /**
