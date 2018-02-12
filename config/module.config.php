@@ -123,7 +123,6 @@ return [
          * ]
          */
         'vote_resolvers' => [
-            // Resolver\VoteRepositoryResolver::class => -100
         ],
 
         /**
@@ -134,7 +133,6 @@ return [
          * ]
          */
         'check_resolvers' => [
-            // Resolver\CheckRepositoryResolver::class => -100
         ]
     ]
 ];
