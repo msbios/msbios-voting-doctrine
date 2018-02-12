@@ -27,7 +27,7 @@ class VoteRepositoryResolver implements VoteInterface, ObjectManagerAwareInterfa
      * @param null $relation
      * @return EntityInterface|Entity\Vote
      */
-    protected function resolve(OptionInterface $option, $relation = null)
+    protected function findVote(OptionInterface $option, $relation = null)
     {
         /** @var ObjectManager $dem */
         $dem = $this->getObjectManager();
@@ -91,7 +91,7 @@ class VoteRepositoryResolver implements VoteInterface, ObjectManagerAwareInterfa
     public function vote(OptionInterface $option, $relation = null)
     {
         /** @var EntityInterface $vote */
-        $vote = $this->resolve($option, $relation);
+        $vote = $this->findVote($option, $relation);
         $vote->setTotal(1 + $vote->getTotal())
             ->setModifiedAt(new \DateTime('now'));
 
@@ -109,7 +109,7 @@ class VoteRepositoryResolver implements VoteInterface, ObjectManagerAwareInterfa
     public function undo(OptionInterface $option, $relation = null)
     {
         /** @var EntityInterface $vote */
-        $vote = $this->resolve($option, $relation);
+        $vote = $this->findVote($option, $relation);
 
         if ($vote->getTotal()) {
             $vote->setTotal($vote->getTotal() - 1)
