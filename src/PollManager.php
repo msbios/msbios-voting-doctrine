@@ -12,8 +12,8 @@ use MSBios\Form\FormElementAwareTrait;
 use MSBios\Voting\Doctrine\Provider;
 use MSBios\Voting\PollManagerInterface;
 use MSBios\Voting\Resource\Doctrine\Entity\Option;
-use MSBios\Voting\Resource\Doctrine\Entity\OptionInterface;
-use MSBios\Voting\Resource\Doctrine\Entity\PollInterface;
+use MSBios\Voting\Resource\Record\OptionInterface;
+use MSBios\Voting\Resource\Record\PollInterface;
 use MSBios\Voting\VoteManagerAwareInterface;
 use MSBios\Voting\VoteManagerAwareTrait;
 
