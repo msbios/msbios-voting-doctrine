@@ -5,11 +5,10 @@
  */
 namespace MSBios\Voting\Doctrine\View\Helper;
 
-use MSBios\Stdlib\ObjectInterface;
 use MSBios\Voting\Doctrine\Form\PollForm;
 use MSBios\Voting\PollManagerAwareInterface;
 use MSBios\Voting\PollManagerAwareTrait;
-use MSBios\Voting\Resource\Doctrine\Entity\PollInterface;
+use MSBios\Voting\Resource\Record\PollInterface;
 use Zend\Form\FormInterface;
 use Zend\View\Helper\AbstractHelper;
 
