@@ -5,7 +5,7 @@
  */
 namespace MSBios\Voting\Doctrine\Resolver;
 
-use MSBios\Voting\Resource\Doctrine\Entity\OptionInterface;
+use MSBios\Voting\Resource\Record\OptionInterface;
 
 /**
  * Interface VoteInterface

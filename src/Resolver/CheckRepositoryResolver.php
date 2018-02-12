@@ -5,7 +5,7 @@
  */
 namespace MSBios\Voting\Doctrine\Resolver;
 
-use MSBios\Voting\Resource\Doctrine\Entity\PollInterface;
+use MSBios\Voting\Resource\Record\PollInterface;
 
 /**
  * Class CheckRepositoryResolver

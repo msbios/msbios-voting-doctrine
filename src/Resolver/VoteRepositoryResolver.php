@@ -12,7 +12,7 @@ use DoctrineModule\Persistence\ObjectManagerAwareInterface;
 use MSBios\Doctrine\ObjectManagerAwareTrait;
 use MSBios\Resource\Doctrine\EntityInterface;
 use MSBios\Voting\Resource\Doctrine\Entity;
-use MSBios\Voting\Resource\Entity\Vote;
+use MSBios\Voting\Resource\Record\OptionInterface;
 
 /**
  * Class VoteRepositoryResolver
@@ -23,11 +23,11 @@ class VoteRepositoryResolver implements VoteInterface, ObjectManagerAwareInterfa
     use ObjectManagerAwareTrait;
 
     /**
-     * @param Entity\OptionInterface $option
+     * @param OptionInterface $option
      * @param null $relation
      * @return EntityInterface|Entity\Vote
      */
-    protected function find(Entity\OptionInterface $option, $relation = null)
+    protected function find(OptionInterface $option, $relation = null)
     {
         /** @var ObjectManager $dem */
         $dem = $this->getObjectManager();
@@ -85,12 +85,12 @@ class VoteRepositoryResolver implements VoteInterface, ObjectManagerAwareInterfa
     }
 
     /**
-     * @param Entity\OptionInterface $option
+     * @param OptionInterface $option
      * @param null $relation
      */
-    public function vote(Entity\OptionInterface $option, $relation = null)
+    public function vote(OptionInterface $option, $relation = null)
     {
-        /** @var Vote $vote */
+        /** @var EntityInterface $vote */
         $vote = $this->find($option, $relation);
         $vote->setTotal(1 + $vote->getTotal())
             ->setModifiedAt(new \DateTime('now'));
@@ -103,12 +103,12 @@ class VoteRepositoryResolver implements VoteInterface, ObjectManagerAwareInterfa
     }
 
     /**
-     * @param Entity\OptionInterface $option
+     * @param OptionInterface $option
      * @param null $relation
      */
-    public function undo(Entity\OptionInterface $option, $relation = null)
+    public function undo(OptionInterface $option, $relation = null)
     {
-        /** @var Vote $vote */
+        /** @var EntityInterface $vote */
         $vote = $this->find($option, $relation);
 
         if ($vote->getTotal()) {

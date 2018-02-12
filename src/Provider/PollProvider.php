@@ -10,7 +10,7 @@ use Doctrine\Common\Persistence\ObjectRepository;
 use DoctrineModule\Persistence\ObjectManagerAwareInterface;
 use MSBios\Doctrine\ObjectManagerAwareTrait;
 use MSBios\Voting\Resource\Doctrine\Entity\Poll;
-use MSBios\Voting\Resource\Doctrine\Entity\PollInterface;
+use MSBios\Voting\Resource\Record\PollInterface;
 
 /**
  * Class PollProvider

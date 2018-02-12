@@ -5,8 +5,8 @@
  */
 namespace MSBios\Voting\Doctrine\Resolver;
 
-use MSBios\Voting\Resource\Doctrine\Entity\PollInterface;
-use MSBios\Voting\Resource\Doctrine\Entity\RelationInterface;
+use MSBios\Voting\Resource\Record\PollInterface;
+use MSBios\Voting\Resource\Record\RelationInterface;
 
 /**
  * Class CheckCookieResolver

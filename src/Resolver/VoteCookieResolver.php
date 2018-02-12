@@ -8,7 +8,7 @@ namespace MSBios\Voting\Doctrine\Resolver;
 
 use DoctrineModule\Persistence\ObjectManagerAwareInterface;
 use MSBios\Doctrine\ObjectManagerAwareTrait;
-use MSBios\Voting\Resource\Doctrine\Entity;
+use MSBios\Voting\Resource\Record\OptionInterface;
 
 /**
  * Class VoteCookieResolver
@@ -21,20 +21,20 @@ class VoteCookieResolver implements
     use ObjectManagerAwareTrait;
 
     /**
-     * @param Entity\OptionInterface $option
+     * @param OptionInterface $option
      * @param null $relation
      * @return string
      */
-    protected function hash(Entity\OptionInterface $option, $relation = null)
+    protected function hash(OptionInterface $option, $relation = null)
     {
         return md5($option->getPoll()->getId() . md5($relation));
     }
 
     /**
-     * @param Entity\OptionInterface $option
+     * @param OptionInterface $option
      * @param null $relation
      */
-    public function vote(Entity\OptionInterface $option, $relation = null)
+    public function vote(OptionInterface $option, $relation = null)
     {
         /** @var string $key */
         $key = $this->hash($option, $relation);
@@ -42,10 +42,10 @@ class VoteCookieResolver implements
     }
 
     /**
-     * @param Entity\OptionInterface $option
+     * @param OptionInterface $option
      * @param null $relation
      */
-    public function undo(Entity\OptionInterface $option, $relation = null)
+    public function undo(OptionInterface $option, $relation = null)
     {
         /** @var string $key */
         $key = $this->hash($option, $relation);

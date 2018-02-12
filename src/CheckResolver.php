@@ -6,7 +6,7 @@
 namespace MSBios\Voting\Doctrine;
 
 use MSBios\Voting\Doctrine\Resolver\CheckInterface;
-use MSBios\Voting\Resource\Doctrine\Entity\PollInterface;
+use MSBios\Voting\Resource\Record\PollInterface;
 use Zend\Stdlib\PriorityQueue;
 
 /**
