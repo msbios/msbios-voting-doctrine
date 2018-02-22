@@ -64,7 +64,8 @@ return [
             'poll' => Controller\Plugin\PollPlugin::class
         ],
         'initializers' => [
-            new PollManagerInitializer
+            PollManagerInitializer::class =>
+                new PollManagerInitializer
         ]
     ],
 
@@ -88,7 +89,8 @@ return [
             'poll' => View\Helper\PollHelper::class
         ],
         'initializers' => [
-            new PollManagerInitializer
+            PollManagerInitializer::class =>
+                new PollManagerInitializer
         ]
     ],
 

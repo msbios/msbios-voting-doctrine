@@ -8,7 +8,6 @@ namespace MSBios\Voting\Doctrine;
 
 use DoctrineModule\Persistence\ObjectManagerAwareInterface;
 use MSBios\Doctrine\ObjectManagerAwareTrait;
-use MSBios\Form\FormElementAwareTrait;
 use MSBios\Voting\Doctrine\Provider;
 use MSBios\Voting\PollManagerInterface;
 use MSBios\Voting\Resource\Doctrine\Entity\Option;
@@ -28,7 +27,6 @@ class PollManager implements
     VoteManagerAwareInterface
 {
     use ObjectManagerAwareTrait;
-    use FormElementAwareTrait;
     use VoteManagerAwareTrait;
 
     /** @var Provider\PollProviderInterface */
