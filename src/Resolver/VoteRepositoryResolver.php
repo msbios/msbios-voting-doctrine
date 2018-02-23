@@ -111,14 +111,12 @@ class VoteRepositoryResolver implements VoteInterface, ObjectManagerAwareInterfa
         /** @var EntityInterface $vote */
         $vote = $this->findVote($option, $relation);
 
-        if ($vote->getTotal()) {
-            $vote->setTotal($vote->getTotal() - 1)
-                ->setModifiedAt(new \DateTime('now'));
+        $vote->setTotal($vote->getTotal() ? $vote->getTotal() - 1 : 0)
+            ->setModifiedAt(new \DateTime('now'));
 
-            /** @var ObjectManager $dem */
-            $dem = $this->getObjectManager();
-            $dem->merge($vote);
-            $dem->flush();
-        }
+        /** @var ObjectManager $dem */
+        $dem = $this->getObjectManager();
+        $dem->merge($vote);
+        $dem->flush();
     }
 }
