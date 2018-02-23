@@ -57,7 +57,7 @@ class PollPlugin extends AbstractPlugin implements PollManagerAwareInterface
             $data = $this->inputFilter->getValues();
 
             /** @var boolean $result */
-            $result = $this->getPollManager()->vote(
+            $this->getPollManager()->vote(
                 $data['poll_option_identifier'],
                 $data['poll_relation']
             );
@@ -67,7 +67,7 @@ class PollPlugin extends AbstractPlugin implements PollManagerAwareInterface
                 $data['poll_relation']
             );
 
-            return $result;
+            return true;
         }
 
         return false;
