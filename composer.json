@@ -46,6 +46,7 @@
       "cd public && ln -s ../vendor/msbios/cpanel/themes/limitless/public limitless"
     ],
     "serve": "php -S 0.0.0.0:3107 -t public index.php",
+    "pull" : "git pull && composer update",
     "commit": "git add . && git commit -a -m \"Lazy Composer Commiter\" && git push",
     "test-coverage": "phpunit --colors=always --coverage-clover clover.xml",
     "upload-coverage": "coveralls -v"
