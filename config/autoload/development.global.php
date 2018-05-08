@@ -11,6 +11,7 @@ use Zend\Router\Http\Segment;
 use Zend\ServiceManager\Factory\InvokableFactory;
 
 return [
+
     'doctrine' => [
         'connection' => [
             'orm_default' => [
@@ -27,6 +28,10 @@ return [
     'router' => [
         'routes' => [
             'home' => [
+                'type' => Segment::class,
+                'options' => [
+                    'route' => '/[:locale[/]]',
+                ],
                 'may_terminate' => true,
                 'child_routes' => [
                     'vote' => [

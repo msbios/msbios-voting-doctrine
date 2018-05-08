@@ -44,10 +44,7 @@ class PollProvider implements
         $repository = $dem->getRepository(Poll\Relation::class);
 
         /** @var PollInterface $entity */
-        $entity = $repository->findOneBy([
-            'poll' => $poll,
-            'code' => $relation
-        ]);
+        $entity = $repository->findOneByPollAndCode($poll, $relation);
 
         if (! $entity && $poll) {
 
