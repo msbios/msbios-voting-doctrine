@@ -10,9 +10,47 @@ namespace MSBios\Voting\Doctrine;
 use MSBios\Doctrine\Initializer\ObjectManagerInitializer;
 use MSBios\Voting\Initializer\PollManagerInitializer;
 use MSBios\Voting\Initializer\VoteManagerInitializer;
+use Zend\Router\Http\Method;
+use Zend\Router\Http\Segment;
 use Zend\ServiceManager\Factory\InvokableFactory;
 
 return [
+
+    'router' => [
+        'routes' => [
+            'home' => [
+                'child_routes' => [
+                    'voting' => [
+                        'type' => Segment::class,
+                        'options' => [
+                            'route' => 'voting[/]',
+                            'defaults' => [
+                                'controller' => Controller\VotingController::class,
+                                'action' => 'index'
+                            ],
+                        ],
+                        'may_terminate' => true,
+                        'child_routes' => [
+                            [
+                                'type' => Method::class,
+                                'options' => [
+                                    'verb' => 'post'
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ],
+    ],
+
+    'controllers' => [
+        'factories' => [
+            Controller\VotingController::class =>
+                InvokableFactory::class,
+        ],
+    ],
+
     'service_manager' => [
         'factories' => [
             PollManager::class =>

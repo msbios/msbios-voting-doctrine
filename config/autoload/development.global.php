@@ -28,11 +28,6 @@ return [
     'router' => [
         'routes' => [
             'home' => [
-                'type' => Segment::class,
-                'options' => [
-                    'route' => '/[:locale[/]]',
-                ],
-                'may_terminate' => true,
                 'child_routes' => [
                     'vote' => [
                         'type' => Segment::class,

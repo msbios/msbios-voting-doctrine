@@ -36,9 +36,8 @@ class PollManager implements
      * PollManager constructor.
      * @param Provider\PollProviderInterface $pollProvider
      */
-    public function __construct(
-        Provider\PollProviderInterface $pollProvider
-    ) {
+    public function __construct(Provider\PollProviderInterface $pollProvider)
+    {
         $this->pollProvider = $pollProvider;
     }
 
@@ -49,7 +48,8 @@ class PollManager implements
      */
     public function find($idOrCode, $relation = null)
     {
-        return $this->pollProvider->find($idOrCode, $relation);
+        return $this->pollProvider
+            ->find($idOrCode, $relation);
     }
 
     /**
@@ -59,8 +59,13 @@ class PollManager implements
     public function vote($id, $relation = null)
     {
         /** @var OptionInterface $option */
-        $option = $this->getObjectManager()->find(Option::class, $id);
-        $this->getVoteManager()->vote($option, $relation);
+        $option = $this
+            ->getObjectManager()
+            ->find(Option::class, $id);
+
+        $this
+            ->getVoteManager()
+            ->vote($option, $relation);
     }
 
     /**
@@ -71,8 +76,13 @@ class PollManager implements
     public function undo($id, $relation = null)
     {
         /** @var OptionInterface $option */
-        $option = $this->getObjectManager()->find(Option::class, $id);
-        $this->getVoteManager()->undo($option, $relation);
+        $option = $this
+            ->getObjectManager()
+            ->find(Option::class, $id);
+
+        $this
+            ->getVoteManager()
+            ->undo($option, $relation);
     }
 
     /**
@@ -81,7 +91,9 @@ class PollManager implements
      */
     public function isVoted(PollInterface $poll)
     {
-        return $this->getVoteManager()->check($poll);
+        return $this
+            ->getVoteManager()
+            ->check($poll);
     }
 
     /**
@@ -90,10 +102,9 @@ class PollManager implements
      */
     public function votes(PollInterface $poll)
     {
-        /** @var string $className */
-        $className = get_class($poll);
-        return $this->getObjectManager()
-            ->getRepository($className)
+        return $this
+            ->getObjectManager()
+            ->getRepository(get_class($poll))
             ->findVotesBy($poll);
     }
 }
