@@ -7,10 +7,7 @@
 
 namespace MSBios\Voting\Doctrine;
 
-use MSBios\Doctrine\Initializer\ObjectManagerInitializer;
 use MSBios\Voting\Initializer\PollManagerInitializer;
-use MSBios\Voting\Initializer\VoteManagerInitializer;
-use Zend\Router\Http\Method;
 use Zend\Router\Http\Segment;
 use Zend\ServiceManager\Factory\InvokableFactory;
 

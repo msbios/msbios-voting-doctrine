@@ -28,7 +28,6 @@ return [
 
         'DoctrineModule',
         'DoctrineORMModule',
-        'DoctrineDataFixtureModule',
 
         'MSBios\Cache',
         'MSBios\Hydrator',

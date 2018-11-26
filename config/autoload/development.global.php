@@ -25,51 +25,6 @@ return [
         ],
     ],
 
-    //'router' => [
-    //    'routes' => [
-    //        'home' => [
-    //            'child_routes' => [
-    //                'vote' => [
-    //                    'type' => Segment::class,
-    //                    'options' => [
-    //                        'route' => 'vote[/]',
-    //                        'defaults' => [
-    //                            'action' => 'vote'
-    //                        ],
-    //                    ],
-    //                    'may_terminate' => true,
-    //                    'child_routes' => [
-    //                        [
-    //                            'type' => Method::class,
-    //                            'options' => [
-    //                                'verb' => 'post'
-    //                            ]
-    //                        ]
-    //                    ]
-    //                ],
-    //                'undo' => [
-    //                    'type' => Segment::class,
-    //                    'options' => [
-    //                        'route' => 'undo/:option_id[/[:relation[/]]]',
-    //                        'defaults' => [
-    //                            'action' => 'undo'
-    //                        ],
-    //                    ],
-    //                    'may_terminate' => true,
-    //                    'child_routes' => [
-    //                        [
-    //                            'type' => Method::class,
-    //                            'options' => [
-    //                                'verb' => 'get'
-    //                            ]
-    //                        ]
-    //                    ]
-    //                ],
-    //            ]
-    //        ],
-    //    ],
-    //],
-
     'controllers' => [
         'factories' => [
             Controller\IndexController::class =>
@@ -82,9 +37,6 @@ return [
     ],
 
     'view_manager' => [
-        'template_map' => [
-            // Template map
-        ],
         'template_path_stack' => [
             __DIR__ . '/../../view',
         ],
@@ -153,7 +105,6 @@ return [
     ],
 
     \MSBios\Voting\Module::class => [
-
         /**
          *
          * Expects: array
@@ -162,7 +113,6 @@ return [
          * ]
          */
         'vote_resolvers' => [
-            // Resolver\VoteCookieResolver::class => -100,
             Resolver\VoteRepositoryResolver::class => -100
         ],
 
@@ -174,7 +124,6 @@ return [
          * ]
          */
         'check_resolvers' => [
-            // Resolver\CheckCookieResolver::class => -100,
             Resolver\CheckRepositoryResolver::class => -100
         ]
     ]

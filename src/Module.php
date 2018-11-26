@@ -3,6 +3,7 @@
  * @access protected
  * @author Judzhin Miles <info[woof-woof]msbios.com>
  */
+
 namespace MSBios\Voting\Doctrine;
 
 use MSBios\ModuleInterface;
@@ -19,12 +20,12 @@ class Module implements
     AutoloaderProviderInterface
 {
     /** @const VERSION */
-    const VERSION = '1.0.33';
+    const VERSION = '1.0.34';
 
     /**
-     * Returns configuration to merge with application configuration
+     * @inheritdoc
      *
-     * @return array|\Traversable
+     * @return array|mixed|\Traversable
      */
     public function getConfig()
     {
@@ -32,7 +33,7 @@ class Module implements
     }
 
     /**
-     * Return an array for passing to Zend\Loader\AutoloaderFactory.
+     * @inheritdoc
      *
      * @return array
      */
