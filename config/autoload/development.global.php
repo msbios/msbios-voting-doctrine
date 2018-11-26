@@ -162,7 +162,7 @@ return [
          * ]
          */
         'vote_resolvers' => [
-            Resolver\VoteCookieResolver::class => -100,
+            // Resolver\VoteCookieResolver::class => -100,
             Resolver\VoteRepositoryResolver::class => -100
         ],
 
@@ -174,7 +174,7 @@ return [
          * ]
          */
         'check_resolvers' => [
-            Resolver\CheckCookieResolver::class => -100,
+            // Resolver\CheckCookieResolver::class => -100,
             Resolver\CheckRepositoryResolver::class => -100
         ]
     ]
