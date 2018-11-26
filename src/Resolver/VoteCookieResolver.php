@@ -11,6 +11,7 @@ use MSBios\Doctrine\ObjectManagerAwareTrait;
 use MSBios\Voting\Resource\Record\OptionInterface;
 use MSBios\Voting\Resource\Record\PollInterface;
 use MSBios\Voting\Resource\Record\RelationInterface;
+use Zend\Http\Cookies;
 
 /**
  * Class VoteCookieResolver
@@ -18,6 +19,19 @@ use MSBios\Voting\Resource\Record\RelationInterface;
  */
 class VoteCookieResolver implements VoteInterface
 {
+    /**
+     * @var Cookies
+     */
+    protected $cookies;
+
+    /**
+     * VoteCookieResolver constructor.
+     */
+    public function __construct()
+    {
+        $this->cookies = new Cookies;
+    }
+
     /**
      * @param PollInterface $poll
      * @return string
