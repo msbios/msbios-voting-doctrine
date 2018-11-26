@@ -5,29 +5,25 @@
  */
 namespace MSBios\Voting\Doctrine\Factory;
 
+use Doctrine\ORM\EntityManager;
 use Interop\Container\ContainerInterface;
-use MSBios\Voting\Doctrine\Form\PollForm;
-use MSBios\Voting\Doctrine\PollManager;
-use MSBios\Voting\Doctrine\View\Helper\PollHelper;
+use MSBios\Voting\Doctrine\Resolver\VoteRepositoryResolver;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
 /**
- * Class PollHelperFactory
+ * Class VoteRepositoryResolverFactory
  * @package MSBios\Voting\Doctrine\Factory
  */
-class PollHelperFactory implements FactoryInterface
+class VoteRepositoryResolverFactory implements FactoryInterface
 {
     /**
      * @param ContainerInterface $container
      * @param string $requestedName
      * @param array|null $options
-     * @return PollHelper
+     * @return VoteRepositoryResolver|object
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        return new PollHelper(
-            $container->get(PollManager::class),
-            $container->get('FormElementManager')->get(PollForm::class)
-        );
+        return new VoteRepositoryResolver($container->get(EntityManager::class));
     }
 }

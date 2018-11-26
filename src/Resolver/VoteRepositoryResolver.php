@@ -11,56 +11,44 @@ use Doctrine\Common\Persistence\ObjectRepository;
 use DoctrineModule\Persistence\ObjectManagerAwareInterface;
 use MSBios\Doctrine\ObjectManagerAwareTrait;
 use MSBios\Resource\Doctrine\EntityInterface;
-use MSBios\Voting\Resource\Doctrine\Entity;
+use MSBios\Voting\Resource\Doctrine\Entity\Vote;
+use MSBios\Voting\Resource\Doctrine\Entity\VoteRelation;
 use MSBios\Voting\Resource\Record\OptionInterface;
+use MSBios\Voting\Resource\Record\PollInterface;
+use MSBios\Voting\Resource\Record\RelationInterface;
 
 /**
  * Class VoteRepositoryResolver
  * @package MSBios\Voting\Doctrine\Resolver
  */
-class VoteRepositoryResolver implements VoteInterface, ObjectManagerAwareInterface
+class VoteRepositoryResolver implements ObjectManagerAwareInterface, VoteInterface
 {
     use ObjectManagerAwareTrait;
 
     /**
-     * @param OptionInterface $option
-     * @param null $relation
-     * @return EntityInterface|Entity\Vote
+     * VoteRepositoryResolver constructor.
+     * @param ObjectManager $objectManager
      */
-    protected function findVote(OptionInterface $option, $relation = null)
+    public function __construct(ObjectManager $objectManager)
+    {
+        $this->setObjectManager($objectManager);
+    }
+
+    /**
+     * @param PollInterface $poll
+     * @param OptionInterface $option
+     * @return EntityInterface
+     * @throws \Exception
+     */
+    protected function find(PollInterface $poll, OptionInterface $option)
     {
         /** @var ObjectManager $dem */
         $dem = $this->getObjectManager();
 
-        if (empty($relation)) {
+        if ($poll instanceof RelationInterface) {
 
             /** @var ObjectRepository $repository */
-            $repository = $dem->getRepository(Entity\Vote::class);
-
-            /** @var EntityInterface $vote */
-            $vote = $repository->findOneBy(['option' => $option]);
-
-            if (! $vote) {
-
-                /** @var EntityInterface $vote */
-                $vote = new Entity\Vote;
-                $vote->setPoll($option->getPoll())
-                    ->setOption($option)
-                    ->setCreatedAt(new \DateTime('now'))
-                    ->setModifiedAt(new \DateTime('now'));
-
-                $dem->persist($vote);
-                $dem->flush();
-            }
-        } else {
-
-            /** @var EntityInterface $poll */
-            $poll = $dem->getRepository(Entity\Poll\Relation::class)->findOneBy([
-                'code' => $relation
-            ]);
-
-            /** @var ObjectRepository $repository */
-            $repository = $dem->getRepository(Entity\Vote\Relation::class);
+            $repository = $dem->getRepository(VoteRelation::class);
 
             /** @var EntityInterface $vote */
             $vote = $repository->findOneBy([
@@ -70,53 +58,81 @@ class VoteRepositoryResolver implements VoteInterface, ObjectManagerAwareInterfa
 
             if (! $vote) {
                 /** @var EntityInterface $vote */
-                $vote = new Entity\Vote\Relation;
+                $vote = new VoteRelation;
                 $vote->setPoll($poll)
                     ->setOption($option)
-                    ->setCreatedAt(new \DateTime('now'))
-                    ->setModifiedAt(new \DateTime('now'));
+                    ->setCreatedAt(new \DateTime)
+                    ->setModifiedAt(new \DateTime);
 
                 $dem->persist($vote);
                 $dem->flush();
             }
+
+            return $vote;
+        }
+
+        /** @var ObjectRepository $repository */
+        $repository = $dem->getRepository(Vote::class);
+
+        /** @var EntityInterface $vote */
+        $vote = $repository->findOneBy(['option' => $option]);
+
+        if (! $vote) {
+
+            /** @var EntityInterface $vote */
+            $vote = new Vote;
+            $vote->setPoll($option->getPoll())
+                ->setOption($option)
+                ->setCreatedAt(new \DateTime)
+                ->setModifiedAt(new \DateTime);
+
+            $dem->persist($vote);
+            $dem->flush();
         }
 
         return $vote;
     }
 
     /**
-     * @param OptionInterface $option
-     * @param null $relation
+     * @param \MSBios\Voting\Resource\Record\VoteInterface $vote
      */
-    public function vote(OptionInterface $option, $relation = null)
+    private function merge(\MSBios\Voting\Resource\Record\VoteInterface $vote)
     {
-        /** @var EntityInterface $vote */
-        $vote = $this->findVote($option, $relation);
-        $vote->setTotal(1 + $vote->getTotal())
-            ->setModifiedAt(new \DateTime('now'));
-
         /** @var ObjectManager $dem */
         $dem = $this->getObjectManager();
-
         $dem->merge($vote);
         $dem->flush();
     }
 
     /**
+     * @param PollInterface $poll
      * @param OptionInterface $option
-     * @param null $relation
+     * @return mixed|void
+     * @throws \Exception
      */
-    public function undo(OptionInterface $option, $relation = null)
+    public function vote(PollInterface $poll, OptionInterface $option)
     {
         /** @var EntityInterface $vote */
-        $vote = $this->findVote($option, $relation);
+        $vote = $this->find($poll, $option);
+        $vote->setTotal(1 + $vote->getTotal())
+            ->setModifiedAt(new \DateTime);
 
+        $this->merge($vote);
+    }
+
+    /**
+     * @param PollInterface $poll
+     * @param OptionInterface $option
+     * @return mixed|void
+     * @throws \Exception
+     */
+    public function undo(PollInterface $poll, OptionInterface $option)
+    {
+        /** @var EntityInterface $vote */
+        $vote = $this->find($poll, $option);
         $vote->setTotal($vote->getTotal() ? $vote->getTotal() - 1 : 0)
-            ->setModifiedAt(new \DateTime('now'));
+            ->setModifiedAt(new \DateTime);
 
-        /** @var ObjectManager $dem */
-        $dem = $this->getObjectManager();
-        $dem->merge($vote);
-        $dem->flush();
+        $this->merge($vote);
     }
 }

@@ -31,10 +31,13 @@ return [
                         ],
                         'may_terminate' => true,
                         'child_routes' => [
-                            [
-                                'type' => Method::class,
+                            'cancel' => [
+                                'type' => Segment::class,
                                 'options' => [
-                                    'verb' => 'post'
+                                    'route' => ':poll_identifier[/:poll_option_identifier[/:poll_relation[/]]]',
+                                    'defaults' => [
+                                        'action' => 'cancel'
+                                    ],
                                 ],
                             ],
                         ],
@@ -47,7 +50,7 @@ return [
     'controllers' => [
         'factories' => [
             Controller\VotingController::class =>
-                InvokableFactory::class,
+                Factory\VotingControllerFactory::class,
         ],
     ],
 
@@ -77,7 +80,7 @@ return [
             Resolver\VoteCookieResolver::class =>
                 InvokableFactory::class,
             Resolver\VoteRepositoryResolver::class =>
-                InvokableFactory::class
+                Factory\VoteRepositoryResolverFactory::class
         ],
         'aliases' => [
             \MSBios\Voting\PollManager::class =>
@@ -85,12 +88,6 @@ return [
             \MSBios\Voting\VoteManager::class =>
                 VoteManager::class
         ],
-        'initializers' => [
-            ObjectManagerInitializer::class =>
-                new ObjectManagerInitializer,
-            VoteManagerInitializer::class =>
-                new VoteManagerInitializer
-        ]
     ],
 
     'controller_plugins' => [

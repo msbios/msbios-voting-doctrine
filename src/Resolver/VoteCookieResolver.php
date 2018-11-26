@@ -9,46 +9,43 @@ namespace MSBios\Voting\Doctrine\Resolver;
 use DoctrineModule\Persistence\ObjectManagerAwareInterface;
 use MSBios\Doctrine\ObjectManagerAwareTrait;
 use MSBios\Voting\Resource\Record\OptionInterface;
+use MSBios\Voting\Resource\Record\PollInterface;
+use MSBios\Voting\Resource\Record\RelationInterface;
 
 /**
  * Class VoteCookieResolver
- * @package MSBios\Voting\Doctrine\Resolver\Voter
+ * @package MSBios\Voting\Doctrine\Resolver
  */
-class VoteCookieResolver implements
-    VoteInterface,
-    ObjectManagerAwareInterface
+class VoteCookieResolver implements VoteInterface
 {
-    use ObjectManagerAwareTrait;
-
     /**
-     * @param OptionInterface $option
-     * @param null $relation
+     * @param PollInterface $poll
      * @return string
      */
-    protected function hash(OptionInterface $option, $relation = null)
+    public static function hash(PollInterface $poll)
     {
-        return md5($option->getPoll()->getId() . md5($relation));
+        return md5($poll->getCode() . md5($poll->getId()));
     }
 
     /**
+     * @param PollInterface $poll
      * @param OptionInterface $option
-     * @param null $relation
+     * @return mixed|void
      */
-    public function vote(OptionInterface $option, $relation = null)
+    public function vote(PollInterface $poll, OptionInterface $option)
     {
-        /** @var string $key */
-        $key = $this->hash($option, $relation);
-        setcookie($key, 1, time() + 60 * 60 * 24 * 365);
+        setcookie(self::hash($poll), 1, time() + 60 * 60 * 24 * 365);
     }
 
     /**
+     * @param PollInterface $poll
      * @param OptionInterface $option
-     * @param null $relation
+     * @return mixed|void
      */
-    public function undo(OptionInterface $option, $relation = null)
+    public function undo(PollInterface $poll, OptionInterface $option)
     {
         /** @var string $key */
-        $key = $this->hash($option, $relation);
+        $key = self::hash($poll);
         if (isset($_COOKIE[$key])) {
             unset($_COOKIE[$key]);
             setcookie($key, null, -1);

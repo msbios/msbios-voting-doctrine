@@ -6,10 +6,10 @@
 
 namespace MSBios\Voting\Doctrine\Factory;
 
+use Doctrine\ORM\EntityManager;
 use Interop\Container\ContainerInterface;
 use MSBios\Voting\Doctrine\PollManager;
-use MSBios\Voting\Module;
-use Zend\Config\Config;
+use MSBios\Voting\Doctrine\VoteManager;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
 /**
@@ -22,15 +22,13 @@ class PollManagerFactory implements FactoryInterface
      * @param ContainerInterface $container
      * @param string $requestedName
      * @param array|null $options
-     * @return PollManager
+     * @return PollManager|object
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        /** @var Config $options */
-        $options = $container->get(Module::class);
-
         return new PollManager(
-            $container->get($options->get('poll_provider'))
+            $container->get(EntityManager::class),
+            $container->get(VoteManager::class)
         );
     }
 }

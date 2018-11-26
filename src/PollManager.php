@@ -6,11 +6,15 @@
 
 namespace MSBios\Voting\Doctrine;
 
+use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Common\Persistence\ObjectRepository;
 use DoctrineModule\Persistence\ObjectManagerAwareInterface;
 use MSBios\Doctrine\ObjectManagerAwareTrait;
 use MSBios\Voting\Doctrine\Provider;
 use MSBios\Voting\PollManagerInterface;
 use MSBios\Voting\Resource\Doctrine\Entity\Option;
+use MSBios\Voting\Resource\Doctrine\Entity\Poll;
+use MSBios\Voting\Resource\Doctrine\Entity\PollRelation;
 use MSBios\Voting\Resource\Record\OptionInterface;
 use MSBios\Voting\Resource\Record\PollInterface;
 use MSBios\Voting\VoteManagerAwareInterface;
@@ -21,10 +25,7 @@ use MSBios\Voting\VoteManagerAwareTrait;
  * @package MSBios\Voting\Doctrine
  * @link https://www.codexworld.com/online-poll-voting-system-php-mysql/
  */
-class PollManager implements
-    PollManagerInterface,
-    ObjectManagerAwareInterface,
-    VoteManagerAwareInterface
+class PollManager implements PollManagerInterface, ObjectManagerAwareInterface, VoteManagerAwareInterface
 {
     use ObjectManagerAwareTrait;
     use VoteManagerAwareTrait;
@@ -34,62 +35,99 @@ class PollManager implements
 
     /**
      * PollManager constructor.
-     * @param Provider\PollProviderInterface $pollProvider
+     * @param ObjectManager $objectManager
+     * @param VoteManager $voteManager
      */
-    public function __construct(Provider\PollProviderInterface $pollProvider)
+    public function __construct(ObjectManager $objectManager, VoteManager $voteManager)
     {
-        $this->pollProvider = $pollProvider;
+        $this
+            ->setObjectManager($objectManager)
+            ->setVoteManager($voteManager);
     }
 
     /**
      * @param $idOrCode
      * @param null $relation
-     * @return mixed
+     * @return PollInterface
+     * @throws \Exception
      */
     public function find($idOrCode, $relation = null)
     {
-        return $this->pollProvider
-            ->find($idOrCode, $relation);
+        /** @var ObjectManager $dem */
+        $dem = $this->getObjectManager();
+
+
+        /** @var PollInterface $poll */
+        $poll = $dem->getRepository(Poll::class)
+            ->find($idOrCode);
+
+        if ($poll && ! is_null($relation)) {
+
+            /** @var ObjectRepository $repository */
+            $repository = $dem->getRepository(PollRelation::class);
+
+            /** @var PollInterface $pollRelation */
+            $pollRelation = $repository->findOneBy([
+                'poll' => $poll,
+                'code' => $relation
+            ]);
+
+            if (! $pollRelation) {
+
+                /** @var PollInterface $entity */
+                $pollRelation = new PollRelation;
+                $pollRelation->setPoll($poll)
+                    ->setCode($relation)
+                    ->setCreatedAt(new \DateTime)
+                    ->setModifiedAt(new \DateTime);
+                $dem->persist($pollRelation);
+                $dem->flush();
+            }
+
+            return $pollRelation;
+        }
+
+        return $poll;
     }
 
     /**
      * @param $id
-     * @param null $relation
+     * @return object|null
      */
-    public function vote($id, $relation = null)
+    protected function option($id)
     {
-        /** @var OptionInterface $option */
-        $option = $this
+        return $this
             ->getObjectManager()
             ->find(Option::class, $id);
-
-        $this
-            ->getVoteManager()
-            ->vote($option, $relation);
     }
 
     /**
+     * @param PollInterface $poll
      * @param $id
-     * @param null $relation
-     * @return mixed
      */
-    public function undo($id, $relation = null)
+    public function vote(PollInterface $poll, $id)
     {
-        /** @var OptionInterface $option */
-        $option = $this
-            ->getObjectManager()
-            ->find(Option::class, $id);
-
         $this
             ->getVoteManager()
-            ->undo($option, $relation);
+            ->vote($poll, $this->option($id));
+    }
+
+    /**
+     * @param PollInterface $poll
+     * @param $id
+     */
+    public function undo(PollInterface $poll, $id)
+    {
+        $this
+            ->getVoteManager()
+            ->undo($poll, $this->option($id));
     }
 
     /**
      * @param PollInterface $poll
      * @return mixed
      */
-    public function isVoted(PollInterface $poll)
+    public function check(PollInterface $poll)
     {
         return $this
             ->getVoteManager()

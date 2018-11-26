@@ -6,6 +6,9 @@
 
 namespace MSBios\Voting\Doctrine;
 
+use Doctrine\Common\Persistence\ObjectManager;
+use DoctrineModule\Persistence\ObjectManagerAwareInterface;
+use MSBios\Doctrine\ObjectManagerAwareTrait;
 use MSBios\Voting\Resource\Record\OptionInterface;
 use MSBios\Voting\Resource\Record\PollInterface;
 use MSBios\Voting\VoteManagerInterface;
@@ -14,8 +17,10 @@ use MSBios\Voting\VoteManagerInterface;
  * Class VoteManager
  * @package MSBios\Voting\Doctrine
  */
-class VoteManager implements VoteManagerInterface
+class VoteManager implements ObjectManagerAwareInterface, VoteManagerInterface
 {
+    use ObjectManagerAwareTrait;
+
     /** @var  VoteResolverInterface */
     protected $voteResolver;
 
@@ -24,23 +29,41 @@ class VoteManager implements VoteManagerInterface
 
     /**
      * VoteManager constructor.
+     * @param ObjectManager $objectManager
      * @param VoteResolverInterface $voteResolver
      * @param CheckResolverInterface $checkResolver
      */
-    public function __construct(VoteResolverInterface $voteResolver, CheckResolverInterface $checkResolver)
-    {
+    public function __construct(
+        ObjectManager $objectManager,
+        VoteResolverInterface $voteResolver,
+        CheckResolverInterface $checkResolver
+    ) {
+        $this->setObjectManager($objectManager);
         $this->voteResolver = $voteResolver;
         $this->checkResolver = $checkResolver;
     }
 
     /**
+     * @param PollInterface $poll
      * @param OptionInterface $option
-     * @param null $relation
      * @return mixed
      */
-    public function vote(OptionInterface $option, $relation = null)
+    public function vote(PollInterface $poll, OptionInterface $option)
     {
-        return $this->voteResolver->vote($option, $relation);
+        return $this
+            ->voteResolver
+            ->vote($poll, $option);
+    }
+
+    /**
+     * @param PollInterface $poll
+     * @param OptionInterface $option
+     */
+    public function undo(PollInterface $poll, OptionInterface $option)
+    {
+        return $this
+            ->voteResolver
+            ->undo($poll, $option);
     }
 
     /**
@@ -49,16 +72,8 @@ class VoteManager implements VoteManagerInterface
      */
     public function check(PollInterface $poll)
     {
-        return $this->checkResolver->check($poll);
-    }
-
-    /**
-     * @param OptionInterface $option
-     * @param null $relation
-     * @return mixed
-     */
-    public function undo(OptionInterface $option, $relation = null)
-    {
-        return $this->voteResolver->undo($option, $relation);
+        return $this
+            ->checkResolver
+            ->check($poll);
     }
 }

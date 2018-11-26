@@ -23,8 +23,7 @@ class VoteResolverFactory implements FactoryInterface
      * @param ContainerInterface $container
      * @param string $requestedName
      * @param array|null $options
-     * @return VoteResolver|VoteResolverInterface
-     * @throws ResolverServiceNotFoundException
+     * @return VoteResolverInterface|object
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {

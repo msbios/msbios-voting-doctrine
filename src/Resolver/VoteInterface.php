@@ -6,6 +6,7 @@
 namespace MSBios\Voting\Doctrine\Resolver;
 
 use MSBios\Voting\Resource\Record\OptionInterface;
+use MSBios\Voting\Resource\Record\PollInterface;
 
 /**
  * Interface VoteInterface
@@ -14,16 +15,16 @@ use MSBios\Voting\Resource\Record\OptionInterface;
 interface VoteInterface
 {
     /**
+     * @param PollInterface $poll
      * @param OptionInterface $option
-     * @param null $relation
      * @return mixed
      */
-    public function vote(OptionInterface $option, $relation = null);
+    public function vote(PollInterface $poll, OptionInterface $option);
 
     /**
+     * @param PollInterface $poll
      * @param OptionInterface $option
-     * @param null $relation
      * @return mixed
      */
-    public function undo(OptionInterface $option, $relation = null);
+    public function undo(PollInterface $poll, OptionInterface $option);
 }

@@ -25,50 +25,50 @@ return [
         ],
     ],
 
-    'router' => [
-        'routes' => [
-            'home' => [
-                'child_routes' => [
-                    'vote' => [
-                        'type' => Segment::class,
-                        'options' => [
-                            'route' => 'vote[/]',
-                            'defaults' => [
-                                'action' => 'vote'
-                            ],
-                        ],
-                        'may_terminate' => true,
-                        'child_routes' => [
-                            [
-                                'type' => Method::class,
-                                'options' => [
-                                    'verb' => 'post'
-                                ]
-                            ]
-                        ]
-                    ],
-                    'undo' => [
-                        'type' => Segment::class,
-                        'options' => [
-                            'route' => 'undo/:option_id[/[:relation[/]]]',
-                            'defaults' => [
-                                'action' => 'undo'
-                            ],
-                        ],
-                        'may_terminate' => true,
-                        'child_routes' => [
-                            [
-                                'type' => Method::class,
-                                'options' => [
-                                    'verb' => 'get'
-                                ]
-                            ]
-                        ]
-                    ],
-                ]
-            ],
-        ],
-    ],
+    //'router' => [
+    //    'routes' => [
+    //        'home' => [
+    //            'child_routes' => [
+    //                'vote' => [
+    //                    'type' => Segment::class,
+    //                    'options' => [
+    //                        'route' => 'vote[/]',
+    //                        'defaults' => [
+    //                            'action' => 'vote'
+    //                        ],
+    //                    ],
+    //                    'may_terminate' => true,
+    //                    'child_routes' => [
+    //                        [
+    //                            'type' => Method::class,
+    //                            'options' => [
+    //                                'verb' => 'post'
+    //                            ]
+    //                        ]
+    //                    ]
+    //                ],
+    //                'undo' => [
+    //                    'type' => Segment::class,
+    //                    'options' => [
+    //                        'route' => 'undo/:option_id[/[:relation[/]]]',
+    //                        'defaults' => [
+    //                            'action' => 'undo'
+    //                        ],
+    //                    ],
+    //                    'may_terminate' => true,
+    //                    'child_routes' => [
+    //                        [
+    //                            'type' => Method::class,
+    //                            'options' => [
+    //                                'verb' => 'get'
+    //                            ]
+    //                        ]
+    //                    ]
+    //                ],
+    //            ]
+    //        ],
+    //    ],
+    //],
 
     'controllers' => [
         'factories' => [

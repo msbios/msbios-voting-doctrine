@@ -20,16 +20,6 @@ class CheckCookieResolver implements CheckInterface
      */
     public function check(PollInterface $poll)
     {
-        /** @var string $relation */
-        $relation = '';
-
-        if ($poll instanceof RelationInterface) {
-            $relation = $poll->getCode();
-        }
-
-        /** @var string $key */
-        $key = md5($poll->getId() . md5($relation));
-
-        return array_key_exists($key, $_COOKIE);
+        return array_key_exists(VoteCookieResolver::hash($poll), $_COOKIE);
     }
 }

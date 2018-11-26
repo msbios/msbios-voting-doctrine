@@ -7,6 +7,7 @@ namespace MSBios\Voting\Doctrine;
 
 use MSBios\Voting\Doctrine\Resolver\VoteInterface;
 use MSBios\Voting\Resource\Record\OptionInterface;
+use MSBios\Voting\Resource\Record\PollInterface;
 use Zend\Stdlib\PriorityQueue;
 
 /**
@@ -31,16 +32,16 @@ class VoteResolver implements VoteResolverInterface
     }
 
     /**
+     * @param PollInterface $poll
      * @param OptionInterface $option
-     * @param null $relation
      * @return mixed
      */
-    public function vote(OptionInterface $option, $relation = null)
+    public function vote(PollInterface $poll, OptionInterface $option)
     {
         if (count($this->queue)) {
             /** @var VoteInterface $resolver */
             foreach ($this->queue as $resolver) {
-                if ($resource = $resolver->vote($option, $relation)) {
+                if ($resource = $resolver->vote($poll, $option)) {
                     return $resource;
                 }
             }
@@ -48,15 +49,16 @@ class VoteResolver implements VoteResolverInterface
     }
 
     /**
+     * @param PollInterface $poll
      * @param OptionInterface $option
-     * @param null $relation
+     * @return mixed
      */
-    public function undo(OptionInterface $option, $relation = null)
+    public function undo(PollInterface $poll, OptionInterface $option)
     {
         if (count($this->queue)) {
             /** @var VoteInterface $resolver */
             foreach ($this->queue as $resolver) {
-                if ($resource = $resolver->undo($option, $relation)) {
+                if ($resource = $resolver->undo($poll, $option)) {
                     return $resource;
                 }
             }

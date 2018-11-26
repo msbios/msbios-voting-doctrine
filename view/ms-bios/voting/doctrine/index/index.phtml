@@ -5,7 +5,7 @@
  */
 
 /** @var int $identifier */
-$identifier = 1;
+$identifier = 'SOME_RELATION';
 
 /** @var string $relation */
 $relation = 'SOME_RELATION[100550]';
@@ -55,7 +55,7 @@ $poll = $this->poll()->find($identifier, $relation);
 
 <?php endif; ?>
 
-<?php if($poll): ?>
+<?php if ($poll): ?>
     <h1>
         <?= $poll->getSubject(); ?><br>
         <small class="text-muted">
@@ -70,13 +70,13 @@ $poll = $this->poll()->find($identifier, $relation);
 
     /** @var \Zend\Form\FormInterface $form */
     $form = $this->poll()->form();
-    $form->setAttribute('action', $this->url('home/vote'));
+    $form->setAttribute('action', $this->url('home/voting'));
     $form->prepare();
 
     ?>
 
     <div style="margin-bottom: 20px;">
-        <?php if (!$this->poll()->isVoted($poll)) : ?>
+        <?php if (!$this->poll()->check($poll)) : ?>
             <?= $this->form()->openTag($form); ?>
             <ul>
                 <?php $element = $form->get('poll_option_identifier'); ?>
@@ -95,9 +95,10 @@ $poll = $this->poll()->find($identifier, $relation);
                             Total: <?= $vote['total']; ?>
                             Percents: <?= number_format($vote['percent'], 2); ?>%
                             <?php if ($vote['total']): ?>
-                                <a href="<?= $this->url('home/undo', [
-                                    'option_id' => $vote['id'],
-                                    'relation' => $relation
+                                <a href="<?= $this->url('home/voting/cancel', [
+                                    'poll_identifier' => $poll->getPoll()->getId(),
+                                    'poll_option_identifier' => $vote['id'],
+                                    'poll_relation' => $poll->getCode()
                                 ]); ?>">Undo</a>
                             <?php endif; ?>
                         </small>

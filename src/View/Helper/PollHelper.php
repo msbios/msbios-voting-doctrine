@@ -6,6 +6,7 @@
 namespace MSBios\Voting\Doctrine\View\Helper;
 
 use MSBios\Voting\Doctrine\Form\PollForm;
+use MSBios\Voting\Doctrine\PollManager;
 use MSBios\Voting\PollManagerAwareInterface;
 use MSBios\Voting\PollManagerAwareTrait;
 use MSBios\Voting\Resource\Record\PollInterface;
@@ -16,8 +17,7 @@ use Zend\View\Helper\AbstractHelper;
  * Class PollHelper
  * @package MSBios\Voting\Doctrine\View\Helper
  */
-class PollHelper extends AbstractHelper implements
-    PollManagerAwareInterface
+class PollHelper extends AbstractHelper implements PollManagerAwareInterface
 {
     use PollManagerAwareTrait;
 
@@ -26,10 +26,12 @@ class PollHelper extends AbstractHelper implements
 
     /**
      * PollHelper constructor.
+     * @param PollManager $pollManager
      * @param PollForm $formElement
      */
-    public function __construct(PollForm $formElement)
+    public function __construct(PollManager $pollManager, PollForm $formElement)
     {
+        $this->setPollManager($pollManager);
         $this->formElement = $formElement;
     }
 
@@ -68,9 +70,9 @@ class PollHelper extends AbstractHelper implements
      * @param PollInterface $poll
      * @return mixed
      */
-    public function isVoted(PollInterface $poll)
+    public function check(PollInterface $poll)
     {
-        return $this->getPollManager()->isVoted($poll);
+        return $this->getPollManager()->check($poll);
     }
 
     /**
