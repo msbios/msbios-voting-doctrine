@@ -67,7 +67,8 @@ class VotingController extends AbstractActionController
 
         /** @var PollInterface $poll */
         $poll = $pollManager->find(
-            $this->params()->fromRoute('poll_identifier'), $this->params()->fromRoute('poll_relation')
+            $this->params()->fromRoute('poll_identifier'),
+            $this->params()->fromRoute('poll_relation')
         );
 
         if ($poll) {
