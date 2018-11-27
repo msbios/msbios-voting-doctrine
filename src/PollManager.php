@@ -9,7 +9,7 @@ namespace MSBios\Voting\Doctrine;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Persistence\ObjectRepository;
 use DoctrineModule\Persistence\ObjectManagerAwareInterface;
-use MSBios\Doctrine\ObjectManagerAwareTrait;
+use DoctrineModule\Persistence\ProvidesObjectManager;
 use MSBios\Voting\Doctrine\Provider;
 use MSBios\Voting\PollManagerInterface;
 use MSBios\Voting\Resource\Doctrine\Entity\Option;
@@ -27,7 +27,7 @@ use MSBios\Voting\VoteManagerAwareTrait;
  */
 class PollManager implements PollManagerInterface, ObjectManagerAwareInterface, VoteManagerAwareInterface
 {
-    use ObjectManagerAwareTrait;
+    use ProvidesObjectManager;
     use VoteManagerAwareTrait;
 
     /** @var Provider\PollProviderInterface */
@@ -40,9 +40,8 @@ class PollManager implements PollManagerInterface, ObjectManagerAwareInterface, 
      */
     public function __construct(ObjectManager $objectManager, VoteManager $voteManager)
     {
-        $this
-            ->setObjectManager($objectManager)
-            ->setVoteManager($voteManager);
+        $this->setObjectManager($objectManager);
+        $this->setVoteManager($voteManager);
     }
 
     /**
@@ -55,7 +54,6 @@ class PollManager implements PollManagerInterface, ObjectManagerAwareInterface, 
     {
         /** @var ObjectManager $dem */
         $dem = $this->getObjectManager();
-
 
         /** @var PollInterface $poll */
         $poll = $dem->getRepository(Poll::class)
@@ -91,14 +89,11 @@ class PollManager implements PollManagerInterface, ObjectManagerAwareInterface, 
     }
 
     /**
-     * @param $id
-     * @return object|null
+     * @param PollInterface $poll
      */
-    protected function option($id)
+    public function option(PollInterface $poll)
     {
-        return $this
-            ->getObjectManager()
-            ->find(Option::class, $id);
+        // ...
     }
 
     /**
@@ -107,9 +102,14 @@ class PollManager implements PollManagerInterface, ObjectManagerAwareInterface, 
      */
     public function vote(PollInterface $poll, $id)
     {
+        /** @var OptionInterface $option */
+        $option = $this
+            ->getObjectManager()
+            ->find(Option::class, $id);
+
         $this
             ->getVoteManager()
-            ->vote($poll, $this->option($id));
+            ->vote($poll, $option);
     }
 
     /**
@@ -118,9 +118,14 @@ class PollManager implements PollManagerInterface, ObjectManagerAwareInterface, 
      */
     public function undo(PollInterface $poll, $id)
     {
+        /** @var OptionInterface $option */
+        $option = $this
+            ->getObjectManager()
+            ->find(Option::class, $id);
+
         $this
             ->getVoteManager()
-            ->undo($poll, $this->option($id));
+            ->undo($poll, $option);
     }
 
     /**
@@ -141,8 +146,7 @@ class PollManager implements PollManagerInterface, ObjectManagerAwareInterface, 
     public function votes(PollInterface $poll)
     {
         return $this
-            ->getObjectManager()
-            ->getRepository(get_class($poll))
-            ->findVotesBy($poll);
+            ->getVoteManager()
+            ->votes($poll);
     }
 }

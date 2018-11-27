@@ -6,23 +6,34 @@
 
 namespace MSBios\Voting\Doctrine;
 
+use Doctrine\Common\Persistence\ObjectManager;
 use DoctrineModule\Persistence\ObjectManagerAwareInterface;
-use MSBios\Doctrine\ObjectManagerAwareTrait;
+use DoctrineModule\Persistence\ProvidesObjectManager;
 use MSBios\Voting\OptionManagerInterface;
+use MSBios\Voting\Resource\Record\PollInterface;
 
 /**
  * Class OptionManager
  * @package MSBios\Voting\Doctrine
  */
-class OptionManager implements OptionManagerInterface, ObjectManagerAwareInterface
+class OptionManager implements ObjectManagerAwareInterface, OptionManagerInterface
 {
-    use ObjectManagerAwareTrait;
+    use ProvidesObjectManager;
 
     /**
-     * @param $id
-     * @param $relation
+     * OptionManager constructor.
+     * @param ObjectManager $objectManager
      */
-    public function find($id, $relation)
+    public function __construct(ObjectManager $objectManager)
     {
+        $this->setObjectManager($objectManager);
+    }
+
+    /**
+     * @param PollInterface $poll
+     */
+    public function find(PollInterface $poll)
+    {
+        // ...
     }
 }

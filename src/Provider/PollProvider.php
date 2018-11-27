@@ -8,24 +8,32 @@ namespace MSBios\Voting\Doctrine\Provider;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Persistence\ObjectRepository;
 use DoctrineModule\Persistence\ObjectManagerAwareInterface;
-use MSBios\Doctrine\ObjectManagerAwareTrait;
+use DoctrineModule\Persistence\ProvidesObjectManager;
 use MSBios\Voting\Resource\Doctrine\Entity\Poll;
+use MSBios\Voting\Resource\Doctrine\Entity\PollRelation;
 use MSBios\Voting\Resource\Record\PollInterface;
 
 /**
  * Class PollProvider
  * @package MSBios\Voting\Doctrine\Provider
  */
-class PollProvider implements
-    PollProviderInterface,
-    ObjectManagerAwareInterface
+class PollProvider implements ObjectManagerAwareInterface, PollProviderInterface
 {
-    use ObjectManagerAwareTrait;
+    use ProvidesObjectManager;
+
+    /**
+     * PollProvider constructor.
+     * @param ObjectManager $objectManager
+     */
+    public function __construct(ObjectManager $objectManager)
+    {
+        $this->setObjectManager($objectManager);
+    }
 
     /**
      * @param $idOrCode
      * @param null $relation
-     * @return Poll\Relation|PollInterface
+     * @return mixed|PollInterface
      */
     public function find($idOrCode, $relation = null)
     {
@@ -36,29 +44,32 @@ class PollProvider implements
         $poll = $dem->getRepository(Poll::class)
             ->find($idOrCode);
 
-        if (is_null($relation) || empty($relation)) {
-            return $poll;
+        if ($poll && ! is_null($relation)) {
+
+            /** @var ObjectRepository $repository */
+            $repository = $dem->getRepository(PollRelation::class);
+
+            /** @var PollInterface $pollRelation */
+            $pollRelation = $repository->findOneBy([
+                'poll' => $poll,
+                'code' => $relation
+            ]);
+
+            if (! $pollRelation) {
+
+                /** @var PollInterface $entity */
+                $pollRelation = new PollRelation;
+                $pollRelation->setPoll($poll)
+                    ->setCode($relation)
+                    ->setCreatedAt(new \DateTime)
+                    ->setModifiedAt(new \DateTime);
+                $dem->persist($pollRelation);
+                $dem->flush();
+            }
+
+            return $pollRelation;
         }
 
-        /** @var ObjectRepository $repository */
-        $repository = $dem->getRepository(Poll\Relation::class);
-
-        /** @var PollInterface $entity */
-        $entity = $repository->findOneByPollAndCode($poll, $relation);
-
-        if (! $entity && $poll) {
-
-            /** @var PollInterface $entity */
-            $entity = new Poll\Relation;
-            $entity->setPoll($poll)
-                ->setCode($relation)
-                ->setCreatedAt(new \DateTime('now'))
-                ->setModifiedAt(new \DateTime('now'));
-
-            $dem->persist($entity);
-            $dem->flush();
-        }
-
-        return $entity;
+        return $poll;
     }
 }
