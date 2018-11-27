@@ -7,7 +7,7 @@ namespace MSBios\Voting\Doctrine\Form;
 
 use DoctrineModule\Form\Element\ObjectRadio;
 use DoctrineModule\Persistence\ObjectManagerAwareInterface;
-use MSBios\Doctrine\ObjectManagerAwareTrait;
+use DoctrineModule\Persistence\ProvidesObjectManager;
 use MSBios\Voting\Form\PollForm as DefaultPollForm;
 use MSBios\Voting\Resource\Doctrine\Entity\Option;
 
@@ -17,7 +17,7 @@ use MSBios\Voting\Resource\Doctrine\Entity\Option;
  */
 class PollForm extends DefaultPollForm implements ObjectManagerAwareInterface
 {
-    use ObjectManagerAwareTrait;
+    use ProvidesObjectManager;
 
     /**
      * @param array|\ArrayAccess|\Traversable $data

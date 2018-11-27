@@ -7,7 +7,6 @@
 
 namespace MSBios\Voting\Doctrine;
 
-use MSBios\Voting\Initializer\PollManagerInitializer;
 use Zend\Router\Http\Segment;
 use Zend\ServiceManager\Factory\InvokableFactory;
 
@@ -20,22 +19,24 @@ return [
                     'voting' => [
                         'type' => Segment::class,
                         'options' => [
-                            'route' => 'voting[/]',
+                            'route' => 'voting[/[:redirect]]',
                             'defaults' => [
                                 'controller' => Controller\VotingController::class,
-                                'action' => 'index'
+                                'action' => 'index',
+                                'redirect' => null
                             ],
+                            'constraints' => [
+                                'redirect' => '[a-zA-Z0-9+/]+={0,2}'
+                            ]
                         ],
-                        'may_terminate' => true,
-                        'child_routes' => [
-                            'cancel' => [
-                                'type' => Segment::class,
-                                'options' => [
-                                    'route' => ':poll_identifier[/:poll_option_identifier[/:poll_relation[/]]]',
-                                    'defaults' => [
-                                        'action' => 'cancel'
-                                    ],
-                                ],
+                    ],
+                    'voting-cancel' => [
+                        'type' => Segment::class,
+                        'options' => [
+                            'route' => 'voting-cancel/:poll_identifier[/:poll_option_identifier[/:poll_relation[/]]]',
+                            'defaults' => [
+                                'controller' => Controller\VotingController::class,
+                                'action' => 'cancel'
                             ],
                         ],
                     ],
@@ -94,10 +95,6 @@ return [
         ],
         'aliases' => [
             'poll' => Controller\Plugin\PollPlugin::class
-        ],
-        'initializers' => [
-            PollManagerInitializer::class =>
-                new PollManagerInitializer
         ]
     ],
 
@@ -120,10 +117,6 @@ return [
         'aliases' => [
             'poll' => View\Helper\PollHelper::class
         ],
-        'initializers' => [
-            PollManagerInitializer::class =>
-                new PollManagerInitializer
-        ]
     ],
 
     \MSBios\Voting\Module::class => [
@@ -152,25 +145,27 @@ return [
         /**
          *
          * Expects: array
-         * Default: [
+         * Default: [ ... ],
+         * Examples: [
+         *     Resolver\VoteCookieResolver::class => -100,
          *     Resolver\VoteRepositoryResolver::class => -100
          * ]
          */
         'vote_resolvers' => [
-            // Resolver\VoteCookieResolver::class => -100,
-            // Resolver\VoteRepositoryResolver::class => -100
+            // ...
         ],
 
         /**
          *
          * Expects: array
-         * Default: [
+         * Default: [ ... ],
+         * Examples: [
+         *     Resolver\CheckCookieResolver::class => -100,
          *     Resolver\CheckRepositoryResolver::class => -100
          * ]
          */
         'check_resolvers' => [
-            // Resolver\CheckCookieResolver::class => -100,
-            // Resolver\CheckRepositoryResolver::class => -100
+            // ...
         ]
     ]
 ];

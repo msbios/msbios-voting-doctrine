@@ -95,7 +95,7 @@ $poll = $this->poll()->find($identifier, $relation);
                             Total: <?= $vote['total']; ?>
                             Percents: <?= number_format($vote['percent'], 2); ?>%
                             <?php if ($vote['total']): ?>
-                                <a href="<?= $this->url('home/voting/cancel', [
+                                <a href="<?= $this->url('home/voting-cancel', [
                                     'poll_identifier' => $poll->getPoll()->getId(),
                                     'poll_option_identifier' => $vote['id'],
                                     'poll_relation' => $poll->getCode()
@@ -107,6 +107,7 @@ $poll = $this->poll()->find($identifier, $relation);
                 <?php endforeach; ?>
             </ul>
             <?= $this->formElement($form->get('poll_relation')); ?>
+            <?= $this->formElement($form->get('poll_redirect')); ?>
             <?= $this->formButton($form->get('poll_identifier')->setAttribute('class', 'btn btn-default')->setLabel('Button')); ?>
             <?= $this->form()->closeTag($form); ?>
         <?php else: ?>

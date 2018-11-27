@@ -49,6 +49,11 @@ class VotingController extends AbstractActionController
                 $this
                     ->flashMessenger()
                     ->addSuccessMessage('Your vote has been successfully processed.');
+
+                if ($redirect = $this->params()->fromRoute('redirect', $data['poll_redirect'])) {
+                    return $this->redirect()
+                        ->toUrl(base64_decode($redirect));
+                }
             }
         }
 
