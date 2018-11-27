@@ -9,7 +9,7 @@ namespace MSBios\Voting\Doctrine\Resolver;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Persistence\ObjectRepository;
 use DoctrineModule\Persistence\ObjectManagerAwareInterface;
-use MSBios\Doctrine\ObjectManagerAwareTrait;
+use DoctrineModule\Persistence\ProvidesObjectManager;
 use MSBios\Resource\Doctrine\EntityInterface;
 use MSBios\Voting\Resource\Doctrine\Entity\Vote;
 use MSBios\Voting\Resource\Doctrine\Entity\VoteRelation;
@@ -23,7 +23,7 @@ use MSBios\Voting\Resource\Record\RelationInterface;
  */
 class VoteRepositoryResolver implements ObjectManagerAwareInterface, VoteInterface
 {
-    use ObjectManagerAwareTrait;
+    use ProvidesObjectManager;
 
     /**
      * VoteRepositoryResolver constructor.
@@ -40,7 +40,7 @@ class VoteRepositoryResolver implements ObjectManagerAwareInterface, VoteInterfa
      * @return EntityInterface
      * @throws \Exception
      */
-    protected function find(PollInterface $poll, OptionInterface $option)
+    public function find(PollInterface $poll, OptionInterface $option)
     {
         /** @var ObjectManager $dem */
         $dem = $this->getObjectManager();
@@ -107,7 +107,7 @@ class VoteRepositoryResolver implements ObjectManagerAwareInterface, VoteInterfa
     /**
      * @param PollInterface $poll
      * @param OptionInterface $option
-     * @return mixed|void
+     * @return mixed|EntityInterface
      * @throws \Exception
      */
     public function vote(PollInterface $poll, OptionInterface $option)
@@ -118,12 +118,14 @@ class VoteRepositoryResolver implements ObjectManagerAwareInterface, VoteInterfa
             ->setModifiedAt(new \DateTime);
 
         $this->merge($vote);
+
+        return $vote;
     }
 
     /**
      * @param PollInterface $poll
      * @param OptionInterface $option
-     * @return mixed|void
+     * @return mixed|EntityInterface
      * @throws \Exception
      */
     public function undo(PollInterface $poll, OptionInterface $option)
@@ -134,5 +136,7 @@ class VoteRepositoryResolver implements ObjectManagerAwareInterface, VoteInterfa
             ->setModifiedAt(new \DateTime);
 
         $this->merge($vote);
+
+        return $vote;
     }
 }
