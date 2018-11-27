@@ -16,14 +16,26 @@ use MSBios\Voting\Resource\Doctrine\Entity\VoteRelation;
 use MSBios\Voting\Resource\Record\OptionInterface;
 use MSBios\Voting\Resource\Record\PollInterface;
 use MSBios\Voting\Resource\Record\RelationInterface;
+use Zend\EventManager\EventManagerAwareInterface;
+use Zend\EventManager\EventManagerAwareTrait;
 
 /**
  * Class VoteRepositoryResolver
  * @package MSBios\Voting\Doctrine\Resolver
  */
-class VoteRepositoryResolver implements ObjectManagerAwareInterface, VoteInterface
+class VoteRepositoryResolver implements ObjectManagerAwareInterface, EventManagerAwareInterface, VoteInterface
 {
     use ProvidesObjectManager;
+    use EventManagerAwareTrait;
+
+    /** @const EVENT_FIND_VOTE */
+    const EVENT_FIND_VOTE = 'EVENT_FIND_VOTE';
+
+    /** @const EVENT_VOTE_MERGE */
+    const EVENT_VOTE_MERGE = 'EVENT_VOTE_MERGE';
+
+    /** @const EVENT_UNDO_MERGE */
+    const EVENT_UNDO_MERGE = 'EVENT_UNDO_MERGE';
 
     /**
      * VoteRepositoryResolver constructor.
@@ -90,11 +102,15 @@ class VoteRepositoryResolver implements ObjectManagerAwareInterface, VoteInterfa
             $dem->flush();
         }
 
+        $this->getEventManager()
+            ->trigger(self::EVENT_FIND_VOTE, $this, ['vote' => $vote]);
+
         return $vote;
     }
 
     /**
      * @param \MSBios\Voting\Resource\Record\VoteInterface $vote
+     * @return $this
      */
     private function merge(\MSBios\Voting\Resource\Record\VoteInterface $vote)
     {
@@ -102,24 +118,29 @@ class VoteRepositoryResolver implements ObjectManagerAwareInterface, VoteInterfa
         $dem = $this->getObjectManager();
         $dem->merge($vote);
         $dem->flush();
+
+        return $this;
     }
 
     /**
      * @param PollInterface $poll
      * @param OptionInterface $option
-     * @return mixed|EntityInterface
+     * @return mixed
      * @throws \Exception
      */
     public function vote(PollInterface $poll, OptionInterface $option)
     {
-        /** @var EntityInterface $vote */
-        $vote = $this->find($poll, $option);
-        $vote->setTotal(1 + $vote->getTotal())
+        /** @var array $argv */
+        $argv = ['poll' => $poll, 'option' => $option];
+        $argv['vote'] = $this->find($argv['poll'], $argv['option']);
+        $argv['vote']->setTotal(1 + $argv['vote']->getTotal())
             ->setModifiedAt(new \DateTime);
 
-        $this->merge($vote);
+        $this->merge($argv['vote']);
+        $this->getEventManager()
+            ->trigger(self::EVENT_VOTE_MERGE, $this, $argv);
 
-        return $vote;
+        return $argv['vote'];
     }
 
     /**
@@ -130,13 +151,16 @@ class VoteRepositoryResolver implements ObjectManagerAwareInterface, VoteInterfa
      */
     public function undo(PollInterface $poll, OptionInterface $option)
     {
-        /** @var EntityInterface $vote */
-        $vote = $this->find($poll, $option);
-        $vote->setTotal($vote->getTotal() ? $vote->getTotal() - 1 : 0)
+        /** @var array $argv */
+        $argv = ['poll' => $poll, 'option' => $option];
+        $argv['vote'] = $this->find($argv['poll'], $argv['option']);
+        $argv['vote']->setTotal($argv['vote']->getTotal() ? $argv['vote']->getTotal() - 1 : 0)
             ->setModifiedAt(new \DateTime);
 
-        $this->merge($vote);
+        $this->merge($argv['vote']);
+        $this->getEventManager()
+            ->trigger(self::EVENT_UNDO_MERGE, $this, $argv);
 
-        return $vote;
+        return $argv['vote'];
     }
 }
