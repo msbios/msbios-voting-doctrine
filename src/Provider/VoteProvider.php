@@ -6,9 +6,13 @@
 namespace MSBios\Voting\Doctrine\Provider;
 
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Common\Persistence\ObjectRepository;
 use DoctrineModule\Persistence\ObjectManagerAwareInterface;
 use DoctrineModule\Persistence\ProvidesObjectManager;
+use MSBios\Voting\Resource\Doctrine\Entity\Vote;
 use MSBios\Voting\Resource\Record\PollInterface;
+use MSBios\Voting\Resource\Record\RelationInterface;
+use MSBios\Voting\Resource\Record\VoteRelation;
 
 /**
  * Class VoteProvider
@@ -29,10 +33,17 @@ class VoteProvider implements ObjectManagerAwareInterface, VoteProviderInterface
 
     /**
      * @param PollInterface $poll
-     * @return mixed|PollInterface
+     * @return mixed|null|object
      */
     public function find(PollInterface $poll)
     {
-        return $poll;
+        /** @var ObjectRepository $repository */
+        $repository = $this->getObjectManager()
+            ->getRepository($poll instanceof RelationInterface ? VoteRelation::class : Vote::class);
+
+        return $repository->findOneBy([
+            'poll' => $poll,
+            'rowStatus' => true
+        ]);
     }
 }

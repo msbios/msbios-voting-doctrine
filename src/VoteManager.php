@@ -78,9 +78,13 @@ class VoteManager implements ObjectManagerAwareInterface, VoteManagerInterface
 
     /**
      * @param PollInterface $poll
+     * @return mixed
      */
     public function find(PollInterface $poll)
     {
+        return $this
+            ->voteProvider
+            ->find($poll);
     }
 
     /**

@@ -67,21 +67,44 @@ class VotingController extends AbstractActionController
      */
     public function cancelAction()
     {
-        /** @var PollManagerInterface $pollManager */
-        $pollManager = $this->getPollManager();
+        if ($this->getRequest()->isPost()) {
 
-        /** @var PollInterface $poll */
-        $poll = $pollManager->find(
-            $this->params()->fromRoute('poll_identifier'),
-            $this->params()->fromRoute('poll_relation')
-        );
+            /** @var array $data */
+            $data = $this->params()->fromPost();
 
-        if ($poll) {
-            $pollManager->undo($poll, $this->params()->fromRoute('poll_option_identifier'));
+            /** @var PollManagerInterface $pollManager */
+            $pollManager = $this->getPollManager();
 
-            $this
-                ->flashMessenger()
-                ->addSuccessMessage('Your vote has been successfully canceled.');
+            /** @var PollInterface $poll */
+            $poll = $pollManager->find($data['poll_identifier'], $data['poll_relation']);
+
+            echo __METHOD__;
+
+            if ($poll && $pollManager->check($poll)) {
+                $pollManager->undo($poll, $data['poll_option_identifier']);
+                $this
+                    ->flashMessenger()
+                    ->addSuccessMessage('Your vote has been successfully processed.');
+
+                if ($redirect = $this->params()->fromRoute('redirect', $data['poll_redirect'])) {
+                    return $this->redirect()
+                        ->toUrl(base64_decode($redirect));
+                }
+            }
+
+            /** @var PollInterface $poll */
+            $poll = $pollManager->find(
+                $this->params()->fromRoute('poll_identifier'),
+                $this->params()->fromRoute('poll_relation')
+            );
+
+            if ($poll) {
+                $pollManager->undo($poll, $this->params()->fromRoute('poll_option_identifier'));
+
+                $this
+                    ->flashMessenger()
+                    ->addSuccessMessage('Your vote has been successfully canceled.');
+            }
         }
 
         return $this

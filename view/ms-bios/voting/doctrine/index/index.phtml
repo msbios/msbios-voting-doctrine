@@ -119,16 +119,20 @@ $poll = $this->poll()->find($identifier, $relation);
             <?= $this->formButton($form->get('poll_identifier')->setAttribute('class', 'btn btn-default')->setLabel('Button')); ?>
             <?= $this->form()->closeTag($form); ?>
         <?php else: ?>
-            <?php $votes = $this->poll()->votes($poll); ?>
+            <?php $votes = $this->poll()->variants($poll); ?>
 
             <ul>
                 <?php foreach ($votes as $variant): ?>
                     <li>
-                        <?= $variant['name']; ?>
-                        <small><?= $variant['vote']; ?></small>
+                        <label><?= $variant['name']; ?></label>
+                        <small>
+                            Total: <?= $variant['total']; ?>
+                            Percents: <?= number_format($variant['percent'], 2); ?>%
+                        </small>
                     </li>
                 <?php endforeach; ?>
             </ul>
+
         <?php endif; ?>
     </div>
 <?php else: ?>
@@ -136,6 +140,9 @@ $poll = $this->poll()->find($identifier, $relation);
 <?php endif; ?>
 
 <ul>
-    <li>Vote Module version: <?= \MSBios\Voting\Doctrine\Module::VERSION; ?></li>
-    <li>Vote Resource Module version: <?= \MSBios\Voting\Resource\Doctrine\Module::VERSION; ?></li>
+    <li>Vote Module version: <?= \MSBios\Voting\Module::VERSION; ?></li>
+    <li>Vote Resource Module version: <?= \MSBios\Voting\Resource\Module::VERSION; ?></li>
+    <li>Vote Doctrine Module version: <?= \MSBios\Voting\Doctrine\Module::VERSION; ?></li>
+    <li>Vote Resource Doctrine Module version: <?= \MSBios\Voting\Resource\Doctrine\Module::VERSION; ?></li>
+
 </ul>
