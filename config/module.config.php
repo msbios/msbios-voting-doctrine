@@ -33,7 +33,7 @@ return [
                     'voting-cancel' => [
                         'type' => Segment::class,
                         'options' => [
-                            'route' => 'voting-cancel/:poll_identifier[/:poll_option_identifier[/:poll_relation[/]]]',
+                            'route' => 'voting-cancel[/[:redirect]]',
                             'defaults' => [
                                 'controller' => Controller\VotingController::class,
                                 'action' => 'cancel'
