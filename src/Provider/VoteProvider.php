@@ -14,7 +14,7 @@ use MSBios\Voting\Resource\Record\PollInterface;
  * Class VoteProvider
  * @package MSBios\Voting\Doctrine\Provider
  */
-class VoteProvider implements ObjectManagerAwareInterface
+class VoteProvider implements ObjectManagerAwareInterface, VoteProviderInterface
 {
     use ProvidesObjectManager;
 
@@ -29,7 +29,7 @@ class VoteProvider implements ObjectManagerAwareInterface
 
     /**
      * @param PollInterface $poll
-     * @return PollInterface
+     * @return mixed|PollInterface
      */
     public function find(PollInterface $poll)
     {

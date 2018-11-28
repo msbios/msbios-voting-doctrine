@@ -9,7 +9,6 @@ use Doctrine\ORM\EntityManager;
 use Interop\Container\ContainerInterface;
 use MSBios\Voting\Doctrine\VoteManager;
 use MSBios\Voting\Module;
-use Zend\Config\Config;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
 /**
@@ -26,13 +25,14 @@ class VoteManagerFactory implements FactoryInterface
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        /** @var Config $options */
-        $options = $container->get(Module::class);
+        /** @var array $defaultOptions */
+        $defaultOptions = $container->get(Module::class);
 
         return new VoteManager(
             $container->get(EntityManager::class),
-            $container->get($options->get('vote_resolver')),
-            $container->get($options->get('check_resolver'))
+            $container->get($defaultOptions->get('vote_provider')),
+            $container->get($defaultOptions->get('vote_resolver')),
+            $container->get($defaultOptions->get('check_resolver'))
         );
     }
 }

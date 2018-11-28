@@ -62,6 +62,8 @@ return [
             // Providers
             Provider\PollProvider::class =>
                 Factory\PollProviderFactory::class,
+            Provider\VoteProvider::class =>
+                Factory\VoteProviderFactory::class,
 
             // Resolver Managers
             CheckResolver::class =>
