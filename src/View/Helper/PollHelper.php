@@ -5,12 +5,9 @@
  */
 namespace MSBios\Voting\Doctrine\View\Helper;
 
-use MSBios\Voting\Doctrine\Form\PollForm;
 use MSBios\Voting\Doctrine\PollManager;
 use MSBios\Voting\PollManagerAwareInterface;
 use MSBios\Voting\PollManagerAwareTrait;
-use MSBios\Voting\Resource\Record\PollInterface;
-use Zend\Form\FormInterface;
 use Zend\View\Helper\AbstractHelper;
 
 /**
@@ -21,66 +18,61 @@ class PollHelper extends AbstractHelper implements PollManagerAwareInterface
 {
     use PollManagerAwareTrait;
 
-    /** @var PollForm */
-    protected $formElement;
-
     /**
      * PollHelper constructor.
      * @param PollManager $pollManager
-     * @param PollForm $formElement
      */
-    public function __construct(PollManager $pollManager, PollForm $formElement)
+    public function __construct(PollManager $pollManager)
     {
         $this->setPollManager($pollManager);
-        $this->formElement = $formElement;
     }
 
     /**
-     * @return $this
+     * @return \MSBios\Voting\PollManagerInterface
      */
     public function __invoke()
     {
-        return $this;
+        return $this->getPollManager();
     }
 
-    /**
-     * @param $idOrCode
-     * @param null $relation
-     * @return PollInterface
-     */
-    public function find($idOrCode, $relation = null)
-    {
-        $this->formElement->setData([
-            'poll_identifier' => $idOrCode,
-            'poll_relation' => $relation
-        ]);
-
-        return $this->getPollManager()->find($idOrCode, $relation);
-    }
-
-    /**
-     * @return FormInterface
-     */
-    public function form()
-    {
-        return $this->formElement;
-    }
-
-    /**
-     * @param PollInterface $poll
-     * @return mixed
-     */
-    public function check(PollInterface $poll)
-    {
-        return $this->getPollManager()->check($poll);
-    }
-
-    /**
-     * @param PollInterface $poll
-     * @return mixed
-     */
-    public function votes(PollInterface $poll)
-    {
-        return $this->getPollManager()->votes($poll);
-    }
+    // /**
+    //  * @param $idOrCode
+    //  * @param null $relation
+    //  * @return mixed
+    //  */
+    // public function find($idOrCode, $relation = null)
+    // {
+    //     // $this->formElement->setData([
+    //     //     'poll_identifier' => $idOrCode,
+    //     //     'poll_relation' => $relation
+    //     // ]);
+    //
+    //     return $this->getPollManager()->find($idOrCode, $relation);
+    // }
+    //
+    // /**
+    //  * @return FormInterface
+    //  */
+    // public function form()
+    // {
+    //     return $this->formElement;
+    // }
+    //
+    // /**
+    //  * @param PollInterface $poll
+    //  * @return mixed
+    //  */
+    // public function check(PollInterface $poll)
+    // {
+    //     return $this->getPollManager()->check($poll);
+    // }
+    //
+    // /**
+    //  * @param PollInterface $poll
+    //  * @return mixed
+    //  */
+    // public function variants(PollInterface $poll)
+    // {
+    //     return $this->getPollManager()->variants($poll);
+    // }
 }

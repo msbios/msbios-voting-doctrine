@@ -61,7 +61,7 @@ return [
 
             // Providers
             Provider\PollProvider::class =>
-                InvokableFactory::class,
+                Factory\PollProviderFactory::class,
 
             // Resolver Managers
             CheckResolver::class =>
@@ -127,6 +127,13 @@ return [
          * Default: MSBios\Voting\Doctrine\Provider\PollProvider
          */
         'poll_provider' => Provider\PollProvider::class,
+
+        /**
+         *
+         * Expects: string
+         * Default: MSBios\Voting\Doctrine\Provider\VoteProvider
+         */
+        'vote_provider' => Provider\VoteProvider::class,
 
         /**
          *

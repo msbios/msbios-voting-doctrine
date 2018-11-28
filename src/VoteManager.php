@@ -10,7 +10,6 @@ use Doctrine\Common\Persistence\ObjectManager;
 use DoctrineModule\Persistence\ObjectManagerAwareInterface;
 use DoctrineModule\Persistence\ProvidesObjectManager;
 use MSBios\Voting\Resource\Doctrine\Entity\Poll;
-use MSBios\Voting\Resource\Doctrine\Entity\VoteRelation;
 use MSBios\Voting\Resource\Record\OptionInterface;
 use MSBios\Voting\Resource\Record\PollInterface;
 use MSBios\Voting\Resource\Record\PollRelation;
@@ -72,6 +71,13 @@ class VoteManager implements ObjectManagerAwareInterface, VoteManagerInterface
 
     /**
      * @param PollInterface $poll
+     */
+    public function find(PollInterface $poll)
+    {
+    }
+
+    /**
+     * @param PollInterface $poll
      * @return mixed
      */
     public function check(PollInterface $poll)
@@ -79,25 +85,5 @@ class VoteManager implements ObjectManagerAwareInterface, VoteManagerInterface
         return $this
             ->checkResolver
             ->check($poll);
-    }
-
-    /**
-     * @param PollInterface $poll
-     * @return mixed
-     */
-    public function votes(PollInterface $poll)
-    {
-        /** @var ObjectManager $dem */
-        $dem = $this->getObjectManager();
-
-        if ($poll instanceof RelationInterface) {
-            return $dem
-                ->getRepository(PollRelation::class)
-                ->findVotesBy($poll);
-        }
-
-        return $dem
-            ->getRepository(Poll::class)
-            ->findVotesBy($poll);
     }
 }

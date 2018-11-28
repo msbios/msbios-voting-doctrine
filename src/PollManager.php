@@ -17,6 +17,7 @@ use MSBios\Voting\Resource\Doctrine\Entity\Poll;
 use MSBios\Voting\Resource\Doctrine\Entity\PollRelation;
 use MSBios\Voting\Resource\Record\OptionInterface;
 use MSBios\Voting\Resource\Record\PollInterface;
+use MSBios\Voting\Resource\Record\RelationInterface;
 use MSBios\Voting\VoteManagerAwareInterface;
 use MSBios\Voting\VoteManagerAwareTrait;
 
@@ -36,64 +37,29 @@ class PollManager implements PollManagerInterface, ObjectManagerAwareInterface, 
     /**
      * PollManager constructor.
      * @param ObjectManager $objectManager
+     * @param Provider\PollProvider $pollProvider
      * @param VoteManager $voteManager
      */
-    public function __construct(ObjectManager $objectManager, VoteManager $voteManager)
-    {
+    public function __construct(
+        ObjectManager $objectManager,
+        Provider\PollProvider $pollProvider,
+        VoteManager $voteManager
+    ) {
         $this->setObjectManager($objectManager);
+        $this->pollProvider = $pollProvider;
         $this->setVoteManager($voteManager);
     }
 
     /**
      * @param $idOrCode
      * @param null $relation
-     * @return PollInterface
-     * @throws \Exception
+     * @return mixed|PollInterface
      */
     public function find($idOrCode, $relation = null)
     {
-        /** @var ObjectManager $dem */
-        $dem = $this->getObjectManager();
-
-        /** @var PollInterface $poll */
-        $poll = $dem->getRepository(Poll::class)
-            ->find($idOrCode);
-
-        if ($poll && ! is_null($relation)) {
-
-            /** @var ObjectRepository $repository */
-            $repository = $dem->getRepository(PollRelation::class);
-
-            /** @var PollInterface $pollRelation */
-            $pollRelation = $repository->findOneBy([
-                'poll' => $poll,
-                'code' => $relation
-            ]);
-
-            if (! $pollRelation) {
-
-                /** @var PollInterface $entity */
-                $pollRelation = new PollRelation;
-                $pollRelation->setPoll($poll)
-                    ->setCode($relation)
-                    ->setCreatedAt(new \DateTime)
-                    ->setModifiedAt(new \DateTime);
-                $dem->persist($pollRelation);
-                $dem->flush();
-            }
-
-            return $pollRelation;
-        }
-
-        return $poll;
-    }
-
-    /**
-     * @param PollInterface $poll
-     */
-    public function option(PollInterface $poll)
-    {
-        // ...
+        return $this
+            ->pollProvider
+            ->find($idOrCode, $relation);
     }
 
     /**
@@ -143,10 +109,19 @@ class PollManager implements PollManagerInterface, ObjectManagerAwareInterface, 
      * @param PollInterface $poll
      * @return mixed
      */
-    public function votes(PollInterface $poll)
+    public function variants(PollInterface $poll)
     {
-        return $this
-            ->getVoteManager()
-            ->votes($poll);
+        /** @var ObjectManager $dem */
+        $dem = $this->getObjectManager();
+
+        if ($poll instanceof RelationInterface) {
+            return $dem
+                ->getRepository(PollRelation::class)
+                ->findVotesBy($poll);
+        }
+
+        return $dem
+            ->getRepository(Poll::class)
+            ->findVotesBy($poll);
     }
 }

@@ -16,23 +16,19 @@ use MSBios\Voting\Module;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
 /**
- * Class PollManagerFactory
+ * Class PollProviderFactory
  * @package MSBios\Voting\Doctrine\Factory
  */
-class PollManagerFactory implements FactoryInterface
+class PollProviderFactory implements FactoryInterface
 {
     /**
      * @param ContainerInterface $container
      * @param string $requestedName
      * @param array|null $options
-     * @return PollManager|object
+     * @return PollProvider|object
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        return new PollManager(
-            $container->get(EntityManager::class),
-            $container->get(PollProvider::class),
-            $container->get(VoteManager::class)
-        );
+        return new PollProvider($container->get(EntityManager::class));
     }
 }

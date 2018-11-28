@@ -4,13 +4,17 @@
  * @author Judzhin Miles <info[woof-woof]msbios.com>
  */
 
+namespace MSBios\Voting\Doctrine;
+
+use MSBios\Voting\Resource\Record\PollInterface;
+
 /** @var int $identifier */
 $identifier = 'SOME_RELATION';
 
 /** @var string $relation */
 $relation = 'SOME_RELATION[100550]';
 
-/** @var \MSBios\Voting\Resource\Doctrine\Entity\Poll $poll */
+/** @var PollInterface $poll */
 $poll = $this->poll()->find($identifier, $relation);
 
 ?>
@@ -69,7 +73,11 @@ $poll = $this->poll()->find($identifier, $relation);
     <?php
 
     /** @var \Zend\Form\FormInterface $form */
-    $form = $this->poll()->form();
+    $form = $this->form;
+    $form->setData([
+        'poll_relation' => $poll->getCode(),
+        'poll_identifier' => $poll->getPoll()->getId()
+    ]);
     $form->setAttribute('action', $this->url('home/voting'));
     $form->prepare();
 
@@ -81,23 +89,23 @@ $poll = $this->poll()->find($identifier, $relation);
             <ul>
                 <?php $element = $form->get('poll_option_identifier'); ?>
 
-                <?php foreach ($this->poll()->votes($poll) as $vote): ?>
+                <?php foreach ($this->poll()->variants($poll) as $variant): ?>
                     <li>
                         <label>
                             <?= $this->formRadio(new \Zend\Form\Element\Radio($element->getName(), [
                                 'value_options' => [[
-                                    'value' => $vote['id'],
+                                    'value' => $variant['id'],
                                 ]]
                             ])); ?>
-                            <?= $vote['name']; ?>
+                            <?= $variant['name']; ?>
                         </label>
                         <small>
-                            Total: <?= $vote['total']; ?>
-                            Percents: <?= number_format($vote['percent'], 2); ?>%
-                            <?php if ($vote['total']): ?>
+                            Total: <?= $variant['total']; ?>
+                            Percents: <?= number_format($variant['percent'], 2); ?>%
+                            <?php if ($variant['total']): ?>
                                 <a href="<?= $this->url('home/voting-cancel', [
                                     'poll_identifier' => $poll->getPoll()->getId(),
-                                    'poll_option_identifier' => $vote['id'],
+                                    'poll_option_identifier' => $variant['id'],
                                     'poll_relation' => $poll->getCode()
                                 ]); ?>">Undo</a>
                             <?php endif; ?>
@@ -114,10 +122,10 @@ $poll = $this->poll()->find($identifier, $relation);
             <?php $votes = $this->poll()->votes($poll); ?>
 
             <ul>
-                <?php foreach ($votes as $vote): ?>
+                <?php foreach ($votes as $variant): ?>
                     <li>
-                        <?= $vote['name']; ?>
-                        <small><?= $vote['vote']; ?></small>
+                        <?= $variant['name']; ?>
+                        <small><?= $variant['vote']; ?></small>
                     </li>
                 <?php endforeach; ?>
             </ul>

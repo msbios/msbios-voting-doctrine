@@ -6,7 +6,9 @@
 
 namespace MSBios\Voting\Doctrine\Controller;
 
+use MSBios\Voting\Form\PollForm;
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\View\Model\ModelInterface;
 
 /**
  * Class IndexController
@@ -14,27 +16,27 @@ use Zend\Mvc\Controller\AbstractActionController;
  */
 class IndexController extends AbstractActionController
 {
-    ///**
-    // * @return \Zend\Http\Response
-    // */
-    //public function voteAction()
-    //{
-    //    if ($this->poll()->setData($this->params()->fromPost())->vote()) {
-    //        $this->flashMessenger()->addSuccessMessage('Your voice has been accepted and processed.');
-    //    }
-    //    return $this->redirect()->toRoute('home');
-    //}
-    //
-    ///**
-    // * @return \Zend\Http\Response
-    // */
-    //public function undoAction()
-    //{
-    //    $this->poll()->undo(
-    //        $this->params()->fromRoute('option_id'),
-    //        $this->params()->fromRoute('relation')
-    //    );
-    //    $this->flashMessenger()->addInfoMessage('The selected voice was canceled.');
-    //    return $this->redirect()->toRoute('home');
-    //}
+
+    /** @var PollForm */
+    protected $form;
+
+    /**
+     * IndexController constructor.
+     * @param PollForm $form
+     */
+    public function __construct(PollForm $form)
+    {
+        $this->form = $form;
+    }
+
+    /**
+     * @return ModelInterface|\Zend\View\Model\ViewModel
+     */
+    public function indexAction()
+    {
+        /** @var ModelInterface $viewManager */
+        $viewManager = parent::indexAction();
+        $viewManager->setVariable('form', $this->form);
+        return $viewManager;
+    }
 }
